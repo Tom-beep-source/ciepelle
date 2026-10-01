@@ -1,0 +1,30 @@
+---
+import { siteConfig } from "../config";
+import { buildSrcSet } from "../lib/images";
+---
+
+<section id="about" class="wrap section-padding">
+  <div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
+    <div data-reveal>
+      <img
+        src={siteConfig.media.aboutImage}
+        srcset={buildSrcSet(siteConfig.media.aboutImage, [1280])}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        alt={`Intérieur de ${siteConfig.business.name}`}
+        class="aspect-[4/3] w-full rounded-2xl object-cover"
+        loading="lazy"
+        decoding="async"
+        width="600"
+        height="450"
+      />
+    </div>
+    <div data-reveal>
+      <h2 class="text-section-title font-heading text-ink">
+        {siteConfig.business.tagline}
+      </h2>
+      <p class="text-body mt-6 leading-relaxed text-ink/80">
+        {siteConfig.business.description}
+      </p>
+    </div>
+  </div>
+</section>

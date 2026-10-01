@@ -1,0 +1,35 @@
+{
+  "name": "vitrine-commerce-local",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "audit": "node scripts/audit.mjs",
+    "contrast": "node scripts/check-contrast.mjs",
+    "placeholders": "node scripts/generate-placeholder-images.mjs",
+    "qr": "node scripts/qrcode.mjs",
+    "shots": "node screenshot.mjs",
+    "qa": "npm run contrast && npm run shots && npm run audit"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "astro": "^5.1.1",
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.18",
+    "qrcode": "^1.5.4",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@astrojs/tailwind": "^5.1.4",
+    "@axe-core/playwright": "^4.12.1",
+    "@lhci/cli": "^0.15.1",
+    "axe-core": "^4.12.1",
+    "playwright": "^1.62.0",
+    "tailwindcss": "^3.4.17"
+  }
+}

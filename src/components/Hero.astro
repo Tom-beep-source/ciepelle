@@ -1,0 +1,55 @@
+---
+import { siteConfig, getDirectionsUrl, getMenuSectionLabels } from "../config";
+import { buildSrcSet } from "../lib/images";
+
+const directionsUrl = getDirectionsUrl();
+---
+
+<section id="top" class="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-secondary">
+  <picture>
+    <source media="(max-width: 767px)" srcset={siteConfig.media.heroImageMobile} />
+    <img
+      src={siteConfig.media.heroImage}
+      srcset={buildSrcSet(siteConfig.media.heroImage)}
+      sizes="100vw"
+      alt={`Vitrine de ${siteConfig.business.name}`}
+      class="absolute inset-0 h-full w-full object-cover"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+  <div
+    class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/55 via-45% to-secondary/5"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="wrap relative z-10 w-full pb-16 sm:pb-20">
+    <h1 data-hero-in class="text-hero font-heading text-white">
+      {siteConfig.business.name}
+    </h1>
+    <p data-hero-in class="text-tagline mt-6 max-w-2xl text-white/90">
+      {siteConfig.business.tagline}
+    </p>
+
+    {siteConfig.hoursHighlight && (
+      <p data-hero-in class="text-body mt-5 inline-flex items-center gap-2 rounded-full bg-accent/95 px-5 py-2.5 font-semibold text-secondary">
+        {siteConfig.hoursHighlight}
+      </p>
+    )}
+
+    <div data-hero-in class="mt-8 flex flex-wrap gap-4">
+      <a href="#menu" class="btn-hero bg-primary text-white transition-opacity hover:opacity-90">
+        {getMenuSectionLabels(siteConfig).cta}
+      </a>
+      <a
+        href={directionsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-hero border border-white/60 text-white transition-colors hover:bg-white/10"
+      >
+        Itinéraire
+      </a>
+    </div>
+  </div>
+</section>

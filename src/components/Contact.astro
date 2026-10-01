@@ -1,0 +1,103 @@
+---
+import { siteConfig } from "../config";
+---
+
+<section id="contact" class="wrap section-padding border-t border-black/5">
+  <div class="max-w-2xl" data-reveal>
+    <h2 class="text-section-title font-heading text-ink">
+      Contactez-nous
+    </h2>
+    <p class="mt-4 text-ink/70">
+      {siteConfig.contact.email} · {siteConfig.contact.phone}
+    </p>
+  </div>
+
+  <form
+    id="contact-form"
+    data-reveal
+    class="mt-10 max-w-xl space-y-4 rounded-2xl border border-black/10 p-6 sm:p-8"
+  >
+      <input type="hidden" name="access_key" value={siteConfig.forms.web3formsAccessKey} />
+      <input type="hidden" name="subject" value={`Nouveau message depuis le site ${siteConfig.business.name}`} />
+      <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+
+      <div>
+        <label for="name" class="mb-1.5 block text-base font-medium text-ink">Nom</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
+          class="w-full rounded-lg border border-black/10 bg-surface px-4 py-2.5 text-ink outline-none focus:border-primary"
+        />
+      </div>
+
+      <div>
+        <label for="email" class="mb-1.5 block text-base font-medium text-ink">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          class="w-full rounded-lg border border-black/10 bg-surface px-4 py-2.5 text-ink outline-none focus:border-primary"
+        />
+      </div>
+
+      <div>
+        <label for="message" class="mb-1.5 block text-base font-medium text-ink">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="4"
+          required
+          class="w-full rounded-lg border border-black/10 bg-surface px-4 py-2.5 text-ink outline-none focus:border-primary"
+        ></textarea>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-white transition-opacity hover:opacity-90 sm:w-auto"
+      >
+        Envoyer le message
+      </button>
+
+    <p id="form-status" class="text-sm" role="status"></p>
+  </form>
+</section>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("form-status");
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!status) return;
+
+    const submitButton = form.querySelector("button[type=submit]") as HTMLButtonElement | null;
+    if (submitButton) submitButton.disabled = true;
+    status.textContent = "Envoi en cours…";
+    status.className = "text-sm text-ink/70";
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form),
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        status.textContent = "Message envoyé, merci ! Nous revenons vers vous rapidement.";
+        status.className = "text-sm text-green-700";
+        form.reset();
+      } else {
+        throw new Error(result.message ?? "Erreur inconnue");
+      }
+    } catch {
+      status.textContent = "Une erreur est survenue, réessayez ou appelez-nous directement.";
+      status.className = "text-sm text-red-600";
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+    }
+  });
+</script>

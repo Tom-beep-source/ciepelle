@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import StickyMobileBar from "../../components/StickyMobileBar.astro";
+import { siteConfig } from "../../config";
+
+const { business, contact, legal } = siteConfig;
+---
+
+<BaseLayout
+  title={`Politique de confidentialité — ${business.name}`}
+  description={`Politique de confidentialité du site ${business.name} : données collectées, finalité, durée de conservation, droits des personnes.`}
+>
+  <Header />
+  <main>
+    <section class="wrap section-padding max-w-3xl">
+      <h1 class="text-section-title font-heading text-ink" data-reveal>
+        Politique de confidentialité
+      </h1>
+
+      <div class="mt-10 space-y-10" data-reveal>
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Données collectées</h2>
+          <p class="mt-4 text-body text-ink/80">
+            Le seul formulaire présent sur ce site est le formulaire de contact. Il collecte votre
+            nom, votre adresse e-mail et le message que vous rédigez. Aucune autre donnée personnelle
+            n'est collectée : ce site ne dépose aucun cookie ni traceur publicitaire, et n'utilise
+            aucun outil de mesure d'audience.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Finalité</h2>
+          <p class="mt-4 text-body text-ink/80">
+            Ces données sont utilisées exclusivement pour répondre à votre demande de contact. Elles
+            ne font l'objet d'aucune prospection commerciale ni cession à des tiers.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Base légale</h2>
+          <p class="mt-4 text-body text-ink/80">
+            Le traitement repose sur l'intérêt légitime de {business.name} à répondre aux demandes qui
+            lui sont adressées, ainsi que sur votre consentement, exprimé en soumettant volontairement
+            le formulaire.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Durée de conservation</h2>
+          <p class="mt-4 text-body text-ink/80">
+            Vos données sont conservées {legal.dataRetentionDuration}.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Destinataires</h2>
+          <p class="mt-4 text-body text-ink/80">
+            Les données transmises via le formulaire ne sont destinées qu'à {business.name}. Elles
+            transitent techniquement par Web3Forms, prestataire utilisé pour l'envoi de l'e-mail de
+            contact, qui agit en tant que sous-traitant et n'utilise ces données à aucune autre fin.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Vos droits</h2>
+          <p class="mt-4 text-body text-ink/80">
+            Conformément au Règlement général sur la protection des données (RGPD) et à la loi
+            « Informatique et Libertés », vous disposez d'un droit d'accès, de rectification,
+            d'effacement, de limitation et d'opposition concernant vos données personnelles, ainsi que
+            du droit d'en demander la portabilité. Pour exercer ces droits, contactez-nous à l'adresse
+            <a href={`mailto:${contact.email}`} class="text-primary underline underline-offset-2">{contact.email}</a>.
+            Vous disposez également du droit d'introduire une réclamation auprès de la
+            Commission nationale de l'informatique et des libertés (CNIL).
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

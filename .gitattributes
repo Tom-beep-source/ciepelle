@@ -1,0 +1,4 @@
+# Les hooks git sont exécutés tels quels par bash : un retour chariot CRLF
+# casse le script (shebang, découpage des lignes). Toujours en LF, même sur
+# une copie Windows avec core.autocrlf=true.
+.githooks/* text eol=lf

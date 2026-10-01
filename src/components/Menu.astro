@@ -1,0 +1,85 @@
+---
+import { siteConfig } from "../config";
+
+const TAG_LABELS: Record<string, string> = {
+  vegan: "Vegan",
+  "sans-gluten": "Sans gluten",
+  "fait-maison": "Fait maison",
+  bio: "Bio",
+  nouveau: "Nouveau",
+};
+---
+
+<section id="menu" class="wrap section-padding border-t border-black/5">
+  {!siteConfig.allergenesValides && (
+    <div class="mb-12 rounded-lg bg-primary px-5 py-4 text-white" data-reveal>
+      <p class="font-semibold">
+        EXEMPLE — informations produits non validées par le commerce, à titre de démonstration.
+      </p>
+    </div>
+  )}
+  <div class="space-y-28 sm:space-y-36">
+    {siteConfig.menu.map((category) => (
+      <div>
+        <div class="flex items-center gap-5" data-reveal>
+          {category.image && (
+            <img
+              src={category.image}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              width="320"
+              height="320"
+              class="h-16 w-16 shrink-0 rounded-full object-cover sm:h-24 sm:w-24"
+            />
+          )}
+          <h3 class="text-category-title font-heading text-ink">
+            {category.category}
+          </h3>
+        </div>
+        <ul data-reveal-group class="mt-10 divide-y divide-black/10">
+          {category.items.map((item) => (
+            <li class="flex items-baseline justify-between gap-6 py-5">
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+                  <span class="menu-item-name">{item.name}</span>
+                  {item.tags?.map((tag) => (
+                    <span class="rounded-full bg-accent/25 px-2.5 py-1 text-[0.9375rem] font-medium text-secondary">
+                      {TAG_LABELS[tag] ?? tag}
+                    </span>
+                  ))}
+                </div>
+                {item.description && (
+                  <p class="menu-item-description mt-1.5">{item.description}</p>
+                )}
+                {item.allergenes && item.allergenes.length > 0 && (
+                  <p class="mt-1.5 text-sm text-ink/70">
+                    <span class="font-medium text-ink/80">Allergènes :</span>{" "}
+                    {item.allergenes.join(", ")}
+                  </p>
+                )}
+                {item.details?.map((detail) => (
+                  <p class="mt-1.5 text-sm text-ink/70">
+                    <span class="font-medium text-ink/80">{detail.label} :</span> {detail.value}
+                  </p>
+                ))}
+              </div>
+              {item.price && <span class="menu-item-price">{item.price}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <p class="mt-16 text-body text-ink/70" data-reveal>
+    Voir le détail par produit :{" "}
+    <a
+      href={`/${siteConfig.infoPage.slug}/`}
+      class="font-medium text-primary underline underline-offset-2"
+    >
+      {siteConfig.infoPage.linkLabel}
+    </a>
+  </p>
+</section>

@@ -1,0 +1,93 @@
+---
+import {
+  siteConfig,
+  getOrderedHours,
+  formatDayHours,
+  getFullAddress,
+  getDirectionsUrl,
+  isOpenEveryDay,
+} from "../config";
+
+const orderedHours = getOrderedHours();
+const directionsUrl = getDirectionsUrl();
+const everyDay = isOpenEveryDay();
+const today = new Date().getDay(); // 0 = dimanche
+const todayIndex = today === 0 ? 6 : today - 1; // aligne sur lundi=0
+---
+
+<section id="hours" class="wrap section-padding border-t border-black/5">
+  <h2 class="text-section-title font-heading text-ink" data-reveal>
+    Horaires &amp; accès
+  </h2>
+
+  {siteConfig.hoursHighlight && (
+    <p
+      data-reveal
+      class="mt-6 inline-flex items-center gap-3 rounded-full bg-accent/25 px-6 py-3 font-heading text-2xl text-secondary sm:text-3xl"
+    >
+      {siteConfig.hoursHighlight}
+    </p>
+  )}
+
+  <div class="mt-12 grid gap-8 md:grid-cols-2">
+    <div data-reveal>
+      <div class="overflow-hidden rounded-2xl">
+        <img
+          src={siteConfig.map.staticImage}
+          alt={siteConfig.map.staticImageAlt}
+          class="aspect-[4/3] w-full object-cover"
+          loading="lazy"
+          decoding="async"
+          width="900"
+          height="620"
+        />
+      </div>
+      <p class="mt-2 text-sm text-ink/70">{siteConfig.map.attribution}</p>
+
+      <div class="mt-4 space-y-3">
+        <p class="font-medium text-ink">{getFullAddress()}</p>
+        <a
+          href={directionsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90"
+        >
+          Itinéraire (Google Maps)
+        </a>
+      </div>
+    </div>
+
+    <div data-reveal>
+      {everyDay ? (
+        <ul class="divide-y divide-black/10 rounded-2xl border border-black/10 p-2">
+          {orderedHours.map(({ label, hours }) => (
+            <li class="text-body flex items-center justify-between px-4 py-3">
+              <span>{label}</span>
+              <span class="font-medium">{formatDayHours(hours)}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <ul class="divide-y divide-black/10 rounded-2xl border border-black/10 p-2">
+          {orderedHours.map(({ label, hours }, i) => (
+            <li
+              class:list={[
+                "text-body flex items-center justify-between px-4 py-3",
+                { "rounded-xl bg-accent/20 font-semibold text-secondary": i === todayIndex },
+              ]}
+            >
+              <span>{label}</span>
+              <span>{formatDayHours(hours)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {everyDay && (
+        <p class="text-body mt-4 text-ink/70">
+          Ouvert également le dimanche, sans jour de fermeture hebdomadaire.
+        </p>
+      )}
+    </div>
+  </div>
+</section>

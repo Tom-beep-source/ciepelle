@@ -1,0 +1,44 @@
+---
+import { siteConfig, getFullAddress } from "../config";
+
+const year = new Date().getFullYear();
+
+const socialLinks = [
+  { key: "instagram", label: "Instagram", href: siteConfig.social.instagram },
+  { key: "facebook", label: "Facebook", href: siteConfig.social.facebook },
+  { key: "tiktok", label: "TikTok", href: siteConfig.social.tiktok },
+].filter((link) => Boolean(link.href));
+---
+
+<footer class="bg-secondary py-10 text-white/80">
+  <div class="wrap">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <p class="font-heading text-lg font-semibold text-white">
+          {siteConfig.business.name}
+        </p>
+        <p class="mt-2 text-base">{getFullAddress()}</p>
+        <p class="text-base">{siteConfig.contact.phone} · {siteConfig.contact.email}</p>
+      </div>
+
+      {socialLinks.length > 0 && (
+        <div class="flex gap-4 text-base font-medium">
+          {socialLinks.map((link) => (
+            <a href={link.href} target="_blank" rel="noopener noreferrer" class="hover:text-white">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <div class="mt-8 flex flex-col gap-4 text-sm text-white/70 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {siteConfig.business.name}. Tous droits réservés.</p>
+      <div class="flex gap-4">
+        <a href={`/${siteConfig.infoPage.slug}/`} class="hover:text-white">{siteConfig.infoPage.linkLabel}</a>
+        <a href="/mentions-legales/" class="hover:text-white">Mentions légales</a>
+        <a href="/politique-confidentialite/" class="hover:text-white">Politique de confidentialité</a>
+      </div>
+    </div>
+  </div>
+</footer>

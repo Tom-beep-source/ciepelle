@@ -1,0 +1,98 @@
+---
+import { siteConfig, getMenuSectionLabels } from "../config";
+
+// Ancres valables uniquement sur la page d'accueil : depuis une autre page
+// (ex. /mentions-legales/), on préfixe par "/" pour revenir d'abord à
+// l'accueil avant de sauter à la section.
+const isHome = Astro.url.pathname === "/";
+const homeHref = (anchor: string) => (isHome ? anchor : `/${anchor}`);
+
+const navLinks = [
+  { href: "#about", label: "À propos" },
+  { href: "#menu", label: getMenuSectionLabels(siteConfig).nav },
+  ...(siteConfig.commandes ? [{ href: "#orders", label: siteConfig.commandes.title }] : []),
+  { href: "#gallery", label: "Galerie" },
+  { href: "#testimonials", label: "Avis" },
+  { href: "#hours", label: "Horaires" },
+  { href: "#practical", label: "Infos pratiques" },
+  { href: "#contact", label: "Contact" },
+].map((link) => ({ ...link, href: homeHref(link.href) }));
+---
+
+<header class="fixed inset-x-0 top-0 z-50 bg-surface/90 backdrop-blur-sm shadow-sm">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+    <a href={isHome ? "#top" : "/"} class="font-heading text-lg font-semibold text-primary sm:text-xl">
+      {siteConfig.business.name}
+    </a>
+
+    <nav class="hidden md:block">
+      <ul class="flex items-center gap-6 text-base font-medium text-ink">
+        {navLinks.map((link) => (
+          <li>
+            <a href={link.href} class="transition-colors hover:text-primary">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <a
+      href={`tel:${siteConfig.contact.phoneHref}`}
+      class="hidden rounded-full bg-primary px-5 py-2.5 text-base font-semibold text-surface transition-opacity hover:opacity-90 md:inline-block"
+    >
+      Appeler
+    </a>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      class="flex h-10 w-10 items-center justify-center rounded-md text-ink md:hidden"
+    >
+      <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <nav id="mobile-nav" class="hidden border-t border-black/5 bg-surface md:hidden">
+    <ul class="flex flex-col gap-1 px-4 py-3 text-base font-medium text-ink">
+      {navLinks.map((link) => (
+        <li>
+          <a href={link.href} class="block rounded-md px-2 py-2 hover:bg-black/5">
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const mobileNav = document.getElementById("mobile-nav");
+  const iconOpen = document.getElementById("icon-open");
+  const iconClose = document.getElementById("icon-close");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = mobileNav?.classList.toggle("hidden") === false;
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    iconOpen?.classList.toggle("hidden", isOpen);
+    iconClose?.classList.toggle("hidden", !isOpen);
+  });
+
+  mobileNav?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mobileNav.classList.add("hidden");
+      toggle?.setAttribute("aria-expanded", "false");
+      iconOpen?.classList.remove("hidden");
+      iconClose?.classList.add("hidden");
+    });
+  });
+</script>

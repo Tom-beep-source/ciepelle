@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import StickyMobileBar from "../../components/StickyMobileBar.astro";
+import { siteConfig } from "../../config";
+
+const { business, legal } = siteConfig;
+
+const identity = [
+  { label: "Raison sociale", value: legal.companyName },
+  { label: "Forme juridique", value: legal.legalForm },
+  ...(legal.shareCapital ? [{ label: "Capital social", value: legal.shareCapital }] : []),
+  { label: "SIREN", value: legal.siren },
+  { label: "SIRET", value: legal.siret },
+  ...(legal.rcsCity ? [{ label: "RCS", value: legal.rcsCity }] : []),
+  { label: "Adresse", value: legal.companyAddress },
+  { label: "Téléphone", value: legal.phone, href: `tel:${legal.phoneHref}` },
+  { label: "E-mail", value: legal.email, href: `mailto:${legal.email}` },
+  { label: "Directeur de la publication", value: legal.publicationDirector },
+];
+---
+
+<BaseLayout
+  title={`Mentions légales — ${business.name}`}
+  description={`Mentions légales du site ${business.name} : éditeur, hébergeur, propriété intellectuelle.`}
+>
+  <Header />
+  <main>
+    <section class="wrap section-padding max-w-3xl">
+      <h1 class="text-section-title font-heading text-ink" data-reveal>Mentions légales</h1>
+
+      <div class="mt-10 space-y-10" data-reveal>
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Éditeur du site</h2>
+          <dl class="mt-4 space-y-2 text-body text-ink/80">
+            {identity.map((row) => (
+              <div class="flex flex-col sm:flex-row sm:gap-2">
+                <dt class="font-medium text-ink sm:w-56 sm:shrink-0">{row.label}</dt>
+                <dd>
+                  {row.href ? (
+                    <a href={row.href} class="text-primary underline underline-offset-2">{row.value}</a>
+                  ) : (
+                    row.value
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Hébergement</h2>
+          <p class="mt-4 text-body text-ink/80">
+            Le site est hébergé par {legal.host.name}, {legal.host.address}.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-heading text-2xl font-semibold text-ink">Propriété intellectuelle</h2>
+          <p class="mt-4 text-body text-ink/80">
+            L'ensemble des textes, images, logos et éléments graphiques présents sur ce site sont la
+            propriété exclusive de {legal.companyName}, sauf mention contraire. Toute reproduction,
+            représentation, modification ou diffusion, totale ou partielle, sans autorisation écrite
+            préalable est interdite et pourrait constituer une contrefaçon au sens des articles L.335-2
+            et suivants du Code de la propriété intellectuelle.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <StickyMobileBar />
+</BaseLayout>

@@ -1,0 +1,22 @@
+#!/bin/sh
+# Contrôles qualité avant commit (voir CLAUDE.md). Contourner sciemment avec
+# SKIP_QA=1 git commit ...
+
+if [ -n "$SKIP_QA" ]; then
+  echo "SKIP_QA=1 : contrôles qualité contournés."
+  exit 0
+fi
+
+set -e
+
+echo "== Contraste WCAG AA =="
+npm run contrast
+
+echo "== Captures + axe-core =="
+node screenshot.mjs
+
+echo "== Build de production =="
+npm run build
+
+echo "== Lighthouse (mobile + desktop) =="
+npm run audit -- --fast

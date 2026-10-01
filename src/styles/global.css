@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
+  font-family: var(--font-body), sans-serif;
+  font-weight: 400;
+  /* Plancher de lisibilité : 17px en mobile, 18px à partir de 640px. */
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 640px) {
+  body {
+    font-size: 1.125rem;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), serif;
+  /* Fraunces variable : douceur des terminaisons (SOFT) et formes fantaisistes
+     (WONK) épinglées ; opsz suit automatiquement la taille de rendu. */
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 50, "WONK" 1;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h3,
+h4 {
+  font-weight: 500;
+}
+
+.wrap {
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
+}
+
+.section-padding {
+  padding-block: clamp(6rem, 14vh, 12rem);
+}
+
+.text-hero {
+  font-size: clamp(3.5rem, 11vw, 10rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.text-section-title {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+}
+
+/* Plancher de lisibilité du texte de contenu : reprend la taille du body
+   (17px / 18px). À utiliser dès qu'une classe Tailwind de taille risquerait de
+   repasser sous ce seuil. */
+.text-body {
+  font-size: 1.0625rem;
+}
+
+@media (min-width: 640px) {
+  .text-body {
+    font-size: 1.125rem;
+  }
+}
+
+/* Titre de catégorie du menu : plus contenu que les titres de section, pour
+   laisser la vedette aux noms de produits. */
+.text-category-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* Slogan du hero : palier intermédiaire entre le titre géant et le corps de texte */
+.text-tagline {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  line-height: 1.45;
+}
+
+/* --- Ligne de menu -------------------------------------------------------
+   Nom et prix partagent taille et graisse : le prix est l'information la plus
+   consultée, il ne doit pas être plus discret que le produit. Les deux sont en
+   police de texte pour que leurs hauteurs d'œil coïncident réellement. */
+.menu-item-name,
+.menu-item-price {
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.25rem; /* 20px */
+  font-weight: 500;
+  line-height: 1.3;
+  color: rgb(var(--color-text));
+}
+
+.menu-item-price {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-item-description {
+  font-size: 1rem; /* 16px, plancher */
+  line-height: 1.55;
+  /* 70% : mesuré à 5,6:1 sur le fond crème, au-dessus du seuil AA. */
+  color: rgb(var(--color-text) / 0.7);
+}
+
+/* Boutons d'appel à l'action du hero */
+.btn-hero {
+  font-size: 1rem;
+  padding: 0.95rem 2rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Evite le flash de contenu non stylé pour les éléments animés au chargement/scroll */
+[data-hero-in],
+[data-reveal],
+[data-reveal-group] > * {
+  will-change: transform, opacity;
+}

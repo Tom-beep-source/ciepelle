@@ -1,0 +1,108 @@
+---
+import "../styles/global.css";
+import { siteConfig } from "../config";
+import { buildLocalBusinessJsonLd } from "../lib/jsonld";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = siteConfig.seo.title, description = siteConfig.seo.description } =
+  Astro.props;
+
+const { colors, fonts } = siteConfig.theme;
+
+// Tailwind applique les opacités via rgb(var(--x) / <alpha-value>), ce qui impose
+// des canaux RVB séparés par des espaces. Le config reste en hex (plus lisible
+// pour le client), la conversion se fait ici.
+function hexToRgbChannels(hex: string): string {
+  const clean = hex.replace("#", "");
+  const full =
+    clean.length === 3
+      ? clean
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : clean;
+  const int = parseInt(full, 16);
+  return `${(int >> 16) & 255} ${(int >> 8) & 255} ${int & 255}`;
+}
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, "") : "";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const ogImageUrl = siteUrl
+  ? `${siteUrl}${siteConfig.seo.ogImage}`
+  : siteConfig.seo.ogImage;
+
+const jsonLd = buildLocalBusinessJsonLd(siteConfig, siteUrl);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {fonts.preconnect.map((p) => (
+      <link rel="preconnect" href={p.href} crossorigin={p.crossOrigin ? "" : undefined} />
+    ))}
+
+    {/* Chargement non bloquant : un <link rel="stylesheet"> classique vers ces
+        origines tierces bloque tout le premier rendu le temps de l'aller-retour
+        réseau (mesuré : +1s de LCP). Le preload récupère la feuille en priorité
+        haute sans bloquer, puis bascule en stylesheet une fois prête — le
+        display=swap porté par les URL gère l'affichage entre-temps. */}
+    {fonts.stylesheets.map((href) => (
+      <link rel="preload" as="style" href={href} onload="this.onload=null;this.rel='stylesheet'" />
+    ))}
+    <noscript>
+      {fonts.stylesheets.map((href) => (
+        <link rel="stylesheet" href={href} />
+      ))}
+    </noscript>
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <style define:vars={{
+      colorPrimary: hexToRgbChannels(colors.primary),
+      colorSecondary: hexToRgbChannels(colors.secondary),
+      colorAccent: hexToRgbChannels(colors.accent),
+      colorBackground: hexToRgbChannels(colors.background),
+      colorText: hexToRgbChannels(colors.text),
+      fontHeading: `'${fonts.heading}'`,
+      fontBody: `'${fonts.body}'`,
+    }}>
+      :global(:root) {
+        --color-primary: var(--colorPrimary);
+        --color-secondary: var(--colorSecondary);
+        --color-accent: var(--colorAccent);
+        --color-background: var(--colorBackground);
+        --color-text: var(--colorText);
+        --font-heading: var(--fontHeading);
+        --font-body: var(--fontBody);
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-ink antialiased">
+    <slot />
+
+    <script>
+      import { initSmoothScroll } from "../lib/lenis";
+      import { initScrollAnimations } from "../lib/animations";
+
+      initSmoothScroll();
+      initScrollAnimations();
+    </script>
+  </body>
+</html>

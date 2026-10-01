@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.screenshots/
+.env
+.env.*
+npm-debug.log*
+
+# Réglages locaux Claude Code (spécifiques à la machine, pas au projet)
+.claude/settings.local.json

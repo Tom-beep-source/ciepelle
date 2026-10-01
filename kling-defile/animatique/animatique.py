@@ -26,7 +26,7 @@ def logo(scale, color=CREAM):
     d.arc([ (22-7.5)*s,(20-7.5)*s,(22+7.5)*s,(20+7.5)*s ],90,270,fill=ROSE,width=lw)
     r=2.6*s; d.ellipse([22*s-r,20*s-r,22*s+r,20*s+r],fill=ROSE)
     f=font(SERIF,int(27*s)); d.text((42*s,30*s),'Ciepelle',font=f,fill=color,anchor='ls')
-    return im
+    return im.crop(im.getbbox())  # recadré sur le dessin réel pour un centrage exact
 def text_layer(lines, y, size, alpha=1.0, spacing=1.15, weight=700, upper=False, track=0):
     lay=Image.new('RGBA',(W,H),(0,0,0,0)); d=ImageDraw.Draw(lay); f=font(SANS,size,weight)
     for i,l in enumerate(lines):

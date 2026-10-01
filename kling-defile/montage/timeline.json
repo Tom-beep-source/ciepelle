@@ -1,0 +1,76 @@
+{
+ "bpm": 126,
+ "dur": 15.02,
+ "fade_start": 9.5238,
+ "cut": 12.2738,
+ "impact": 12.4738,
+ "outside": 10.7238,
+ "heels": [
+  0.446,
+  1.406,
+  4.2555,
+  5.2155,
+  6.1603,
+  7.1203,
+  8.065,
+  9.105,
+  9.7938,
+  10.5438
+ ],
+ "snow_steps": [
+  11.3238,
+  12.0238
+ ],
+ "segments": [
+  {
+   "clip": "V1",
+   "src": 0.234,
+   "beats": 4,
+   "text": "Wyglądają jak gołe nogi…",
+   "start": 0,
+   "end": 1.9048
+  },
+  {
+   "clip": "VF",
+   "src": 0.5,
+   "beats": 4,
+   "text": "…a w środku polar.",
+   "start": 1.9048,
+   "end": 3.8095
+  },
+  {
+   "clip": "V1",
+   "src": 2.984,
+   "beats": 4,
+   "label": "Cielisty",
+   "start": 3.8095,
+   "end": 5.7143
+  },
+  {
+   "clip": "V2",
+   "src": 0.234,
+   "beats": 4,
+   "label": "Czarny",
+   "start": 5.7143,
+   "end": 7.619
+  },
+  {
+   "clip": "V3",
+   "src": 0.274,
+   "beats": 4,
+   "label": "Szary",
+   "start": 7.619,
+   "end": 9.5238
+  },
+  {
+   "clip": "VS",
+   "src": 2.25,
+   "dur": 2.75,
+   "text": "A za drzwiami…",
+   "text2": "zima.",
+   "start": 9.5238,
+   "end": 12.2738,
+   "text2_at": 10.7238
+  }
+ ]
+}

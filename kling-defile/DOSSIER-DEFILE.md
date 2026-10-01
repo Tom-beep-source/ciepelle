@@ -30,27 +30,33 @@ On reprend leurs **structures**, pas leurs vidéos ni leurs textes. Une atteinte
 - « Presque sexy » sans risque : marche assurée, talons, mini-jupes, cadrage de face de la jupe aux pieds. **Pas de gros plan sur les fesses ni l'entrejambe** : Meta restreint ces images aux plus de 18 ans et les diffuse moins.
 - Mention IA cochée dans le Gestionnaire de publicités.
 
-## 3. Le scénario
+## 3. Le montage final (15 s, 126 BPM)
 
-| Temps | Image | Texte (PL) | Son |
+Chaque coupe tombe sur un temps de la musique, et chaque bruit de talon tombe sur le pas réel du plan (pas détectés image par image dans les vidéos Kling).
+
+| Temps | Plan (vraie vidéo Kling) | Texte (PL) | Son |
 |---|---|---|---|
-| 0–2 s | Femme n°1 (cielisty) qui avance vers la caméra, à l'aise, jambes seules | « Wyglądają jak gołe nogi… » | Beat de défilé + talons qui résonnent |
-| 2–3,6 s | Mains qui écartent le collant retourné : le polaire | « …a w środku polar. » | idem |
-| 3,6–6 s | Femme n°1, suite du défilé | CIELISTY | idem |
-| 6–8,5 s | Femme n°2 (czarny) | CZARNY | idem |
-| 8,5–11 s | Femme n°3 (szary) | SZARY | idem |
-| 11–13,25 s | Au bout du podium, les grandes portes vitrées sont ouvertes sur la neige ; elle sort dans la tempête sans ralentir | « A za drzwiami… zima. » | **Le son s'éloigne** : étouffé, plus d'écho, volume qui baisse |
-| 13,25–13,45 s | Noir | — | Silence, puis « whoosh » |
-| 13,45–16 s | **Logo Ciepelle** qui frappe au centre, puis « RAJSTOPY Z POLAREM · 80 g · 220 g · 300 g » | — | Impact sourd + longue résonance |
+| 0–1,9 s | Femme n°1 (cielisty) qui avance vers la caméra | « Wyglądają jak gołe nogi… » | Beat de défilé + talons qui résonnent |
+| 1,9–3,8 s | Mains qui écartent le collant retourné : le polaire | « …a w środku polar. » | idem |
+| 3,8–5,7 s | Femme n°1, suite du défilé | CIELISTY | idem |
+| 5,7–7,6 s | Femme n°2 (czarny, bottines) | CZARNY | idem |
+| 7,6–9,5 s | Femme n°3 (szary, robe-pull) | SZARY | idem |
+| 9,5–12,3 s | Vue de dos : elle sort par les portes ouvertes, dans la neige, cheveux soulevés par le vent | « A za drzwiami… » puis « zima. » au passage du seuil | **Le son s'éloigne** (−9 dB, aigus coupés, plus d'écho), puis vent d'hiver et pas étouffés dans la neige |
+| 12,3–12,5 s | Noir | — | « Whoosh » |
+| 12,5–15 s | **Logo Ciepelle** qui frappe au centre exact de l'image, puis « RAJSTOPY Z POLAREM · 80 g · 220 g · 300 g » | — | Impact sourd + longue résonance |
+
+Petit logo permanent en haut, dans une pastille encre (lisible sur tous les fonds). Textes dans des bandeaux encre, hors des zones masquées par les Reels.
 
 La musique est **originale, composée par code** pour cette pub : c'est donc 100 % libre de droits. Si elle ne vous plaît pas, téléchargez un morceau de la **Meta Sound Collection** (gratuit, autorisé en pub) et je le remonte avec le même traitement du son.
 
-## 4. Ce qui est déjà prêt (gratuit)
-- `audio/bande-son-defile.m4a` : bande-son complète (−14 LUFS, le niveau standard des réseaux sociaux).
-- `animatique/animatique-defile.mp4` : le montage complet avec des plans fixes. Les vraies vidéos prendront leur place.
-- Images Nano Banana Pro validées : **W1a** (femme n°1) et **Fa** (polaire).
+## 4. Fichiers
+- **`pub-defile-ciepelle.mp4`** : la pub à importer dans Meta (1080×1920, 24 i/s, son −14,5 LUFS, 22 Mo).
+- `montage/controle-montage.jpg` : planche de contrôle (11 images de la pub).
+- `clips/` : les 5 vidéos Kling brutes, sans filigrane (V1, VF, V2, V3, VS), et leurs planches `*_strip.jpg`. Les liens Kling expirent en 24 h : ces copies sont les seules.
+- `montage/plan.py` (calage tempo / pas), `montage/montage.py` (rendu), `audio/music.py` (musique + design sonore). Pour refaire : `python3 montage/plan.py`, puis `audio/music.py`, puis `montage/montage.py` (chacun depuis son dossier).
+- `animatique/` : l'ancienne version en plans fixes, remplacée.
 
-## 5. Ce qu'il reste à générer (avec votre accord)
+## 5. Ce qui a été généré (prompts exacts, pour refaire un plan)
 
 ### Images de départ (Nano Banana Pro, 1 image chacune ≈ 20 crédits)
 - **W2 (czarny)**, références : W1a + photo 06.
@@ -67,13 +73,12 @@ La musique est **originale, composée par code** pour cette pub : c'est donc 100
 - **VS (sortie) :**
   > She walks away from the camera through the open glass doors and steps out into the falling snow without slowing down, snowflakes swirling around her legs; the camera stays still inside the hall as she gets smaller in the bright winter light. Sound: heel clicks echoing in the hall, then muffled steps in fresh snow and a soft winter wind.
 
-### Budget estimé
-- 3 images × 20 = **60 crédits**
-- 4 vidéos avec son × ~60 = **~240 crédits**
-- 1 vidéo polaire sans son = **~40 crédits**
-- **Total ≈ 340 crédits sur les 564 restants**, ce qui laisse de quoi refaire un plan raté.
+### Crédits dépensés
+- Images de départ Nano Banana Pro : W1a, W1b, Fa, Fb, W2, W3, SORTIE (20 crédits chacune).
+- Vidéos : V1, V2, V3, VS (Kling 3.0, 1080p, son : 60 crédits chacune), VF (Kling 3.0 Turbo : 50 crédits).
+- **Solde Kling après la pub : 295 crédits.** Aucun plan n'a dû être refait.
 
-Je vérifie chaque image et chaque vidéo avant de passer à la suivante : jambes qui se croisent mal, pieds qui glissent, couleur qui change. Je ne refais que ce qui rate, en corrigeant le prompt.
+Les 5 vidéos ont été vérifiées image par image : pas de jambes qui se croisent mal, pas de pied qui glisse, teinte du collant stable du début à la fin de chaque plan.
 
 ## 6. Ce qui est garanti, ce qui ne l'est pas
 - **Garanti** : la bande-son, le montage, le logo, les textes, et la fidélité du collant (je contrôle chaque image).

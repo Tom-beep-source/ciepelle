@@ -1,6 +1,6 @@
 {
  "bpm": 120,
- "dur": 12.8,
+ "dur": 12.5,
  "fade_start": 10.49,
  "cut": 10.5,
  "impact": 10.5,
@@ -9,36 +9,54 @@
  "snow_steps": [],
  "segments": [
   {
-   "clip": "H1",
-   "src": 1.9,
-   "speed": 1.2,
+   "clip": "E1",
+   "src": 0,
+   "speed": 1,
    "hand": 1,
-   "beats": 5,
+   "beats": 2,
    "zoom": 1.0,
+   "push": 0.08,
    "lines": [
     "Wyglądają jak zwykłe",
-    "*cienkie rajstopy*, ale…"
+    "*przezroczyste rajstopy*, ale…"
    ],
    "pop": false,
    "start": 0,
-   "end": 2.5
+   "end": 1.0
+  },
+  {
+   "clip": "H1",
+   "src": 2.6,
+   "speed": 1.2,
+   "hand": 1,
+   "beats": 2.5,
+   "zoom": 1.0,
+   "lines": [
+    "Wyglądają jak zwykłe",
+    "*przezroczyste rajstopy*, ale…"
+   ],
+   "zoom_out_to": 1,
+   "cy": 0.42,
+   "start": 1.0,
+   "end": 2.25
   },
   {
    "clip": "VF",
    "src": 0.4,
    "speed": 1,
    "hand": 1,
-   "beats": 4,
+   "whip": 1,
+   "beats": 4.5,
    "zoom": 1.0,
    "push": 0.14,
    "lines": [
     "Ale…",
-    "to *rajstopy z polarem*",
+    "to *ocieplane rajstopy z polarem*",
     "na zimę"
    ],
    "pop": true,
    "y": 0.235,
-   "start": 2.5,
+   "start": 2.25,
    "end": 4.5
   },
   {
@@ -47,14 +65,28 @@
    "speed": 1.4,
    "hand": 1,
    "whip": 1,
-   "beats": 2,
+   "beats": 1,
    "zoom": 1.0,
    "lines": [
-    "Idealne do *lekkich stylizacji*",
-    "tej zimy"
+    "Idealne, żeby nosić",
+    "*lekkie stylizacje* tej zimy"
    ],
    "pop": true,
    "start": 4.5,
+   "end": 5.0
+  },
+  {
+   "clip": "O1",
+   "src": 1.2,
+   "speed": 1.4,
+   "hand": 1,
+   "beats": 1,
+   "zoom": 1.45,
+   "lines": [
+    "Idealne, żeby nosić",
+    "*lekkie stylizacje* tej zimy"
+   ],
+   "start": 5.0,
    "end": 5.5
   },
   {
@@ -63,13 +95,28 @@
    "speed": 1.4,
    "hand": 1,
    "whip": 1,
-   "beats": 2,
+   "beats": 1,
    "zoom": 1.0,
    "lines": [
-    "Idealne do *lekkich stylizacji*",
-    "tej zimy"
+    "Idealne, żeby nosić",
+    "*lekkie stylizacje* tej zimy"
    ],
+   "pop": false,
    "start": 5.5,
+   "end": 6.0
+  },
+  {
+   "clip": "O2",
+   "src": 1.45,
+   "speed": 1.4,
+   "hand": 1,
+   "beats": 1,
+   "zoom": 1.45,
+   "lines": [
+    "Idealne, żeby nosić",
+    "*lekkie stylizacje* tej zimy"
+   ],
+   "start": 6.0,
    "end": 6.5
   },
   {
@@ -78,28 +125,58 @@
    "speed": 1.4,
    "hand": 1,
    "whip": 1,
-   "beats": 2,
+   "beats": 1,
    "zoom": 1.0,
    "lines": [
-    "Idealne do *lekkich stylizacji*",
-    "tej zimy"
+    "Idealne, żeby nosić",
+    "*lekkie stylizacje* tej zimy"
    ],
+   "pop": false,
    "start": 6.5,
+   "end": 7.0
+  },
+  {
+   "clip": "O5",
+   "src": 1.37,
+   "speed": 1.4,
+   "hand": 1,
+   "beats": 1,
+   "zoom": 1.45,
+   "lines": [
+    "Idealne, żeby nosić",
+    "*lekkie stylizacje* tej zimy"
+   ],
+   "start": 7.0,
    "end": 7.5
   },
   {
    "clip": "O3",
-   "src": 1.55,
+   "src": 1.4,
    "speed": 1.4,
    "hand": 1,
    "whip": 1,
-   "beats": 2,
+   "beats": 1,
    "zoom": 1.0,
    "lines": [
-    "Idealne do *lekkich stylizacji*",
-    "tej zimy"
+    "Idealne, żeby nosić",
+    "*lekkie stylizacje* tej zimy"
    ],
+   "pop": false,
    "start": 7.5,
+   "end": 8.0
+  },
+  {
+   "clip": "O3",
+   "src": 2.0999999999999996,
+   "speed": 1.4,
+   "hand": 1,
+   "beats": 1,
+   "zoom": 1.45,
+   "lines": [
+    "Idealne, żeby nosić",
+    "*lekkie stylizacje* tej zimy"
+   ],
+   "start": 8.0,
    "end": 8.5
   },
   {
@@ -108,30 +185,60 @@
    "speed": 1,
    "hand": 1,
    "whip": 1,
-   "beats": 2,
+   "beats": 1,
    "zoom": 1.0,
-   "push": 0.07,
+   "push": 0.06,
    "lines": [
-    "*Zestaw 3 par*",
-    "już od 149 zł"
+    "Im więcej par,",
+    "*tym więcej oszczędzasz*"
    ],
    "pop": true,
    "start": 8.5,
+   "end": 9.0
+  },
+  {
+   "clip": "O6",
+   "src": 0,
+   "speed": 1,
+   "hand": 1,
+   "beats": 1,
+   "zoom": 1.45,
+   "push": 0.06,
+   "lines": [
+    "Im więcej par,",
+    "*tym więcej oszczędzasz*"
+   ],
+   "start": 9.0,
    "end": 9.5
   },
   {
    "clip": "O4",
-   "src": 1.55,
+   "src": 1.4,
    "speed": 1.4,
    "hand": 1,
    "whip": 1,
-   "beats": 2,
+   "beats": 1,
    "zoom": 1.0,
    "lines": [
-    "*Zestaw 3 par*",
-    "już od 149 zł"
+    "Im więcej par,",
+    "*tym więcej oszczędzasz*"
    ],
+   "pop": false,
    "start": 9.5,
+   "end": 10.0
+  },
+  {
+   "clip": "O4",
+   "src": 2.0999999999999996,
+   "speed": 1.4,
+   "hand": 1,
+   "beats": 1,
+   "zoom": 1.45,
+   "lines": [
+    "Im więcej par,",
+    "*tym więcej oszczędzasz*"
+   ],
+   "start": 10.0,
    "end": 10.5
   }
  ]

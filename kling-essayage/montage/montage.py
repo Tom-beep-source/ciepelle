@@ -124,7 +124,10 @@ for fi in range(NF):
         lt=t-s['start']; src=s['src']+lt*s['speed']; arr=clips[s['clip']].at(src)
         z=s['zoom']*(1+s.get('push',0)*lt/(s['end']-s['start']))
         if s['start']>0: z*=1+.04*math.exp(-lt/.09)            # coup de zoom sur chaque coupe, qui se pose en 0,2 s
-        arr=zoomed(arr,z,.64 if s['zoom']>1 else .5)
+        dur=s['end']-s['start']
+        if s.get('zoom_out_to') and lt>dur-.3:   # transition : zoom rapide vers la taille, enchaîné sur le plan polaire
+            q=(lt-(dur-.3))/.3; z*=1+.9*q*q
+        arr=zoomed(arr,z,s.get('cy',.64 if s['zoom']>1 else .5))
         if s.get('hand'):                    # tenu au téléphone : micro-mouvements lents et naturels (pas de tremblement)
             a=.35*math.sin(t*1.7)+.2*math.sin(t*3.1+1); dx=9*math.sin(t*1.3)+5*math.sin(t*2.9+2); dy=7*math.sin(t*1.1+.5)+4*math.sin(t*3.7)
             M=cv2.getRotationMatrix2D((W/2,H/2),a,1.045); M[0,2]+=dx; M[1,2]+=dy

@@ -45,11 +45,12 @@ for b in range(bars):
         tq=t0+q*BEAT
         if tq>=CUT: break
         place(drums,K,tq,.95)
-        if b>=1: place(drums,HC,tq+BEAT/2,.8); place(drums,HC,tq+BEAT*0.75,.35)
-        if b>=2 and q in (1,3): place(drums,CL,tq,.7)
-        if b>=2 and q==3: place(drums,HO,tq+BEAT/2,.5)
+        # version dynamique : charleston en doubles croches dès la 1re mesure, clap dès la 2e
+        place(drums,HC,tq+BEAT/2,.8); place(drums,HC,tq+BEAT*0.25,.3); place(drums,HC,tq+BEAT*0.75,.4)
+        if b>=1 and q in (1,3): place(drums,CL,tq,.7)
+        if q==3: place(drums,HO,tq+BEAT/2,.5)
         place(bas,bass(prog[b%4],BEAT*.45),tq+BEAT/2,.8)
-    if b>=1 and t0+3.5*BEAT<CUT: place(stb,stab(chords[b%4],BEAT*1.2),t0+2.5*BEAT,.55)
+    if t0+3.5*BEAT<CUT: place(stb,stab(chords[b%4],BEAT*1.2),t0+2.5*BEAT,.55)
 mix=.9*drums+.75*bas+.6*stb
 # --- talons (clic + corps) sur le temps pour l'animatique
 def heel():

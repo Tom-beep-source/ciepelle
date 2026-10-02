@@ -30,20 +30,19 @@ On reprend leurs **structures**, pas leurs vidéos ni leurs textes. Une atteinte
 - « Presque sexy » sans risque : marche assurée, talons, mini-jupes, cadrage de face de la jupe aux pieds. **Pas de gros plan sur les fesses ni l'entrejambe** : Meta restreint ces images aux plus de 18 ans et les diffuse moins.
 - Mention IA cochée dans le Gestionnaire de publicités.
 
-## 3. Le montage final (15 s, 126 BPM)
+## 3. Le montage final, version dynamique (13,3 s, 150 BPM)
 
-Chaque coupe tombe sur un temps de la musique, et chaque bruit de talon tombe sur le pas réel du plan (pas détectés image par image dans les vidéos Kling).
+Une coupe tous les 2 temps (0,8 s), en alternant plan large et plan serré sur les jambes, avec un petit coup de zoom à chaque coupe. La marche est accélérée d'environ 20 % pour que chaque pas tombe sur un temps ; les bruits de talon suivent les vrais pas.
 
-| Temps | Plan (vraie vidéo Kling) | Texte (PL) | Son |
-|---|---|---|---|
-| 0–1,9 s | Femme n°1 (cielisty) qui avance vers la caméra | « Wyglądają jak gołe nogi… » | Beat de défilé + talons qui résonnent |
-| 1,9–3,8 s | Mains qui écartent le collant retourné : le polaire | « …a w środku polar. » | idem |
-| 3,8–5,7 s | Femme n°1, suite du défilé | CIELISTY | idem |
-| 5,7–7,6 s | Femme n°2 (czarny, bottines) | CZARNY | idem |
-| 7,6–9,5 s | Femme n°3 (szary, robe-pull) | SZARY | idem |
-| 9,5–12,3 s | Vue de dos : elle sort par les portes ouvertes, dans la neige, cheveux soulevés par le vent | « A za drzwiami… » puis « zima. » au passage du seuil | **Le son s'éloigne** (−9 dB, aigus coupés, plus d'écho), puis vent d'hiver et pas étouffés dans la neige |
-| 12,3–12,5 s | Noir | — | « Whoosh » |
-| 12,5–15 s | **Logo Ciepelle** qui frappe au centre exact de l'image, puis « RAJSTOPY Z POLAREM · 80 g · 220 g · 300 g » | — | Impact sourd + longue résonance |
+| Temps | Plan | Texte (PL) |
+|---|---|---|
+| 0–1,6 s | Femme n°1 (cielisty) : large puis serré | « Wyglądają jak gołe nogi… » |
+| 1,6–3,2 s | Le polaire, avec un lent zoom avant | « …a w środku polar. » |
+| 3,2–4,8 s | Femme n°1 : large puis serré | CIELISTY |
+| 4,8–6,4 s | Femme n°2 : large puis serré | CZARNY |
+| 6,4–8,0 s | Femme n°3 : large puis serré | SZARY |
+| 8,0–10,8 s | Sortie dans la neige ; le son s'éloigne, puis vent et pas dans la neige | « A za drzwiami… » puis « zima. » |
+| 10,8–13,3 s | Noir bref, puis logo Ciepelle qui frappe au centre | RAJSTOPY Z POLAREM · 80 g · 220 g · 300 g |
 
 Petit logo permanent en haut, dans une pastille encre (lisible sur tous les fonds). Textes dans des bandeaux encre, hors des zones masquées par les Reels.
 

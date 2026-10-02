@@ -1,76 +1,147 @@
 {
- "bpm": 126,
- "dur": 15.02,
- "fade_start": 9.5238,
- "cut": 12.2738,
- "impact": 12.4738,
- "outside": 10.7238,
+ "bpm": 150,
+ "dur": 13.3,
+ "fade_start": 8.0,
+ "cut": 10.8,
+ "impact": 10.95,
+ "outside": 9.25,
  "heels": [
-  0.446,
-  1.406,
-  4.2555,
-  5.2155,
-  6.1603,
-  7.1203,
-  8.065,
-  9.105,
-  9.7938,
-  10.5438
+  0.37,
+  1.1958,
+  3.57,
+  4.3614,
+  5.17,
+  5.9742,
+  6.77,
+  7.602,
+  8.32,
+  9.07
  ],
  "snow_steps": [
-  11.3238,
-  12.0238
+  9.85,
+  10.55
  ],
  "segments": [
   {
    "clip": "V1",
-   "src": 0.234,
-   "beats": 4,
+   "src": 0.24499999999999988,
+   "speed": 1.1625,
+   "beats": 2,
+   "zoom": 1.0,
+   "label": null,
    "text": "Wyglądają jak gołe nogi…",
+   "pop": false,
    "start": 0,
-   "end": 1.9048
-  },
-  {
-   "clip": "VF",
-   "src": 0.5,
-   "beats": 4,
-   "text": "…a w środku polar.",
-   "start": 1.9048,
-   "end": 3.8095
+   "end": 0.8
   },
   {
    "clip": "V1",
-   "src": 2.984,
+   "src": 1.175,
+   "speed": 1.1625,
+   "beats": 2,
+   "zoom": 1.45,
+   "label": null,
+   "text": "Wyglądają jak gołe nogi…",
+   "pop": false,
+   "start": 0.8,
+   "end": 1.6
+  },
+  {
+   "clip": "VF",
+   "src": 0.4,
+   "speed": 1,
    "beats": 4,
+   "zoom": 1.0,
+   "push": 0.14,
+   "text": "…a w środku polar.",
+   "pop": true,
+   "start": 1.6,
+   "end": 3.2
+  },
+  {
+   "clip": "V1",
+   "src": 2.075,
+   "speed": 1.1625,
+   "beats": 2,
+   "zoom": 1.0,
    "label": "Cielisty",
-   "start": 3.8095,
-   "end": 5.7143
+   "text": null,
+   "pop": true,
+   "start": 3.2,
+   "end": 4.0
+  },
+  {
+   "clip": "V1",
+   "src": 3.0050000000000003,
+   "speed": 1.1625,
+   "beats": 2,
+   "zoom": 1.45,
+   "label": "Cielisty",
+   "text": null,
+   "pop": false,
+   "start": 4.0,
+   "end": 4.8
   },
   {
    "clip": "V2",
-   "src": 0.234,
-   "beats": 4,
+   "src": 0.23249999999999998,
+   "speed": 1.1937499999999999,
+   "beats": 2,
+   "zoom": 1.0,
    "label": "Czarny",
-   "start": 5.7143,
-   "end": 7.619
+   "text": null,
+   "pop": true,
+   "start": 4.8,
+   "end": 5.6
+  },
+  {
+   "clip": "V2",
+   "src": 1.1875,
+   "speed": 1.1937499999999999,
+   "beats": 2,
+   "zoom": 1.45,
+   "label": "Czarny",
+   "text": null,
+   "pop": false,
+   "start": 5.6,
+   "end": 6.4
   },
   {
    "clip": "V3",
-   "src": 0.274,
-   "beats": 4,
+   "src": 0.25,
+   "speed": 1.25,
+   "beats": 2,
+   "zoom": 1.0,
    "label": "Szary",
-   "start": 7.619,
-   "end": 9.5238
+   "text": null,
+   "pop": true,
+   "start": 6.4,
+   "end": 7.2
+  },
+  {
+   "clip": "V3",
+   "src": 1.25,
+   "speed": 1.25,
+   "beats": 2,
+   "zoom": 1.45,
+   "label": "Szary",
+   "text": null,
+   "pop": false,
+   "start": 7.2,
+   "end": 8.0
   },
   {
    "clip": "VS",
-   "src": 2.25,
-   "dur": 2.75,
+   "src": 2.2,
+   "speed": 1,
+   "beats": 7,
+   "zoom": 1.0,
    "text": "A za drzwiami…",
    "text2": "zima.",
-   "start": 9.5238,
-   "end": 12.2738,
-   "text2_at": 10.7238
+   "pop": true,
+   "start": 8.0,
+   "end": 10.8,
+   "text2_at": 9.25
   }
  ]
 }

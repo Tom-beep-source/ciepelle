@@ -68,15 +68,28 @@ def badge(scale=1.45):
 small=badge(); SMALL_Y=int(H*.142)
 
 class Clip:
-    def __init__(s,name): s.cap=cv2.VideoCapture(C+name+'.mp4'); s.n=int(s.cap.get(cv2.CAP_PROP_FRAME_COUNT)); s.last=-9
-    def frame(s,i):
-        i=min(i,s.n-1)
-        if i==s.last: return s.prev
-        if i!=s.last+1: s.cap.set(cv2.CAP_PROP_POS_FRAMES,i)   # lecture séquentielle sinon : pas de recherche à chaque image
-        ok,f=s.cap.read(); s.last=i
-        f=cv2.cvtColor(f,cv2.COLOR_BGR2RGB); h,w=f.shape[:2]; k=max(W/w,H/h)
-        f=cv2.resize(f,(round(w*k),round(h*k)),interpolation=cv2.INTER_LANCZOS4)
-        y=(f.shape[0]-H)//2; x=(f.shape[1]-W)//2; s.prev=f[y:y+H,x:x+W]; return s.prev
+    def __init__(s,name): s.cap=cv2.VideoCapture(C+name+'.mp4'); s.n=int(s.cap.get(cv2.CAP_PROP_FRAME_COUNT)); s.last=-1; s.cache={}
+    def raw(s,i):
+        i=max(0,min(i,s.n-1))
+        if i in s.cache: return s.cache[i]
+        if i<s.last or i>s.last+12: s.cap.set(cv2.CAP_PROP_POS_FRAMES,i); s.last=i-1   # sinon lecture séquentielle
+        while s.last<i:
+            ok,f=s.cap.read(); s.last+=1
+            f=cv2.cvtColor(f,cv2.COLOR_BGR2RGB); h,w=f.shape[:2]; k=max(W/w,H/h)
+            f=cv2.resize(f,(round(w*k),round(h*k)),interpolation=cv2.INTER_LANCZOS4)
+            y=(f.shape[0]-H)//2; x=(f.shape[1]-W)//2; s.cache[s.last]=f[y:y+H,x:x+W]
+            for k_ in [k_ for k_ in s.cache if k_<s.last-3]: del s.cache[k_]
+        return s.cache[i]
+    def at(s,src):
+        """image au temps src (s) ; entre deux images, fondu pondéré (la marche accélérée reste fluide)"""
+        f=src*FPS; i=int(math.floor(f)); w=f-i
+        if w<.25: return s.raw(i)
+        if w>.75: return s.raw(i+1)
+        return (s.raw(i)*(1-w)+s.raw(i+1)*w).astype(np.uint8)
+def zoomed(arr,z,cy=.5):
+    if z<=1.001: return arr
+    cw,ch=W/z,H/z; x0=(W-cw)/2; y0=min(max(cy*H-ch/2,0),H-ch)
+    return cv2.resize(arr[int(y0):int(y0+ch),int(x0):int(x0+cw)],(W,H),interpolation=cv2.INTER_CUBIC)
 clips={n:Clip(n) for n in {s['clip'] for s in SEGS}}
 
 proc=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-',
@@ -87,17 +100,21 @@ for fi in range(NF):
     t=fi/FPS
     if t<CUT:
         s=[x for x in SEGS if x['start']<=t+1e-6<x['end']+1e-6][0]
-        src=s['src']+(t-s['start']); fr=Image.fromarray(clips[s['clip']].frame(int(round(src*FPS)))).convert('RGBA')
+        lt=t-s['start']; src=s['src']+lt*s['speed']; arr=clips[s['clip']].at(src)
+        z=s['zoom']*(1+s.get('push',0)*lt/(s['end']-s['start']))
+        if s['start']>0: z*=1+.04*math.exp(-lt/.09)            # coup de zoom sur chaque coupe, qui se pose en 0,2 s
+        arr=zoomed(arr,z,.64 if s['zoom']>1 else .5)
+        fr=Image.fromarray(arr).convert('RGBA')
         fr.alpha_composite(small,((W-small.width)//2,SMALL_Y))
-        if 'text' in s:
-            p=1 if s['start']==0 else (t-s['start'])/.14        # 1re image : texte déjà plein (aperçu du fil)
+        if s.get('text'):
+            p=(t-s['start'])/.14 if s.get('pop') else 1        # 1re image et suite d'un même texte : déjà plein
             if 'text2' in s:
                 a2=min(1,max(0,(t-s['text2_at'])/.12))
                 im=caption([(s['text']+' ',1),(s['text2'],a2)])
             else: im=caption([(s['text'],1)])
             place_c(fr,pop(im,p),CAP_Y)
-        if 'label' in s:
-            place_c(fr,pop(caption([(s['label'],1)],size=46,track=12,upper=True),(t-s['start']-.04)/.14),CAP_Y)
+        if s.get('label'):
+            place_c(fr,pop(caption([(s['label'],1)],size=46,track=12,upper=True),(t-s['start']-.04)/.14 if s.get('pop') else 1),CAP_Y)
         arr=np.asarray(fr.convert('RGB'))
         if s['clip']=='VS':                 # dehors c'est l'hiver : la lumière se refroidit légèrement à mesure qu'elle sort
             k=min(1,max(0,(t-s['text2_at']+.6)/1.4))*.6

@@ -1,7 +1,8 @@
-# Ciepelle : pub « essayage » (inspirée de la structure de Le Collant Frenchie)
+# Ciepelle : pub « essayage »
 
-Pub de référence : Le Collant Frenchie (FR), 47,9 M de personnes atteintes selon TrendTrack, 10,8 s.
-On reprend sa **structure**, pas ses images, sa musique ni ses textes.
+Structure reprise d'une pub concurrente à 47,9 M de personnes atteintes (TrendTrack), phrases traduites en polonais. Rien dans la vidéo ne mentionne une autre marque que Ciepelle.
+
+Fichier final : `pub-essayage-ciepelle.mp4` (12,8 s, 1080×1920). 6 tenues : chair ×3, noir, gris ×2.
 
 | Temps | Plan | Texte (PL) |
 |---|---|---|

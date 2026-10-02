@@ -107,9 +107,9 @@ class Clip:
         if w<.25: return s.raw(i)
         if w>.75: return s.raw(i+1)
         return (s.raw(i)*(1-w)+s.raw(i+1)*w).astype(np.uint8)
-def zoomed(arr,z,cy=.5):
+def zoomed(arr,z,cy=.5,cx=.5):
     if z<=1.001: return arr
-    cw,ch=W/z,H/z; x0=(W-cw)/2; y0=min(max(cy*H-ch/2,0),H-ch)
+    cw,ch=W/z,H/z; x0=min(max(cx*W-cw/2,0),W-cw); y0=min(max(cy*H-ch/2,0),H-ch)
     return cv2.resize(arr[int(y0):int(y0+ch),int(x0):int(x0+cw)],(W,H),interpolation=cv2.INTER_CUBIC)
 clips={n:Clip(n) for n in {s['clip'] for s in SEGS}}
 
@@ -127,13 +127,17 @@ for fi in range(NF):
         dur=s['end']-s['start']
         if s.get('zoom_out_to') and lt>dur-.3:   # transition : zoom rapide vers la taille, enchaîné sur le plan polaire
             q=(lt-(dur-.3))/.3; z*=1+.9*q*q
-        arr=zoomed(arr,z,s.get('cy',.64 if s['zoom']>1 else .5))
+        arr=zoomed(arr,z,s.get('cy',.64 if s['zoom']>1 else .5),s.get('cx',.5))
         if s.get('hand'):                    # tenu au téléphone : micro-mouvements lents et naturels (pas de tremblement)
-            a=.35*math.sin(t*1.7)+.2*math.sin(t*3.1+1); dx=9*math.sin(t*1.3)+5*math.sin(t*2.9+2); dy=7*math.sin(t*1.1+.5)+4*math.sin(t*3.7)
+            hk=float(s['hand']); a=hk*(.35*math.sin(t*1.7)+.2*math.sin(t*3.1+1)); dx=hk*(9*math.sin(t*1.3)+5*math.sin(t*2.9+2)); dy=hk*(7*math.sin(t*1.1+.5)+4*math.sin(t*3.7))
             M=cv2.getRotationMatrix2D((W/2,H/2),a,1.045); M[0,2]+=dx; M[1,2]+=dy
             arr=cv2.warpAffine(arr,M,(W,H),flags=cv2.INTER_LINEAR,borderMode=cv2.BORDER_REFLECT)
         if s.get('whip') and lt<2.5/FPS:     # flou de mouvement horizontal sur les 2 premières images : effet « swipe »
             k=int(70*(1-lt*FPS/2.5))+1; ker=np.ones((1,k),np.float32)/k; arr=cv2.filter2D(arr,-1,ker)
+        if s.get('soft'):                    # couleurs adoucies : moins saturé, ombres relevées (rendu plus naturel, moins « kitsch »)
+            hsv=cv2.cvtColor(arr,cv2.COLOR_RGB2HSV).astype(np.float32); hsv[...,1]*=s['soft']
+            arr=cv2.cvtColor(np.clip(hsv,0,255).astype(np.uint8),cv2.COLOR_HSV2RGB)
+            arr=np.clip(arr.astype(np.float32)*.92+18,0,255).astype(np.uint8)
         fr=Image.fromarray(arr).convert('RGBA')
         fr.alpha_composite(small,((W-small.width)//2,SMALL_Y))
         if s.get('lines'):

@@ -12,7 +12,7 @@
    "clip": "E1",
    "src": 0,
    "speed": 1,
-   "hand": 1,
+   "hand": 0.5,
    "beats": 2,
    "zoom": 1.0,
    "push": 0.08,
@@ -27,8 +27,8 @@
   {
    "clip": "H1",
    "src": 2.6,
-   "speed": 1.2,
-   "hand": 1,
+   "speed": 1.1,
+   "hand": 0.5,
    "beats": 2.5,
    "zoom": 1.0,
    "lines": [
@@ -42,30 +42,31 @@
   },
   {
    "clip": "VF",
-   "src": 0.4,
-   "speed": 1,
-   "hand": 1,
-   "whip": 1,
+   "src": 0.6,
+   "speed": 0.8,
+   "hand": 0.4,
    "beats": 4.5,
-   "zoom": 1.0,
-   "push": 0.14,
+   "zoom": 1.75,
+   "push": 0.05,
+   "cx": 0.6,
+   "cy": 0.47,
+   "soft": 0.72,
    "lines": [
     "Ale…",
     "to *ocieplane rajstopy z polarem*",
     "na zimę"
    ],
    "pop": true,
-   "y": 0.235,
+   "y": 0.2,
    "start": 2.25,
    "end": 4.5
   },
   {
    "clip": "O1",
    "src": 0.5,
-   "speed": 1.4,
-   "hand": 1,
-   "whip": 1,
-   "beats": 1,
+   "speed": 1.15,
+   "hand": 0.5,
+   "beats": 2,
    "zoom": 1.0,
    "lines": [
     "Idealne, żeby nosić",
@@ -73,29 +74,14 @@
    ],
    "pop": true,
    "start": 4.5,
-   "end": 5.0
-  },
-  {
-   "clip": "O1",
-   "src": 1.2,
-   "speed": 1.4,
-   "hand": 1,
-   "beats": 1,
-   "zoom": 1.45,
-   "lines": [
-    "Idealne, żeby nosić",
-    "*lekkie stylizacje* tej zimy"
-   ],
-   "start": 5.0,
    "end": 5.5
   },
   {
    "clip": "O2",
    "src": 0.75,
-   "speed": 1.4,
-   "hand": 1,
-   "whip": 1,
-   "beats": 1,
+   "speed": 1.15,
+   "hand": 0.5,
+   "beats": 2,
    "zoom": 1.0,
    "lines": [
     "Idealne, żeby nosić",
@@ -103,29 +89,14 @@
    ],
    "pop": false,
    "start": 5.5,
-   "end": 6.0
-  },
-  {
-   "clip": "O2",
-   "src": 1.45,
-   "speed": 1.4,
-   "hand": 1,
-   "beats": 1,
-   "zoom": 1.45,
-   "lines": [
-    "Idealne, żeby nosić",
-    "*lekkie stylizacje* tej zimy"
-   ],
-   "start": 6.0,
    "end": 6.5
   },
   {
    "clip": "O5",
    "src": 0.67,
-   "speed": 1.4,
-   "hand": 1,
-   "whip": 1,
-   "beats": 1,
+   "speed": 1.15,
+   "hand": 0.5,
+   "beats": 2,
    "zoom": 1.0,
    "lines": [
     "Idealne, żeby nosić",
@@ -133,29 +104,14 @@
    ],
    "pop": false,
    "start": 6.5,
-   "end": 7.0
-  },
-  {
-   "clip": "O5",
-   "src": 1.37,
-   "speed": 1.4,
-   "hand": 1,
-   "beats": 1,
-   "zoom": 1.45,
-   "lines": [
-    "Idealne, żeby nosić",
-    "*lekkie stylizacje* tej zimy"
-   ],
-   "start": 7.0,
    "end": 7.5
   },
   {
    "clip": "O3",
-   "src": 1.4,
-   "speed": 1.4,
-   "hand": 1,
-   "whip": 1,
-   "beats": 1,
+   "src": 0.8,
+   "speed": 1.15,
+   "hand": 0.5,
+   "beats": 2,
    "zoom": 1.0,
    "lines": [
     "Idealne, żeby nosić",
@@ -163,61 +119,30 @@
    ],
    "pop": false,
    "start": 7.5,
-   "end": 8.0
-  },
-  {
-   "clip": "O3",
-   "src": 2.0999999999999996,
-   "speed": 1.4,
-   "hand": 1,
-   "beats": 1,
-   "zoom": 1.45,
-   "lines": [
-    "Idealne, żeby nosić",
-    "*lekkie stylizacje* tej zimy"
-   ],
-   "start": 8.0,
    "end": 8.5
   },
   {
    "clip": "O6",
    "src": 0,
    "speed": 1,
-   "hand": 1,
-   "whip": 1,
-   "beats": 1,
+   "hand": 0.5,
+   "beats": 2,
    "zoom": 1.0,
-   "push": 0.06,
+   "push": 0.05,
    "lines": [
     "Im więcej par,",
     "*tym więcej oszczędzasz*"
    ],
    "pop": true,
    "start": 8.5,
-   "end": 9.0
-  },
-  {
-   "clip": "O6",
-   "src": 0,
-   "speed": 1,
-   "hand": 1,
-   "beats": 1,
-   "zoom": 1.45,
-   "push": 0.06,
-   "lines": [
-    "Im więcej par,",
-    "*tym więcej oszczędzasz*"
-   ],
-   "start": 9.0,
    "end": 9.5
   },
   {
    "clip": "O4",
-   "src": 1.4,
-   "speed": 1.4,
-   "hand": 1,
-   "whip": 1,
-   "beats": 1,
+   "src": 0.8,
+   "speed": 1.15,
+   "hand": 0.5,
+   "beats": 2,
    "zoom": 1.0,
    "lines": [
     "Im więcej par,",
@@ -225,20 +150,6 @@
    ],
    "pop": false,
    "start": 9.5,
-   "end": 10.0
-  },
-  {
-   "clip": "O4",
-   "src": 2.0999999999999996,
-   "speed": 1.4,
-   "hand": 1,
-   "beats": 1,
-   "zoom": 1.45,
-   "lines": [
-    "Im więcej par,",
-    "*tym więcej oszczędzasz*"
-   ],
-   "start": 10.0,
    "end": 10.5
   }
  ]

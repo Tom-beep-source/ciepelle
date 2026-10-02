@@ -6,14 +6,14 @@ PROOF=['Ale…','to *rajstopy z polarem*','na zimę']
 OUT=['Idealne do *lekkich stylizacji*','tej zimy']
 OFFER=['*Zestaw 3 par*','już od 149 zł']          # offre réelle : 3 paires 80 g = 149 zł
 segs=[
- dict(clip='H1',src=0.2,speed=1,beats=5,zoom=1.0,lines=HOOK,pop=False),
- dict(clip='VF',src=.4, speed=1,beats=4,zoom=1.0,push=.14,lines=PROOF,pop=True,y=.235),
- dict(clip='O1',src=.2, speed=1,beats=2,zoom=1.0,lines=OUT,pop=True),
- dict(clip='O2',src=.2, speed=1,beats=2,zoom=1.0,lines=OUT),
- dict(clip='O5',src=.2, speed=1,beats=2,zoom=1.0,lines=OUT),
- dict(clip='O3',src=.2, speed=1,beats=2,zoom=1.0,lines=OUT),
- dict(clip='O6',src=0,  speed=1,beats=2,zoom=1.0,push=.05,lines=OFFER,pop=True),
- dict(clip='O4',src=.2, speed=1,beats=2,zoom=1.0,lines=OFFER),
+ dict(clip='H1',src=1.9,speed=1.2,hand=1,beats=5,zoom=1.0,lines=HOOK,pop=False),
+ dict(clip='VF',src=.4, speed=1,hand=1,beats=4,zoom=1.0,push=.14,lines=PROOF,pop=True,y=.235),
+ dict(clip='O1',src=0.5, speed=1.4,hand=1,whip=1,beats=2,zoom=1.0,lines=OUT,pop=True),
+ dict(clip='O2',src=0.75, speed=1.4,hand=1,whip=1,beats=2,zoom=1.0,lines=OUT),
+ dict(clip='O5',src=0.67, speed=1.4,hand=1,whip=1,beats=2,zoom=1.0,lines=OUT),
+ dict(clip='O3',src=1.55, speed=1.4,hand=1,whip=1,beats=2,zoom=1.0,lines=OUT),
+ dict(clip='O6',src=0,  speed=1,hand=1,whip=1,beats=2,zoom=1.0,push=.07,lines=OFFER,pop=True),
+ dict(clip='O4',src=1.55, speed=1.4,hand=1,whip=1,beats=2,zoom=1.0,lines=OFFER),
 ]
 t=0
 for s in segs:

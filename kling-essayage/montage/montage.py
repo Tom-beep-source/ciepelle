@@ -125,6 +125,12 @@ for fi in range(NF):
         z=s['zoom']*(1+s.get('push',0)*lt/(s['end']-s['start']))
         if s['start']>0: z*=1+.04*math.exp(-lt/.09)            # coup de zoom sur chaque coupe, qui se pose en 0,2 s
         arr=zoomed(arr,z,.64 if s['zoom']>1 else .5)
+        if s.get('hand'):                    # tenu au téléphone : micro-mouvements lents et naturels (pas de tremblement)
+            a=.35*math.sin(t*1.7)+.2*math.sin(t*3.1+1); dx=9*math.sin(t*1.3)+5*math.sin(t*2.9+2); dy=7*math.sin(t*1.1+.5)+4*math.sin(t*3.7)
+            M=cv2.getRotationMatrix2D((W/2,H/2),a,1.045); M[0,2]+=dx; M[1,2]+=dy
+            arr=cv2.warpAffine(arr,M,(W,H),flags=cv2.INTER_LINEAR,borderMode=cv2.BORDER_REFLECT)
+        if s.get('whip') and lt<2.5/FPS:     # flou de mouvement horizontal sur les 2 premières images : effet « swipe »
+            k=int(70*(1-lt*FPS/2.5))+1; ker=np.ones((1,k),np.float32)/k; arr=cv2.filter2D(arr,-1,ker)
         fr=Image.fromarray(arr).convert('RGBA')
         fr.alpha_composite(small,((W-small.width)//2,SMALL_Y))
         if s.get('lines'):

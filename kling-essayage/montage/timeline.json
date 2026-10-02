@@ -10,8 +10,9 @@
  "segments": [
   {
    "clip": "H1",
-   "src": 0.2,
-   "speed": 1,
+   "src": 1.9,
+   "speed": 1.2,
+   "hand": 1,
    "beats": 5,
    "zoom": 1.0,
    "lines": [
@@ -26,6 +27,7 @@
    "clip": "VF",
    "src": 0.4,
    "speed": 1,
+   "hand": 1,
    "beats": 4,
    "zoom": 1.0,
    "push": 0.14,
@@ -41,8 +43,10 @@
   },
   {
    "clip": "O1",
-   "src": 0.2,
-   "speed": 1,
+   "src": 0.5,
+   "speed": 1.4,
+   "hand": 1,
+   "whip": 1,
    "beats": 2,
    "zoom": 1.0,
    "lines": [
@@ -55,8 +59,10 @@
   },
   {
    "clip": "O2",
-   "src": 0.2,
-   "speed": 1,
+   "src": 0.75,
+   "speed": 1.4,
+   "hand": 1,
+   "whip": 1,
    "beats": 2,
    "zoom": 1.0,
    "lines": [
@@ -68,8 +74,10 @@
   },
   {
    "clip": "O5",
-   "src": 0.2,
-   "speed": 1,
+   "src": 0.67,
+   "speed": 1.4,
+   "hand": 1,
+   "whip": 1,
    "beats": 2,
    "zoom": 1.0,
    "lines": [
@@ -81,8 +89,10 @@
   },
   {
    "clip": "O3",
-   "src": 0.2,
-   "speed": 1,
+   "src": 1.55,
+   "speed": 1.4,
+   "hand": 1,
+   "whip": 1,
    "beats": 2,
    "zoom": 1.0,
    "lines": [
@@ -96,9 +106,11 @@
    "clip": "O6",
    "src": 0,
    "speed": 1,
+   "hand": 1,
+   "whip": 1,
    "beats": 2,
    "zoom": 1.0,
-   "push": 0.05,
+   "push": 0.07,
    "lines": [
     "*Zestaw 3 par*",
     "już od 149 zł"
@@ -109,8 +121,10 @@
   },
   {
    "clip": "O4",
-   "src": 0.2,
-   "speed": 1,
+   "src": 1.55,
+   "speed": 1.4,
+   "hand": 1,
+   "whip": 1,
    "beats": 2,
    "zoom": 1.0,
    "lines": [

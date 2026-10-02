@@ -1,5 +1,5 @@
 # Montage final 1080x1920 24 fps : vrais plans Kling + textes + logo, calé sur timeline.json (plan.py) et la bande-son (audio/music.py)
-import json, math, subprocess, numpy as np, cv2
+import json, math, os, subprocess, numpy as np, cv2
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 W,H,FPS=1080,1920,24
 A='../assets/'; C='../clips/'
@@ -47,6 +47,20 @@ def caption(parts, size=60, track=0, upper=False, ink=INK):
         if a<1: lay.putalpha(lay.split()[3].point(lambda v:int(v*a)))
         im=Image.alpha_composite(im,lay)
     return im
+BERRY=(122,41,68)
+def card(lines,size=52):
+    """lines = ['Ale…','to rajstopy *z polarem*'] ; *mot* = mis en valeur (couleur berry). Un seul bandeau clair arrondi."""
+    f=font(SANS,size,700); tmp=ImageDraw.Draw(Image.new('L',(1,1))); asc,desc=f.getmetrics()
+    parsed=[[(seg,i%2==1) for i,seg in enumerate(l.split('*')) if seg] for l in lines]
+    widths=[sum(tmp.textlength(t,font=f) for t,_ in l) for l in parsed]
+    px,py,lh=32,20,int(size*1.22); bw=int(max(widths)+2*px); bh=int(lh*len(lines)+2*py-size*.2)
+    im=Image.new('RGBA',(bw,bh),(0,0,0,0)); d=ImageDraw.Draw(im)
+    d.rounded_rectangle([0,0,bw-1,bh-1],radius=20,fill=CREAM+(240,))
+    for k,(l,w) in enumerate(zip(parsed,widths)):
+        x=(bw-w)/2; y=py+k*lh+asc*.8
+        for t,hl in l:
+            d.text((x,y),t,font=f,fill=(BERRY if hl else INK)+(255,),anchor='ls'); x+=tmp.textlength(t,font=f)
+    return im
 def pop(im,p):
     """apparition : léger zoom 0,94 -> 1 et fondu sur 0,14 s"""
     e=1-(1-min(1,max(0,p)))**3; s=.94+.06*e
@@ -68,8 +82,15 @@ def badge(scale=1.45):
 small=badge(); SMALL_Y=int(H*.142)
 
 class Clip:
-    def __init__(s,name): s.cap=cv2.VideoCapture(C+name+'.mp4'); s.n=int(s.cap.get(cv2.CAP_PROP_FRAME_COUNT)); s.last=-1; s.cache={}
+    def __init__(s,name):
+        s.still=None; s.last=-1; s.cache={}
+        if os.path.exists(C+name+'.png'):
+            f=cv2.cvtColor(cv2.imread(C+name+'.png'),cv2.COLOR_BGR2RGB); h,w=f.shape[:2]; k=max(W/w,H/h)
+            f=cv2.resize(f,(round(w*k),round(h*k)),interpolation=cv2.INTER_AREA); y=(f.shape[0]-H)//2; x=(f.shape[1]-W)//2
+            s.still=f[y:y+H,x:x+W]; s.n=1; return
+        s.cap=cv2.VideoCapture(C+name+'.mp4'); s.n=int(s.cap.get(cv2.CAP_PROP_FRAME_COUNT))
     def raw(s,i):
+        if s.still is not None: return s.still
         i=max(0,min(i,s.n-1))
         if i in s.cache: return s.cache[i]
         if i<s.last or i>s.last+12: s.cap.set(cv2.CAP_PROP_POS_FRAMES,i); s.last=i-1   # sinon lecture séquentielle
@@ -106,6 +127,8 @@ for fi in range(NF):
         arr=zoomed(arr,z,.64 if s['zoom']>1 else .5)
         fr=Image.fromarray(arr).convert('RGBA')
         fr.alpha_composite(small,((W-small.width)//2,SMALL_Y))
+        if s.get('lines'):
+            place_c(fr,pop(card(s['lines'],s.get('size',52)),(t-s['start'])/.14 if s.get('pop') else 1),int(H*s.get('y',.36)))
         if s.get('text'):
             p=(t-s['start'])/.14 if s.get('pop') else 1        # 1re image et suite d'un même texte : déjà plein
             if 'text2' in s:

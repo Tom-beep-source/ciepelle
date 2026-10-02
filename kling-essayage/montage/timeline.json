@@ -9,27 +9,11 @@
  "snow_steps": [],
  "segments": [
   {
-   "clip": "E1",
-   "src": 0,
-   "speed": 1,
-   "hand": 0.5,
-   "beats": 2,
-   "zoom": 1.0,
-   "push": 0.08,
-   "lines": [
-    "Wyglądają jak zwykłe",
-    "*przezroczyste rajstopy*, ale…"
-   ],
-   "pop": false,
-   "start": 0,
-   "end": 1.0
-  },
-  {
    "clip": "H1",
-   "src": 2.6,
+   "src": 2.4,
    "speed": 1.1,
    "hand": 0.5,
-   "beats": 2.5,
+   "beats": 4.5,
    "zoom": 1.0,
    "lines": [
     "Wyglądają jak zwykłe",
@@ -37,7 +21,7 @@
    ],
    "zoom_out_to": 1,
    "cy": 0.42,
-   "start": 1.0,
+   "start": 0,
    "end": 2.25
   },
   {
@@ -46,10 +30,10 @@
    "speed": 0.8,
    "hand": 0.4,
    "beats": 4.5,
-   "zoom": 1.75,
+   "zoom": 1.45,
    "push": 0.05,
-   "cx": 0.6,
-   "cy": 0.47,
+   "cx": 0.48,
+   "cy": 0.48,
    "soft": 0.72,
    "lines": [
     "Ale…",

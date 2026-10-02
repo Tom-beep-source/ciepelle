@@ -1,0 +1,84 @@
+{
+ "bpm": 120,
+ "dur": 11.1,
+ "fade_start": 8.49,
+ "cut": 8.5,
+ "impact": 8.5,
+ "outside": 13.5,
+ "heels": [],
+ "snow_steps": [],
+ "segments": [
+  {
+   "clip": "H1",
+   "src": 0.2,
+   "speed": 1,
+   "beats": 5,
+   "zoom": 1.0,
+   "text": "Wyglądają jak cienkie rajstopy…",
+   "size": 54,
+   "pop": false,
+   "start": 0,
+   "end": 2.5
+  },
+  {
+   "clip": "VF",
+   "src": 0.4,
+   "speed": 1,
+   "beats": 4,
+   "zoom": 1.0,
+   "push": 0.14,
+   "text": "…ale w środku mają polar.",
+   "pop": true,
+   "start": 2.5,
+   "end": 4.5
+  },
+  {
+   "clip": "O1",
+   "src": 0.3,
+   "speed": 1,
+   "beats": 2,
+   "zoom": 1.0,
+   "text": "Lekkie stylizacje nawet zimą",
+   "size": 56,
+   "pop": true,
+   "start": 4.5,
+   "end": 5.5
+  },
+  {
+   "clip": "O2",
+   "src": 0.3,
+   "speed": 1,
+   "beats": 2,
+   "zoom": 1.0,
+   "text": "Lekkie stylizacje nawet zimą",
+   "size": 56,
+   "pop": false,
+   "start": 5.5,
+   "end": 6.5
+  },
+  {
+   "clip": "O3",
+   "src": 0.3,
+   "speed": 1,
+   "beats": 2,
+   "zoom": 1.0,
+   "text": "Lekkie stylizacje nawet zimą",
+   "size": 56,
+   "pop": false,
+   "start": 6.5,
+   "end": 7.5
+  },
+  {
+   "clip": "O4",
+   "src": 0.3,
+   "speed": 1,
+   "beats": 2,
+   "zoom": 1.0,
+   "text": "Lekkie stylizacje nawet zimą",
+   "size": 56,
+   "pop": false,
+   "start": 7.5,
+   "end": 8.5
+  }
+ ]
+}

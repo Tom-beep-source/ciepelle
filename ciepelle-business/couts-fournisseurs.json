@@ -1,0 +1,18 @@
+{
+ "_lisez_moi": "Prix d'achat AliExpress en dollars ($) PAR PAIRE, tels qu'affichés dans DSers (onglet Mapping, colonne 'Cost'). Remplacer chaque valeur puis mettre 'releve': true. Lancer : python3 marges.py",
+ "taux": {"usd_pln": 3.65, "eur_pln": 4.25},
+ "frais_pct": 0.03, "retours_pct": 0.05, "tva_pl": 0.23,
+ "livraison_usd_par_paire": 0.99,
+ "stones_store": {
+  "releve": false,
+  "Cielisty": {"80": 3.81, "220": 5.80, "300": 7.84},
+  "Czarny":   {"80": 3.81, "220": 5.80, "300": 7.84},
+  "Szary":    {"80": 3.81, "220": 5.80, "300": 7.84}
+ },
+ "cozok_trio": {
+  "releve": false,
+  "Cielisty": {"80": 3.81, "220": 5.80, "300": 7.84},
+  "Czarny":   {"80": 3.81, "220": 5.80, "300": 7.84},
+  "Szary":    {"80": 3.81, "220": 5.80, "300": 7.84}
+ }
+}

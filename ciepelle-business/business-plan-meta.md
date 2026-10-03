@@ -13,7 +13,7 @@ Rédigé le 1er octobre 2026. Les montants sont en zł, avec l'équivalent en �
 > - **Provision retours et litiges :** 5 % du prix TTC.
 > - **TVA polonaise de 23 % :** incluse dans le prix et reversée. Votre situation de TVA est à valider avec un comptable : micro-entreprise française qui vend à des particuliers polonais, régime OSS au-delà de 10 000 € de ventes à distance dans l'UE.
 >
-> Dès que les vrais coûts DSers sont relevés (Coffee / Black / Grey × 80 / 220 / 300 g), il faut refaire le tableau 1.
+> **Mise à jour du 3 octobre :** le détail des marges des 27 déclinaisons et des 3 Trio, avec et sans TVA, est dans `marges.md`. Il est calculé par `marges.py` à partir de `couts-fournisseurs.json`. Les coûts y sont encore **estimés** : AliExpress bloque la lecture automatique (vérification anti-robot), et les coûts ne sont pas enregistrés dans Shopify. Dès que les 12 prix DSers sont saisis (Stone's Store : 9 ; COZOK : 3 couleurs × 3 grammages), lancer `python3 marges.py`, puis recopier les lignes « 1 paire / 2 paires / 3 paires » ci-dessous.
 
 ---
 
@@ -30,6 +30,11 @@ Rédigé le 1er octobre 2026. Les montants sont en zł, avec l'équivalent en �
 | 300 g × 1 | 119 zł (28,0 €) | 55 zł (12,9 €) | 2,16 | 55 zł (12,9 €) |
 | 300 g × 2 | 179 zł (42,1 €) | 67 zł (15,7 €) | 2,68 | 67 zł (15,7 €) |
 | 300 g × 3 | 229 zł (53,9 €) | 71 zł (16,7 €) | 3,22 | 71 zł (16,7 €) |
+| Trio 80 g (chair + noir + gris) | 149 zł (35,1 €) | 57 zł (13,3 €) | 2,63 | 57 zł (13,3 €) |
+| Trio 220 g | 189 zł (44,5 €) | 64 zł (15,1 €) | 2,94 | 64 zł (15,1 €) |
+| Trio 300 g | 229 zł (53,9 €) | 71 zł (16,7 €) | 3,22 | 71 zł (16,7 €) |
+
+Marges calculées **avec la TVA polonaise de 23 %**. En franchise de TVA, elles sont 15 à 43 zł (≈ 3,5 à 10 €) plus élevées : voir `marges.md`.
 
 \* **ROAS de rentabilité** : chiffre d'affaires ÷ dépense pub en dessous duquel vous perdez de l'argent.
 \*\* **Coût max par vente (CPA)** : au-delà, chaque vente fait perdre de l'argent.

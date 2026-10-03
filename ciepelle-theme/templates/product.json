@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "product",
+      "settings": {
+        "eyebrow": "Nadchodzą mrozy ❄️",
+        "headline": "Rajstopy ocieplane polarem z efektem nagich nóg",
+        "subheadline": "Zima tuż-tuż – zadbaj o ciepłe nogi. Wyglądają jak cienkie cieliste rajstopy, a grzeją jak polarowe legginsy.",
+        "size_html": "<table><tr><th>Rozmiar</th><th>Waga</th></tr><tr><td>Uniwersalny (one size)</td><td>ok. 40–70 kg</td></tr></table><p>Rajstopy są bardzo elastyczne i dopasowują się do sylwetki. Masz wątpliwości co do rozmiaru? Napisz do nas – doradzimy.</p>",
+        "care_html": "<p><b>Skład:</b> 90% poliester, 10% elastan (dzianina z ociepleniem polarowym od środka).</p><p><b>Gramatura:</b> 80 g, 220 g lub 300 g.</p><ul><li>Prać ręcznie lub w pralce w programie delikatnym do 30°C, najlepiej w woreczku do prania</li><li>Nie wybielać</li><li>Nie suszyć w suszarce bębnowej</li><li>Nie prasować</li></ul>",
+        "gpsr_html": "<p><b>Producent:</b> COZOK, prowincja Zhejiang, Chiny (kraj pochodzenia: Chiny).</p><p><b>Podmiot odpowiedzialny w UE:</b> Tom Canal EI, 68 Avenue des Pyrénées, 31600 Muret, Francja, SIRET 10762343100015 – kontakt: support@purrpeak.com.</p><p>Produkt nie zawiera substancji wzbudzających szczególnie duże obawy (SVHC) według deklaracji producenta. Produkt przeznaczony dla osób dorosłych. Przed pierwszym użyciem usuń wszystkie metki i elementy opakowania. Nie stosować w pobliżu otwartego ognia.</p>",
+        "w80": "1,13,6,0,12,4,9,10,14,7",
+        "w220": "0,13,2,1,3,4,9,10,14,7,8",
+        "w300": "11,13,5,2,3,0,9,10,14,8"
+      }
+    }
+  },
+  "order": ["main"]
+}

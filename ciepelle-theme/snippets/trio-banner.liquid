@@ -1,0 +1,26 @@
+{%- assign trio = all_products['zestaw-trio-rajstopy-z-polarem'] -%}
+{%- if trio != blank and trio.available -%}
+<section class="section trio-band">
+  <div class="page trio-band__grid">
+    <a class="trio-band__img" href="{{ trio.url }}">{{ trio.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', alt: trio.title, sizes: '(min-width: 900px) 45vw, 100vw' }}</a>
+    <div>
+      <span class="eyebrow">🎨 Zestaw Trio</span>
+      <h2>Po jednej parze w każdym kolorze</h2>
+      <p class="muted">Cielisty, czarny i szary – trzy pary rajstop z polarem w cenie zestawu 3 par. Wybierasz tylko grubość polaru, a do każdej stylizacji masz idealny kolor.</p>
+      <div class="trio-band__dots"><span><i style="background:linear-gradient(135deg,#E4C1A9,#C99A7E)"></i>cielisty</span><span><i style="background:#232022"></i>czarny</span><span><i style="background:linear-gradient(135deg,#B9BBC0,#8C8F96)"></i>szary</span></div>
+      <p class="trio-band__price">3 pary od <b>{{ trio.price_min | money_without_trailing_zeros }}</b></p>
+      <a href="{{ trio.url }}" class="btn btn--primary">Wybieram Zestaw Trio</a>
+    </div>
+  </div>
+</section>
+<style>
+.trio-band__grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.trio-band__img img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;display:block}
+.trio-band__dots{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.trio-band__dots span{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:99px;padding:6px 12px 6px 6px;font-size:.9rem;background:#fff}
+.trio-band__dots i{width:20px;height:20px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.trio-band__price{font-size:1.1rem;margin:0 0 18px}
+.trio-band__price b{font-family:var(--serif);font-weight:400;font-size:1.8rem;color:var(--berry)}
+@media(max-width:900px){.trio-band__grid{grid-template-columns:1fr;gap:22px}}
+</style>
+{%- endif -%}

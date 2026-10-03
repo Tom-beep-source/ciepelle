@@ -1,0 +1,35 @@
+{%- comment -%} Comparatif des 3 grammages (photos polaire) – utilisé sur l'accueil (#grubosc). Paramètre : p = produit principal {%- endcomment -%}
+<section class="wcmp" id="grubosc">
+  <div class="page">
+    <div class="section__head">
+      <span class="eyebrow">🌡️ Trzy grubości polaru</span>
+      <h2>Ile ciepła potrzebujesz?</h2>
+      <p class="muted">Z zewnątrz każda wersja wygląda tak samo – jak cienkie rajstopy na gołych nogach. Różnica jest w środku.</p>
+    </div>
+    <div class="wcmp__grid">
+      {%- assign wcmp_n = '80 g|220 g|300 g' | split: '|' -%}
+      {%- assign wcmp_f = 'ciepelle-polar-80g.jpg|ciepelle-polar-220g.jpg|ciepelle-polar-300g.jpg' | split: '|' -%}
+      {%- assign wcmp_t = 'Lekki polar|Puszysty polar|Gruby polar' | split: '|' -%}
+      {%- assign wcmp_s = '🍂 Jesień, chłodne dni, ogrzewane biuro|❄️ Typowa polska zima – nasz bestseller|🥶 Mróz, długie spacery, przystanek o 7:00' | split: '|' -%}
+      {%- assign wcmp_d = 'Cienka, gładka warstwa od środka. Najbardziej subtelny efekt i swoboda ruchu przez cały dzień.|Miękki, puszysty polar, który wyraźnie trzyma ciepło. Najlepszy wybór na większość zimowych dni.|Gęsty, mięsisty polar jak w kocyku. Dla tych, które marzną najbardziej albo dużo czasu spędzają na zewnątrz.' | split: '|' -%}
+      {%- for w in wcmp_n -%}
+        {%- assign i = forloop.index0 -%}
+        {%- assign wmin = 0 -%}
+        {%- assign wvar = nil -%}
+        {%- for v in p.variants -%}{%- if v.option3 == w -%}{%- if wmin == 0 or v.price < wmin -%}{%- assign wmin = v.price -%}{%- endif -%}{%- if v.option1 contains 'najczęściej' and v.option2 == 'Cielisty' -%}{%- assign wvar = v -%}{%- endif -%}{%- endif -%}{%- endfor -%}
+        <article class="wcmp__card{% if forloop.index == 2 %} is-best{% endif %}">
+          {%- if forloop.index == 2 -%}<span class="wcmp__tag">Najczęściej wybierany</span>{%- endif -%}
+          <div class="wcmp__img">{{ images[wcmp_f[i]] | image_url: width: 700 | image_tag: loading: 'lazy', alt: wcmp_t[i], sizes: '(min-width: 900px) 30vw, 100vw' }}</div>
+          <div class="wcmp__body">
+            <div class="wcmp__top"><b>{{ w }}</b><span class="wcmp__heat" aria-label="Poziom ciepła {{ forloop.index }} z 3">{% for k in (1..3) %}<i{% if k <= forloop.parentloop.index %} class="on"{% endif %}></i>{% endfor %}</span></div>
+            <h3>{{ wcmp_t[i] }}</h3>
+            <p class="wcmp__when">{{ wcmp_s[i] }}</p>
+            <p class="muted">{{ wcmp_d[i] }}</p>
+            <a class="btn btn--ghost btn--block" href="{{ p.url }}{% if wvar %}?variant={{ wvar.id }}{% endif %}">Wybieram {{ w }} – od {{ wmin | money_without_trailing_zeros }}</a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+    <p class="wcmp__note">Zdjęcia poglądowe przedstawiające różnicę w grubości polaru.</p>
+  </div>
+</section>

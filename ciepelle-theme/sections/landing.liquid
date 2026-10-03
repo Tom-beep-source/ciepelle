@@ -1,0 +1,177 @@
+{%- assign p = section.settings.product -%}
+{%- if p == blank -%}{%- assign p = collections.all.products.first -%}{%- endif -%}
+{%- assign min_per = p.price_min -%}
+{%- for v in p.variants -%}
+  {%- assign n = v.option1 | slice: 0 | plus: 0 -%}
+  {%- if n > 0 -%}{%- assign per = v.price | divided_by: n -%}{%- if per < min_per -%}{%- assign min_per = per -%}{%- endif -%}{%- endif -%}
+{%- endfor -%}
+
+<section class="hero2">
+  <div class="page hero2__text">
+    <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+    <h1>{{ section.settings.title }}</h1>
+    <p class="hero2__lead">{{ section.settings.lead }}</p>
+    <div class="hero2__cta">
+      <a href="{{ p.url }}" class="btn btn--primary">Odkryj rajstopy</a>
+      <a href="#grubosc" class="hero2__link">Jak wybrać grubość</a>
+    </div>
+  </div>
+  <div class="page hero2__gallery">
+    {%- assign g1 = p.media[section.settings.img_left] -%}
+    {%- assign g2 = p.media[section.settings.hero_index] -%}
+    {%- assign g3 = p.media[section.settings.img_right] -%}
+    <figure class="hero2__fig hero2__fig--side">{% if g1 %}{{ g1 | image_url: width: 700 | image_tag: loading: 'eager', alt: 'Rajstopy Ciepelle do kozaków', sizes: '(min-width: 900px) 28vw, 50vw' }}{% endif %}<figcaption>Efekt nagich nóg</figcaption></figure>
+    <figure class="hero2__fig hero2__fig--main">{% if g2 %}{{ g2 | image_url: width: 1000 | image_tag: loading: 'eager', fetchpriority: 'high', alt: 'Rajstopy ocieplane polarem – stylizacja miejska', sizes: '(min-width: 900px) 40vw, 100vw' }}{% endif %}<figcaption>Na co dzień, od rana do wieczora</figcaption></figure>
+    <figure class="hero2__fig hero2__fig--side">{% if g3 %}{{ g3 | image_url: width: 700 | image_tag: loading: 'eager', alt: 'Miękki polar od środka', sizes: '(min-width: 900px) 28vw, 50vw' }}{% endif %}<figcaption>Miękki polar od środka</figcaption></figure>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="page trust__grid">
+    <div class="trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><div>Darmowa dostawa<small>w całej Polsce</small></div></div>
+    <div class="trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/></svg><div>14 dni na zwrot<small>bez podawania przyczyny</small></div></div>
+    <div class="trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div>Bezpieczne płatności<small>BLIK, karta, PayPal</small></div></div>
+    <div class="trust__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v11H8l-4 4z"/></svg><div>Obsługa po polsku<small>odpowiedź w 24 h</small></div></div>
+  </div>
+</div>
+
+<section class="section season">
+  <div class="page season__grid">
+    <div>
+      <span class="eyebrow">Sezon chłodów</span>
+      <h2>Zima puka do drzwi. Zadbaj o ciepło, zanim złapie Cię chłód.</h2>
+      <p class="muted">Za oknem coraz zimniej, a poranki na przystanku robią się naprawdę mroźne. Nasze babcie zawsze powtarzały: <b>„Ubierz się ciepło!”</b> – i miały rację.</p>
+      <p class="muted">Z Ciepelle nie musisz wybierać między elegancką sukienką a ciepłymi nogami. Zamów teraz – paczka dotrze, zanim przyjdą największe mrozy.</p>
+      <a href="{{ p.url }}" class="btn btn--primary">Zamawiam przed mrozami ❄️</a>
+    </div>
+    <div class="season__cards">
+      <div class="season__card"><b>🚏 Przystanek o 7:00</b><span>Poranny mróz, a Ty w sukience – i ciepło w nogi.</span></div>
+      <div class="season__card"><b>🏢 Chłodne biuro</b><span>Elegancko na spotkaniu, komfortowo przez cały dzień.</span></div>
+      <div class="season__card"><b>🎄 Święta i wyjścia</b><span>Wigilia, sylwester, kolacja ze znajomymi – bez marznięcia.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="page split">
+    <div class="split__media">
+      {%- assign img2 = p.media[section.settings.problem_index] -%}
+      {%- if img2 -%}{{ img2 | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'Ciepły polar od środka rajstop', sizes: '(min-width: 900px) 45vw, 100vw' }}{%- endif -%}
+    </div>
+    <div>
+      <span class="eyebrow">Znasz to?</span>
+      <h2>Zmarznięte nogi albo grube legginsy? Już nie musisz wybierać.</h2>
+      <p class="muted">Zwykłe rajstopy nie chronią przed zimnem, a grube rajstopy i legginsy nie pasują do sukienki ani eleganckiej stylizacji. Ciepelle łączą jedno z drugim: od środka miękki, gruby polar, a na zewnątrz – delikatny efekt cielistej skóry.</p>
+      <p class="muted">Efekt? Nogi wyglądają jak w cienkich rajstopach, a Ty czujesz się, jakbyś miała na sobie ciepłe legginsy. Idealne na przystanek, do biura, na randkę i świąteczne wyjścia.</p>
+      <a href="{{ p.url }}" class="btn btn--primary">Sprawdź kolory i zestawy</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="page">
+    <div class="section__head">
+      <span class="eyebrow">Dlaczego Ciepelle</span>
+      <h2>Wszystko, czego oczekujesz od zimowych rajstop</h2>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="card__icon">❄️</div><h3>Polar do wyboru</h3><p>Miękka, puszysta warstwa od środka w trzech grubościach: 80 g, 220 g lub 300 g – na jesień, zimę i mróz.</p></div>
+      <div class="card"><div class="card__icon">✨</div><h3>Efekt nagich nóg</h3><p>Cielista warstwa wewnętrzna prześwituje przez cienki materiał – wygląda jak skóra w rajstopach.</p></div>
+      <div class="card"><div class="card__icon">👗</div><h3>Wysoki stan</h3><p>Szeroki pas sięga wysoko w talii, wygładza brzuch i nie zsuwa się w ciągu dnia.</p></div>
+      <div class="card"><div class="card__icon">🤸‍♀️</div><h3>Elastyczne i wygodne</h3><p>Dopasowują się do ciała i nie krępują ruchów – noś je cały dzień.</p></div>
+      <div class="card"><div class="card__icon">🧺</div><h3>Na wiele sezonów</h3><p>Pierz delikatnie w 30°C, a posłużą Ci przez całą zimę i kolejne.</p></div>
+      <div class="card"><div class="card__icon">🎁</div><h3>Świetny prezent</h3><p>Praktyczny i trafiony prezent dla mamy, siostry czy przyjaciółki na zimę i święta.</p></div>
+    </div>
+  </div>
+</section>
+
+{% render 'weight-compare', p: p %}
+
+<section class="section">
+  <div class="page">
+    <div class="section__head">
+      <span class="eyebrow">Porównanie</span>
+      <h2>Ciepelle vs. to, co już znasz</h2>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="compare">
+        <thead><tr><th></th><th class="is-us">Ciepelle</th><th>Zwykłe rajstopy</th><th>Legginsy polarowe</th></tr></thead>
+        <tbody>
+          <tr><td>Ciepło w mroźne dni</td><td class="yes">✓</td><td class="no">✕</td><td class="yes">✓</td></tr>
+          <tr><td>Wyglądają jak cienkie rajstopy</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✕</td></tr>
+          <tr><td>Pasują pod sukienkę i spódnicę</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✕</td></tr>
+          <tr><td>Wysoki, wygładzający stan</td><td class="yes">✓</td><td class="no">✕</td><td class="no">✕</td></tr>
+          <tr><td>Miękki polar od środka</td><td class="yes">✓</td><td class="no">✕</td><td class="yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="page">
+    <div class="section__head"><span class="eyebrow">To proste</span><h2>Jak zamówić?</h2></div>
+    <div class="steps">
+      <div class="step"><h3>Wybierz grubość, kolor i zestaw</h3><p class="muted">80, 220 lub 300 g, cielisty, czarny lub szary. W zestawie 2 lub 3 par płacisz mniej za każdą parę.</p></div>
+      <div class="step"><h3>Zapłać wygodnie</h3><p class="muted">BLIK, karta, Apple Pay, Google Pay lub PayPal. Potwierdzenie zamówienia otrzymasz od razu na e-mail.</p></div>
+      <div class="step"><h3>Odbierz i ciesz się ciepłem</h3><p class="muted">Darmowa dostawa w 7–12 dni roboczych. Numer przesyłki wyślemy Ci e-mailem.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="page">
+    <div class="guarantee">
+      <div class="seal"><span><b>14</b>dni na zwrot</span></div>
+      <div>
+        <h2>Kupujesz bez ryzyka</h2>
+        <p>Jeśli rajstopy Ci nie odpowiadają, masz 14 dni na odstąpienie od umowy bez podawania przyczyny. Wystarczy napisać do nas e-mail.</p>
+      </div>
+      <a href="{{ p.url }}" class="btn btn--primary">Zamawiam</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="page">
+    <div class="section__head"><span class="eyebrow">FAQ</span><h2>Najczęstsze pytania</h2></div>
+    <div class="faq">
+      <details><summary>Czy te rajstopy naprawdę grzeją?</summary><div>Tak. Od środka mają miękki polar (80, 220 lub 300 g), który zatrzymuje ciepło. To zupełnie inny poziom niż zwykłe rajstopy.</div></details>
+      <details><summary>Czy wytrzymają polską zimę?</summary><div>Wersje 220 g i 300 g sprawdzają się w chłodne i mroźne dni – na przystanku, w drodze do pracy czy na spacerze. Przy bardzo silnym mrozie polecamy połączyć je z długim płaszczem i ciepłymi butami.</div></details>
+      <details><summary>Jaką grubość wybrać?</summary><div><b>80 g</b> – jesień, chłodne dni i ogrzewane biuro. <b>220 g</b> – typowa polska zima, nasz najpopularniejszy wybór. <b>300 g</b> – mróz i długie wyjścia na zewnątrz.</div></details>
+      <details><summary>Czy widać, że to grube rajstopy?</summary><div>Z zewnątrz rajstopy mają delikatny, cielisty efekt prześwitu – z odległości wyglądają jak cienkie rajstopy na gołych nogach. Z bliska widać lekko matowe wykończenie.</div></details>
+      <details><summary>Jaki rozmiar wybrać?</summary><div>Rajstopy są w rozmiarze uniwersalnym i bardzo elastyczne. Najlepiej pasują na sylwetki ok. 40–70 kg. Szczegóły znajdziesz na stronie produktu w sekcji „Rozmiar i dopasowanie”.</div></details>
+      <details><summary>Jaki kolor wybrać – cielisty, czarny czy szary?</summary><div>Cielisty daje efekt „nagich nóg” i pasuje do jasnych i eleganckich stylizacji. Czarny to klasyka – efekt czarnych, lekko prześwitujących rajstop. Szary to modny, chłodny odcień, który dobrze pasuje do czerni, bieli i denimu.</div></details>
+      <details><summary>Ile trwa dostawa i ile kosztuje?</summary><div>Dostawa jest darmowa. Paczka dociera zwykle w 7–12 dni roboczych. Po wysyłce otrzymasz e-mail z numerem przesyłki.</div></details>
+      <details><summary>Czy mogę zwrócić rajstopy?</summary><div>Tak, masz 14 dni od otrzymania paczki na odstąpienie od umowy bez podawania przyczyny. Wszystkie informacje znajdziesz w zakładce <a href="/pages/zwroty-i-reklamacje">Zwroty i reklamacje</a>.</div></details>
+      <details><summary>Jak prać rajstopy?</summary><div>Najlepiej ręcznie lub w pralce w programie delikatnym do 30°C, w woreczku do prania. Nie wybielać, nie suszyć w suszarce bębnowej.</div></details>
+      <details><summary>Jak mogę się z Wami skontaktować?</summary><div>Napisz do nas na <a href="mailto:{{ shop.email }}">{{ shop.email }}</a> – odpowiadamy w ciągu 24 godzin w dni robocze.</div></details>
+    </div>
+  </div>
+</section>
+
+<section class="section center">
+  <div class="page">
+    <h2>Tej zimy nie marznij dla stylu</h2>
+    <p class="muted">Darmowa dostawa · 14 dni na zwrot · od {{ min_per | money_without_trailing_zeros }} za parę w zestawie</p>
+    <a href="{{ p.url }}" class="btn btn--primary">Odkryj rajstopy</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Strona główna – landing",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produkt" },
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "Kolekcja jesień–zima 2026" },
+    { "type": "text", "id": "title", "label": "Tytuł", "default": "Elegancja, która grzeje." },
+    { "type": "textarea", "id": "lead", "label": "Wstęp", "default": "Rajstopy z miękkim polarem od środka i efektem nagich nóg na zewnątrz. Zaprojektowane na polską zimę – dla kobiet, które nie chcą wybierać między stylem a ciepłem." },
+    { "type": "number", "id": "hero_index", "label": "Zdjęcie hero (numer od 0)", "default": 1 },
+    { "type": "number", "id": "img_left", "label": "Zdjęcie lewe", "default": 6 },
+    { "type": "number", "id": "img_right", "label": "Zdjęcie prawe", "default": 5 },
+    { "type": "text", "id": "w_imgs", "label": "Zdjęcia grubości (80,220,300)", "default": "12,0,11" },
+    { "type": "number", "id": "problem_index", "label": "Zdjęcie sekcji problem (numer od 0)", "default": 4 }
+  ],
+  "presets": [{ "name": "Landing" }]
+}
+{% endschema %}

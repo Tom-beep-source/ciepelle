@@ -1,0 +1,107 @@
+{
+ "bpm": 120,
+ "dur": 10.0,
+ "fade_start": 7.99,
+ "cut": 8.0,
+ "impact": 8.0,
+ "outside": 13.0,
+ "heels": [],
+ "snow_steps": [],
+ "segments": [
+  {
+   "clip": "V1",
+   "src": 0.25,
+   "speed": 1,
+   "beats": 4,
+   "zoom": 1.0,
+   "hand": 0.5,
+   "lines": [
+    "Sukienka zimą",
+    "i *nie marzniesz*?"
+   ],
+   "pop": false,
+   "start": 0,
+   "end": 2.0
+  },
+  {
+   "clip": "VF",
+   "src": 0.6,
+   "speed": 0.8,
+   "beats": 4,
+   "zoom": 1.45,
+   "hand": 0.4,
+   "lines": [
+    "Sekret?",
+    "*Polar w środku.*"
+   ],
+   "pop": true,
+   "push": 0.05,
+   "cx": 0.48,
+   "cy": 0.48,
+   "soft": 0.72,
+   "y": 0.2,
+   "start": 2.0,
+   "end": 4.0
+  },
+  {
+   "clip": "O1",
+   "src": 0.5,
+   "speed": 1.15,
+   "beats": 2,
+   "zoom": 1.0,
+   "hand": 0.5,
+   "lines": [
+    "Wyglądają jak",
+    "*cienkie rajstopy*"
+   ],
+   "pop": true,
+   "start": 4.0,
+   "end": 5.0
+  },
+  {
+   "clip": "O2",
+   "src": 0.75,
+   "speed": 1.15,
+   "beats": 2,
+   "zoom": 1.0,
+   "hand": 0.5,
+   "lines": [
+    "Wyglądają jak",
+    "*cienkie rajstopy*"
+   ],
+   "pop": false,
+   "start": 5.0,
+   "end": 6.0
+  },
+  {
+   "clip": "O5",
+   "src": 0.67,
+   "speed": 1.15,
+   "beats": 2,
+   "zoom": 1.0,
+   "hand": 0.5,
+   "lines": [
+    "Wyglądają jak",
+    "*cienkie rajstopy*"
+   ],
+   "pop": false,
+   "start": 6.0,
+   "end": 7.0
+  },
+  {
+   "clip": "O4",
+   "src": 0.8,
+   "speed": 1.15,
+   "beats": 2,
+   "zoom": 1.0,
+   "hand": 0.5,
+   "lines": [
+    "Im więcej par,",
+    "*tym więcej oszczędzasz*"
+   ],
+   "pop": true,
+   "start": 7.0,
+   "end": 8.0
+  }
+ ]
+}

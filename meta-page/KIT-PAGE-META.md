@@ -49,20 +49,22 @@
 - Compte **professionnel**, catégorie « Marque de vêtements », relié à la page Facebook.
 - Même photo de profil, même bio, lien https://purrpeak.com.
 
-## 4. Les 6 premiers posts (à publier avant la 1ʳᵉ pub, 1 par jour ou tous le même jour)
+## 4. Les 6 premiers posts : fichiers prêts dans `meta-page/posts/`
 
-Tous les visuels sont déjà dans le dépôt, aucun crédit à dépenser.
+Tous les textes sont **en polonais** (public polonais). Publie-les dans cet ordre, puis épingle le post 1.
 
-| # | Visuel | Texte (polonais) |
+| # | Fichier | Légende à coller (PL) |
 |---|---|---|
-| 1 (à épingler) | `kling-essayage/pub-essayage-ciepelle.mp4` | Wyglądają jak zwykłe przezroczyste rajstopy… ale w środku mają polar ❄️ Noś sukienki nawet zimą. |
-| 2 | Photo « 3 couleurs » de la boutique | Cielisty, czarny czy szary? Który kolor wybierasz? 👇 |
-| 3 | `kling-defile/pub-defile-ciepelle.mp4` | Wyglądają jak gołe nogi. Grzeją jak polar. |
-| 4 | Photo du polaire (gros plan, page produit) | Tak wyglądają od środka: miękki polar, który czujesz od pierwszej chwili. |
-| 5 | Photo Trio (page Zestaw Trio) | Nie możesz się zdecydować? Zestaw Trio: 3 kolory w jednym zamówieniu. |
-| 6 | Image texte simple (comparatif 80 / 220 / 300 g de la boutique) | Jak wybrać grubość? 80 g – jesień · 220 g – zima · 300 g – mrozy. |
+| 1 (épinglé) | `post1-essayage.mp4` | Wyglądają jak zwykłe przezroczyste rajstopy… ale w środku mają polar ❄️ Noś sukienki i spódnice nawet zimą. 👉 purrpeak.com |
+| 2 | `post2-3-kolory.jpg` | Cielisty, czarny czy szary? Napisz w komentarzu, który kolor wybierasz 👇 |
+| 3 | `post3-defile.mp4` | Wyglądają jak gołe nogi. Grzeją jak polar. ❄️ |
+| 4 | `post4-polar.jpg` | Tak wyglądają od środka: miękki polar, a na zewnątrz efekt cienkich rajstop. |
+| 5 | `post5-trio.jpg` | Nie możesz się zdecydować? Zestaw Trio: cielisty, czarny i szary w jednym zamówieniu. 3 pary od 149 zł 👉 purrpeak.com |
+| 6 | `post6-grubosc.jpg` | Jak wybrać grubość? 80 g na jesień, 220 g na zimę, 300 g na mrozy. Każda w 3 kolorach. |
 
-**Règle :** pas de promesse de température (« −10 °C »), pas d'allégation santé, pas de faux avis.
+Hashtags (à ajouter sur Instagram) : #rajstopy #rajstopyzpolarem #ciepłerajstopy #modadamska #stylizacjezimowe #zimowestylizacje #polskamoda
+
+**Règles :** pas de promesse de température (« −10 °C »), pas d'allégation santé, pas de faux avis ni de « bestseller » tant qu'il n'y a pas de ventes.
 
 ## 5. Ensuite
 1. Installer l'app **Facebook & Instagram** dans Shopify (pixel + « Maximum »).

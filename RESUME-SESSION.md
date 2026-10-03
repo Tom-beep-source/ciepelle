@@ -1,4 +1,4 @@
-# Ciepelle : résumé pour la prochaine session (3 octobre 2026)
+# Ciepelle : résumé pour la prochaine session (mis à jour le 3 octobre 2026, fin de journée)
 
 Parle à l'utilisateur en **français**. Affiche toujours les montants en **zł avec l'équivalent en €** (1 € ≈ 4,25 zł). Il est débutant : réponds sans jargon, en peu de mots, avec peu de captures d'écran. **Il n'a plus de budget pour des outils** : l'argent restant est réservé aux pubs Meta.
 
@@ -38,46 +38,69 @@ Parle à l'utilisateur en **français**. Affiche toujours les montants en **zł 
 
 ## Thèmes
 - **v7** est en ligne.
-- **v8** (OnlineStoreTheme/200464597366) **est prête mais pas publiée**. Elle contient :
-  - la correction typographique (« ? » non isolé, titres équilibrés : `assets/ciepelle-typo.css` + `ciepelle-typo.js`) ;
-  - le paiement forcé en polonais : le panier envoie vers `/checkout?locale=pl`, et « Kup teraz » utilise `return_to=/checkout?locale=pl`.
-  - **À tester avant publication** : le bouton « Przejdź do kasy » de l'aperçu v8 doit ouvrir le paiement en polonais. Mon dernier clic automatique n'a pas déclenché la navigation ; c'est probablement un raté de clic, à confirmer.
-- **Accueil** : le lien « Jak wybrać grubość » mène au comparatif avec les photos de polaire (`snippets/weight-compare.liquid`), suivi d'un bandeau Trio (`snippets/trio-banner.liquid`).
+- **v8** (OnlineStoreTheme/200464597366) **est prête et testée, mais pas publiée.** Elle contient :
+  - la correction typographique ;
+  - le paiement forcé en polonais.
 
-## Corrigé pendant cet audit
-- Anciennes traductions polonaises qui affichaient « PurrPeak » dans les Conditions de service et la Politique d'expédition : supprimées.
-- Page Coordonnées : « AquaFlow » remplacé par Tom Canal EI / Ciepelle + SIRET.
-- L'anglais (/en) est désactivé sur purrpeak.com. Avant, le panier redirigeait vers /en/cart et le paiement s'affichait en anglais.
-- Vérifiés OK :
-  - livraison gratuite en Pologne pour les 30 déclinaisons ;
-  - BLIK et PayPal présents au paiement ;
-  - aucun lien mort, aucune erreur Liquid ;
-  - les 27 déclinaisons et les 3 Trio s'ajoutent au panier au bon prix en PLN.
+  Le 3 octobre, testé avec Chromium (navigateur réglé en anglais) : « Przejdź do kasy » et « Kup teraz » ouvrent le paiement **en polonais, en PLN**.
+  - **L'utilisateur doit publier la v8** lui-même.
+  - Point connu, laissé tel quel : « Kup teraz » ajoute l'article au panier existant. L'autre méthode testée (lien panier direct) remplace le panier, ce qui est pire.
+- Le 3 octobre, la description SEO du produit principal a été corrigée : elle cite maintenant « cielisty, czarny i szary ».
 
-## Reste à faire
+## Ce qui a été fait le 3 octobre
+- **Marges** : `ciepelle-business/marges.py` et `couts-fournisseurs.json` produisent `marges.md` (27 déclinaisons + 3 Trio, avec TVA 23 % et sans TVA). Le business plan a été mis à jour, Trio compris.
+  - ⚠️ **Les coûts sont encore estimés** (80 g = 3,81 $ ; 220 g ≈ 5,80 $ ; 300 g ≈ 7,84 $ ; livraison 0,99 $ par paire).
+  - AliExpress bloque le navigateur automatique (vérification anti-robot, à ne pas contourner). Shopify ne contient aucun coût. Aucun outil DSers n'est disponible dans les sessions cloud.
+  - **Il faut que l'utilisateur donne les 12 prix DSers** : Stone's Store 9 (couleur × grammage) + COZOK 3 (un Trio par grammage). Ensuite : `python3 marges.py`.
+- **Rapport d'audit + textes Meta** : `RAPPORT-AUDIT-ET-META.md`.
+  - Contient : fonctionnement de Meta, installation du pixel, réglages de campagne, textes polonais pour le Défilé, l'Essayage et le Trio.
+- **Page Facebook « Ciepelle »** : créée par l'utilisateur, https://www.facebook.com/profile.php?id=61594721714264.
+  - Page vérifiée sur capture : couverture, nom et bio polonaise OK.
+  - Encore à faire : remplacer la photo de profil par la version empilée (`meta-page/photo-profil.png`), ajouter la catégorie « Marque de vêtements », choisir le nom d'utilisateur @ciepelle.pl, publier les posts.
+  - **Ne pas mettre de site web** sur la page tant que le domaine final n'est pas choisi.
+  - L'ancienne page « AutoRec », de 3 ans, était restreinte. On ne l'utilise pas et on ne la renomme pas. Elle est à retirer du portefeuille business.
+- **Kit page Meta** : `meta-page/`. Il contient :
+  - `KIT-PAGE-META.md` : analyse TrendTrack des pages concurrentes, bio, « À propos », réponses automatiques, légendes polonaises, hashtags ;
+  - `couverture-facebook.png`, `photo-profil.png` ;
+  - `posts/` : 6 premiers posts (4 visuels 4:5 + 2 vidéos).
+  - Ce que montre l'analyse : les gagnants ont de petites pages (Feelwonder 415 mentions J'aime → 10,9 M de personnes touchées). Le concurrent polonais Polarove (polarove.pl) a eu ses pubs arrêtées au bout de 3 jours, avec une page vide et des promesses « −10 °C » et « 1+1 gratis ».
+- **5 variantes de pub** : `kling-variantes/sortie/ciepelle-variante-A…E.mp4`, toutes en polonais, de 6 à 12 s.
+  - A « Sukienka zimą i nie marzniesz? »
+  - B « Jeden model. Trzy kolory. »
+  - C « POV: wszyscy myślą, że masz gołe nogi »
+  - D « Za oknem zima… »
+  - E version courte
+  - Rendu : `./rendre.sh X` (structures dans `variantes.py`).
+  - Guide TikTok : `kling-variantes/TIKTOK.md`. L'utilisateur va les publier gratuitement sur un **compte pro TikTok @ciepelle.pl**. La variante qui fait le plus de vues deviendra la première pub Meta.
+  - Avec les 2 pubs déjà prêtes (`kling-defile/pub-defile-ciepelle.mp4` et `kling-essayage/pub-essayage-ciepelle.mp4`), on a 7 vidéos au total.
+- **Domaine** : purrpeak.com, acheté chez IONOS, n'est pas cohérent avec la marque.
+  - Disponibles : **ciepelle.pl** (18 $ ≈ 66 zł / 15,5 €, recommandé), ciepelle.com (16 $), ciepelle.store (9 $).
+  - L'utilisateur demande à IONOS un remboursement ou un échange (garantie 30 jours ?).
+  - **Décision : attendre le domaine final avant de le renseigner dans Meta** (page, pixel, vérification du domaine), pour éviter les changements suspects.
+- **Adresse légale** : l'utilisateur hésitait à mettre son adresse française. Expliqué que c'est **obligatoire** (droit UE et polonais, UOKiK) : elle n'apparaît que dans les pages légales.
+  - Proposition : ajouter sur la page Kontakt « Sklep Ciepelle prowadzony jest przez firmę z Unii Europejskiej… ». **À faire** (copie du thème) si l'utilisateur confirme.
+- **Connecteur Meta pour Claude** : pas de connecteur officiel. Windsor.ai (formule gratuite à vérifier) ou, gratuit, export CSV du Gestionnaire de publicités à envoyer à Claude. TrendTrack peut suivre ses propres pubs une fois en ligne (portée, durée), mais pas les ventes.
+- **Kling** : il reste 1 crédit. Une version de la pub essayage avec un **visage visible** est demandée : environ 230 crédits, à faire seulement si les crédits mensuels sont rechargés. L'utilisateur ne veut plus rien payer.
 
-### Audit (en cours)
-1. Publier la v8 après le test du bouton « Przejdź do kasy ».
-2. **Coûts fournisseurs réels et marges.** Relever les prix pour les 9 combinaisons couleur × grammage, chez Stone's Store et chez COZOK.
-   - Méthode : sur la page AliExpress du produit, appeler `window.lib.mtop.request({api:'mtop.aliexpress.pdp.pc.query', v:'1.0', type:'GET', dataType:'jsonp', data:{productId, _lang:'en_US', _currency:'PLN', country:'PL', clientType:'pc', ext:'{}'}})`. Le résultat contient `SKU.skuPaths` (skuStock) et `PRICE.skuPriceInfoMap`.
-   - Recalculer ensuite la marge des 27 déclinaisons et des 3 Trio, en tenant compte de la TVA, d'environ 3 % de frais et de 5 % de provision pour retours.
-   - Mettre à jour `ciepelle-business/business-plan-meta.md`.
-3. **Alertes de stock.** Dans DSers → Paramètres, activer la synchronisation automatique du stock et des prix, ainsi que les notifications de rupture et de changement de prix. Dans Shopify, prévoir une alerte de stock bas (l'app Flow est gratuite, si elle est disponible).
-4. Ajouter Exquisite comme fournisseur de secours dans DSers.
-5. Rédiger le rapport final de l'audit pour l'utilisateur.
+## En attente de la paye de l'utilisateur (budget pubs)
+1. Domaine final, relié à Shopify et défini comme domaine principal (redirection automatique de purrpeak.com).
+2. App Facebook & Instagram dans Shopify : pixel, partage des données sur « Maximum », vérification du domaine dans Meta.
+3. Campagne **Ventes Advantage+** :
+   - Pologne, femmes 22–55 ans, **80 zł/jour (≈ 19 €)**, mention IA ;
+   - les 3 vidéos les plus vues sur TikTok ;
+   - limite de dépense du compte : 150 € ;
+   - règles de décision dans `ciepelle-business/business-plan-meta.md` § 6.D (coupe à 120 zł sans vente ; +20 % si coût par vente < 45 zł ; arrêt à 560 zł sans pub rentable).
+4. Compte publicitaire : devise **EUR**, fuseau **Europe/Warsaw**. L'utilisateur doit envoyer une capture de « Paramètres → Comptes publicitaires » pour vérification.
 
-### Côté utilisateur
-- Shopify → Paramètres → Général : ajouter la ville **Muret** dans l'adresse de la boutique (la page Coordonnées affiche « 31600, Francja » sans ville).
-- **Commande test** de bout en bout, de préférence un Trio : paiement, envoi DSers, délai réel jusqu'en Pologne.
-- Faire valider la **TVA** par un comptable. Shopify ne collecte aucune TVA pour l'UE alors que le site indique « prix TTC » ; en micro-entreprise, il est peut-être en franchise de TVA.
-- Passer le dépôt GitHub en **privé** : il est public.
-
-### Ensuite : lancement Meta
-- Expliquer simplement comment fonctionnent Meta et une campagne.
-- Installer l'app Facebook & Instagram dans Shopify : pixel, API Conversions, partage des données sur « Maximum ».
-- Campagne **Ventes Advantage+** : Pologne, femmes 22–55 ans, environ 80 zł/jour (≈ 19 €), mention IA cochée.
-- Pubs prêtes :
-  - `kling-essayage/pub-essayage-ciepelle.mp4` (logo en haut à gauche, version du 2 octobre) ;
-  - `kling-defile/pub-defile-ciepelle.mp4`.
-- Rédiger les textes de vente en polonais : variantes de texte principal, de titre et de description, plus une version Trio. Pas d'allégation santé, pas de faux prix barré.
-- Règles de décision : voir `ciepelle-business/business-plan-meta.md`, § 6.D.
+## Reste à faire côté utilisateur (gratuit)
+- Publier la v8.
+- Finir la page Facebook, puis publier 1 à 2 posts par jour.
+- Ouvrir le compte TikTok pro et publier 1 variante par jour (18 h–21 h, heure de Varsovie).
+- Envoyer les 12 prix DSers.
+- Dans DSers : synchronisation stock/prix et notifications. Dans Shopify : app Flow, alerte de stock bas (seuil 5).
+- Ajouter Exquisite (AliExpress 1005006188489629) comme fournisseur de secours dans DSers. **Urgent** : il reste 4 paires de chair 300 g et 5 paires de gris 220 g chez Stone's Store.
+- Adresse complète de la boutique dans Shopify → Paramètres → Général (Tom Canal EI, Muret, Francja).
+- Commande test, de préférence un Trio.
+- Faire valider la TVA par un comptable.
+- Passer le dépôt GitHub en privé.
+- Proposé, gratuit : app « Google & YouTube » dans Shopify, pour des fiches gratuites dans Google Shopping.

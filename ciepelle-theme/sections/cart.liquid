@@ -1,0 +1,42 @@
+<div class="page cart">
+  <h1>Twój koszyk</h1>
+  {%- if cart.item_count == 0 -%}
+    <p class="muted">Twój koszyk jest pusty.</p>
+    <a class="btn btn--primary" href="{{ routes.root_url }}">Wróć do sklepu</a>
+  {%- else -%}
+    <div>
+      {%- for item in cart.items -%}
+        <div class="cart-item">
+          <a href="{{ item.url }}">{{ item.image | image_url: width: 200 | image_tag: alt: item.title, loading: 'lazy' }}</a>
+          <div>
+            <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+            {%- unless item.product.has_only_default_variant -%}<div class="cart-item__meta">{{ item.variant.title | replace: ' (najczęściej wybierane)', '' }}</div>{%- endunless -%}
+            <div class="qty">
+              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" aria-label="Mniej">−</a>
+              <span>{{ item.quantity }}</span>
+              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" aria-label="Więcej">+</a>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <b>{{ item.final_line_price | money }}</b><br>
+            <a href="{{ item.url_to_remove }}" class="muted" style="font-size:.85rem">Usuń</a>
+          </div>
+        </div>
+      {%- endfor -%}
+
+      <div class="cart__summary">
+        {%- if cart.total_discount > 0 -%}<div class="cart__row"><span>Rabat</span><span>−{{ cart.total_discount | money }}</span></div>{%- endif -%}
+        <div class="cart__row"><span>Dostawa</span><span style="color:var(--ok);font-weight:700">Gratis</span></div>
+        <div class="cart__row cart__total"><span>Razem</span><span>{{ cart.total_price | money_with_currency }}</span></div>
+        <p class="muted" style="font-size:.85rem">Cena zawiera podatek VAT. Kody rabatowe wpiszesz w kolejnym kroku.</p>
+        {%- comment -%} locale=pl : la page de paiement reste en polonais quelle que soit la langue du navigateur {%- endcomment -%}
+        <a href="{{ routes.root_url | append: '/' | replace: '//', '/' }}checkout?locale=pl" class="btn btn--primary btn--block">Przejdź do kasy</a>
+        <p class="muted center" style="font-size:.85rem;margin:12px 0 0">🔒 Bezpieczne płatności · ↩️ 14 dni na zwrot</p>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{ "name": "Koszyk", "settings": [] }
+{% endschema %}

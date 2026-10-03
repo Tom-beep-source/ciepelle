@@ -1,18 +1,19 @@
 {
- "_lisez_moi": "Prix d'achat AliExpress en dollars ($) PAR PAIRE, tels qu'affichés dans DSers (onglet Mapping, colonne 'Cost'). Remplacer chaque valeur puis mettre 'releve': true. Lancer : python3 marges.py",
+ "_lisez_moi": "Prix d'achat AliExpress en zł PAR PAIRE, relevés le 4 octobre 2026 sur la page AliExpress (prix public, livraison Pologne). Le prix DSers (API) est en général un peu plus bas : ces chiffres sont donc prudents. Livraison AliExpress Choice : gratuite dès 40 zł d'achat, sinon ~1,99 $. Lancer : python3 marges.py",
+ "releve_le": "2026-10-04",
  "taux": {"usd_pln": 3.65, "eur_pln": 4.25},
  "frais_pct": 0.03, "retours_pct": 0.05, "tva_pl": 0.23,
- "livraison_usd_par_paire": 0.99,
+ "livraison": {"gratuite_des_pln": 40, "sinon_pln": 7.26},
  "stones_store": {
-  "releve": false,
-  "Cielisty": {"80": 3.81, "220": 5.80, "300": 7.84},
-  "Czarny":   {"80": 3.81, "220": 5.80, "300": 7.84},
-  "Szary":    {"80": 3.81, "220": 5.80, "300": 7.84}
+  "releve": true,
+  "Cielisty": {"80": 18.29, "220": 25.19, "300": 35.29},
+  "Czarny":   {"80": 13.49, "220": 27.69, "300": 37.09},
+  "Szary":    {"80": 15.50, "220": 26.39, "300": 36.59}
  },
  "cozok_trio": {
-  "releve": false,
-  "Cielisty": {"80": 3.81, "220": 5.80, "300": 7.84},
-  "Czarny":   {"80": 3.81, "220": 5.80, "300": 7.84},
-  "Szary":    {"80": 3.81, "220": 5.80, "300": 7.84}
+  "releve": true,
+  "Cielisty": {"80": 20.79, "220": 32.19, "300": 44.19},
+  "Czarny":   {"80": 19.59, "220": 32.79, "300": 43.59},
+  "Szary":    {"80": 19.79, "220": 32.49, "300": 44.09}
  }
 }

@@ -13,7 +13,7 @@ Rédigé le 1er octobre 2026. Les montants sont en zł, avec l'équivalent en �
 > - **Provision retours et litiges :** 5 % du prix TTC.
 > - **TVA polonaise de 23 % :** incluse dans le prix et reversée. Votre situation de TVA est à valider avec un comptable : micro-entreprise française qui vend à des particuliers polonais, régime OSS au-delà de 10 000 € de ventes à distance dans l'UE.
 >
-> **Mise à jour du 3 octobre :** le détail des marges des 27 déclinaisons et des 3 Trio, avec et sans TVA, est dans `marges.md`. Il est calculé par `marges.py` à partir de `couts-fournisseurs.json`. Les coûts y sont encore **estimés** : AliExpress bloque la lecture automatique (vérification anti-robot), et les coûts ne sont pas enregistrés dans Shopify. Dès que les 12 prix DSers sont saisis (Stone's Store : 9 ; COZOK : 3 couleurs × 3 grammages), lancer `python3 marges.py`, puis recopier les lignes « 1 paire / 2 paires / 3 paires » ci-dessous.
+> **Mise à jour du 4 octobre : les vrais coûts sont relevés** (prix public AliExpress, prudents) dans `couts-fournisseurs.json`, et le détail des 30 marges est dans `marges.md`. À retenir, avec TVA 23 % : offre phare 2 paires chair 220 g = **59 zł (13,8 €)** de marge ; marges de 32 à 69 zł (7,6 à 16,2 €) ; Trio 80 / 220 / 300 g = 49 / 41 / 36 zł. Sans TVA (franchise), ajouter ~25 à 45 zł par commande. Les hypothèses de coûts ci-dessus sont remplacées par ces chiffres.
 
 ---
 

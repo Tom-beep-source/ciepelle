@@ -139,7 +139,7 @@ for fi in range(NF):
             arr=cv2.cvtColor(np.clip(hsv,0,255).astype(np.uint8),cv2.COLOR_HSV2RGB)
             arr=np.clip(arr.astype(np.float32)*.92+18,0,255).astype(np.uint8)
         fr=Image.fromarray(arr).convert('RGBA')
-        fr.alpha_composite(small,((W-small.width)//2,SMALL_Y))
+        fr.alpha_composite(small,(56,int(H*.06)))   # logo en haut à gauche (demande Tom)
         if s.get('lines'):
             place_c(fr,pop(card(s['lines'],s.get('size',52)),(t-s['start'])/.14 if s.get('pop') else 1),int(H*s.get('y',.36)))
         if s.get('text'):

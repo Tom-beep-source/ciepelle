@@ -1,0 +1,175 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  unless product.selected_variant
+    for v in product.variants
+      if v.option1 == '220 g' and v.available
+        assign current = v
+        break
+      endif
+    endfor
+  endunless
+  assign main_p = all_products[section.settings.main_handle]
+-%}
+<section class="pdp trio" data-trio>
+  <div class="page pdp__grid">
+    <div class="gallery">
+      <div class="gallery__main">
+        {%- if product.featured_media -%}
+          {{ product.featured_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', data-main-img: '', alt: product.title, sizes: '(min-width: 900px) 55vw, 100vw', widths: '600,900,1200' }}
+        {%- endif -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <div class="gallery__thumbs">
+          {%- for m in product.media -%}
+            <button type="button" class="{% if forloop.first %}is-active{% endif %}" data-thumb="{{ m | image_url: width: 1200 }}" aria-label="Zdjęcie {{ forloop.index }}">
+              {{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: m.alt }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="pdp__info">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1 class="pdp__title">{{ section.settings.headline | default: product.title }}</h1>
+      <p class="pdp__sub">{{ section.settings.subheadline }}</p>
+
+      <div class="trio__colors" aria-label="Kolory w zestawie">
+        <span><i style="background:linear-gradient(135deg,#E4C1A9,#C99A7E)"></i>1× cielisty</span>
+        <span><i style="background:#232022"></i>1× czarny</span>
+        <span><i style="background:linear-gradient(135deg,#B9BBC0,#8C8F96)"></i>1× szary</span>
+      </div>
+
+      <div class="pdp__price">
+        <strong data-trio-price>{{ current.price | money_without_trailing_zeros }}</strong>
+        <span data-trio-save></span>
+      </div>
+
+      <form method="post" action="{{ routes.cart_add_url }}" id="trio-form">
+        <input type="hidden" name="id" value="{{ current.id }}" data-trio-input>
+        <input type="hidden" name="quantity" value="1">
+
+        <div class="opt-label">Grubość polaru (dla wszystkich 3 par): <em data-trio-wlabel>{{ current.option1 }}</em></div>
+        <div class="weights">
+          {%- for v in product.variants -%}
+            <button type="button" class="weight{% if v.id == current.id %} is-active{% endif %}{% unless v.available %} is-soldout{% endunless %}" data-trio-variant="{{ v.id }}">
+              <b>{{ v.option1 }}</b>
+              <span>{% if v.option1 contains '80' %}Cieńsze – na jesień i chłodne dni{% elsif v.option1 contains '300' %}Najcieplejsze – na mrozy{% else %}Najpopularniejsze – na zimę{% endif %}</span>
+              <i>{% unless v.available %}wyprzedane{% else %}{{ v.price | money_without_trailing_zeros }}{% endunless %}</i>
+            </button>
+          {%- endfor -%}
+        </div>
+
+        <p class="size-note">Rozmiar: <b>uniwersalny (L)</b> – pasuje na ok. 40–70 kg</p>
+
+        <div class="pdp__buy">
+          <button type="submit" class="btn btn--primary btn--block" data-trio-atc {% unless current.available %}disabled{% endunless %}>
+            {% if current.available %}Dodaj do koszyka – <span data-trio-atc-price>{{ current.price | money_without_trailing_zeros }}</span>{% else %}Chwilowo wyprzedane – wybierz inną grubość{% endif %}
+          </button>
+          <button type="submit" name="return_to" value="/checkout" class="btn btn--ghost btn--block">Kup teraz</button>
+        </div>
+      </form>
+
+      {%- if main_p != blank -%}
+        <p class="trio__back">Wolisz jeden kolor? <a href="{{ main_p.url }}">Zobacz zestawy 1, 2 lub 3 par w jednym kolorze →</a></p>
+      {%- endif -%}
+
+      <div class="pdp__micro">
+        <div><span class="dot"></span><b>Darmowa dostawa</b> – paczka u Ciebie w 7–12 dni roboczych</div>
+        <div>↩️ <b>14 dni na zwrot</b> bez podawania przyczyny</div>
+        <div>🔒 <b>Bezpieczne płatności</b> – BLIK, karta, PayPal</div>
+      </div>
+
+      <div class="acc">
+        <details open>
+          <summary>Co jest w zestawie?</summary>
+          <div class="rte">{{ product.description }}</div>
+        </details>
+        <details>
+          <summary>Jaką grubość wybrać?</summary>
+          <div class="rte">
+            <table><tr><th>Grubość</th><th>Kiedy</th></tr>
+            <tr><td><b>80 g</b></td><td>Jesień, chłodne dni, ogrzewane biuro.</td></tr>
+            <tr><td><b>220 g</b></td><td>Typowa polska zima – nasz najpopularniejszy wybór.</td></tr>
+            <tr><td><b>300 g</b></td><td>Mrozy, długie wyjścia na zewnątrz.</td></tr></table>
+          </div>
+        </details>
+        <details>
+          <summary>Dostawa i zwroty</summary>
+          <div class="rte">
+            <p><b>Darmowa dostawa</b> na terenie całej Polski. Czas dostawy to zwykle <b>7–12 dni roboczych</b>. Numer przesyłki otrzymasz e-mailem.</p>
+            <p><b>14 dni na odstąpienie od umowy</b> bez podawania przyczyny. Szczegóły: <a href="/pages/zwroty-i-reklamacje">Zwroty i reklamacje</a>.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Bezpieczeństwo produktu (GPSR)</summary>
+          <div class="rte">{{ section.settings.gpsr_html }}</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" data-trio-json>
+  {
+    "currency": {{ cart.currency.iso_code | json }},
+    "variants": [{%- for v in product.variants -%}
+      {%- assign single = 0 -%}
+      {%- if main_p != blank -%}{%- for mv in main_p.variants -%}{%- if mv.option1 contains '1 ' and mv.option2 == 'Cielisty' and mv.option3 == v.option1 -%}{%- assign single = mv.price -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+      {"id":{{ v.id }},"w":{{ v.option1 | json }},"price":{{ v.price }},"available":{{ v.available }},"single":{{ single }}}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}]
+  }
+</script>
+<script>
+(function () {
+  var root = document.querySelector('[data-trio]'); var el = document.querySelector('[data-trio-json]');
+  if (!root || !el) return;
+  var d = JSON.parse(el.textContent);
+  var fmt = function (c) { try { return new Intl.NumberFormat('pl-PL', { style: 'currency', currency: d.currency || 'PLN', minimumFractionDigits: c % 100 ? 2 : 0, maximumFractionDigits: 2 }).format(c / 100); } catch (e) { return (c / 100).toFixed(2) + ' zł'; } };
+  var input = root.querySelector('[data-trio-input]');
+  function render(v) {
+    input.value = v.id;
+    root.querySelector('[data-trio-price]').textContent = fmt(v.price);
+    root.querySelector('[data-trio-wlabel]').textContent = v.w;
+    var save = v.single ? v.single * 3 - v.price : 0;
+    root.querySelector('[data-trio-save]').textContent = save > 0 ? 'Oszczędzasz ' + fmt(save) + ' (vs 3 pary kupione osobno)' : '';
+    var atc = root.querySelector('[data-trio-atc]');
+    atc.disabled = !v.available;
+    if (v.available) { atc.innerHTML = 'Dodaj do koszyka – <span></span>'; atc.querySelector('span').textContent = fmt(v.price); }
+    else { atc.textContent = 'Chwilowo wyprzedane – wybierz inną grubość'; }
+    root.querySelectorAll('[data-trio-variant]').forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-trio-variant') === String(v.id)); });
+  }
+  root.querySelectorAll('[data-trio-variant]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var v = d.variants.find(function (x) { return String(x.id) === b.getAttribute('data-trio-variant'); });
+      if (!v) return; render(v);
+      var u = new URL(location.href); u.searchParams.set('variant', v.id); history.replaceState({}, '', u);
+    });
+  });
+  var cur = d.variants.find(function (x) { return String(x.id) === input.value; }) || d.variants[0];
+  render(cur);
+})();
+</script>
+
+<style>
+.trio__colors{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
+.trio__colors span{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:99px;padding:6px 12px 6px 6px;font-size:.9rem;background:#fff}
+.trio__colors i{width:20px;height:20px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.trio .weight.is-soldout{opacity:.5}
+.trio .weight i{font-style:normal;font-weight:700;color:var(--berry)}
+.trio__back{font-size:.9rem;margin:14px 0 0}
+.trio__back a{color:var(--ink);font-weight:700}
+</style>
+
+{% schema %}
+{
+  "name": "Zestaw Trio",
+  "settings": [
+    { "type": "text", "id": "main_handle", "label": "Uchwyt produktu głównego", "default": "rajstopy-ocieplane-polarem-z-efektem-nagich-nog-220-g" },
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "🎨 Zestaw Trio" },
+    { "type": "text", "id": "headline", "label": "Tytuł (puste = nazwa produktu)", "default": "Zestaw Trio: cielisty, czarny i szary" },
+    { "type": "textarea", "id": "subheadline", "label": "Podtytuł", "default": "Trzy pary rajstop z polarem – po jednej w każdym kolorze – w cenie zestawu 3 par." },
+    { "type": "html", "id": "gpsr_html", "label": "GPSR (HTML)", "default": "<p><b>Producent:</b> COZOK, prowincja Zhejiang, Chiny (kraj pochodzenia: Chiny).</p><p><b>Podmiot odpowiedzialny w UE:</b> Tom Canal EI, 68 Avenue des Pyrénées, 31600 Muret, Francja, SIRET 10762343100015 – kontakt: support@purrpeak.com.</p><p>Produkt przeznaczony dla osób dorosłych. Przed pierwszym użyciem usuń wszystkie metki i elementy opakowania. Nie stosować w pobliżu otwartego ognia.</p>" }
+  ]
+}
+{% endschema %}

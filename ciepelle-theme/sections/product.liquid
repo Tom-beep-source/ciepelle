@@ -1,0 +1,287 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  unless product.selected_variant
+    for v in product.variants
+      if v.option1 contains 'najczęściej' and v.option3 == '220 g' and v.option2 == 'Cielisty' and v.available
+        assign current = v
+        break
+      endif
+    endfor
+  endunless
+-%}
+<section class="pdp" data-pdp>
+  <div class="page pdp__grid">
+    {%- liquid
+      assign wsets = section.settings.w80 | append: '|' | append: section.settings.w220 | append: '|' | append: section.settings.w300 | split: '|'
+      assign wnames = '80 g|220 g|300 g' | split: '|'
+      assign cur_set = section.settings.w220
+      for wn in wnames
+        if current.option3 == wn
+          assign cur_set = wsets[forloop.index0]
+        endif
+      endfor
+      assign first_idx = cur_set | split: ',' | first | strip | plus: 0
+      assign main_media = product.media[first_idx] | default: product.featured_media
+    -%}
+    <div class="gallery">
+      <div class="gallery__main">
+        {%- if main_media -%}
+          {{ main_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', data-main-img: '', alt: product.title, sizes: '(min-width: 900px) 55vw, 100vw', widths: '600,900,1200' }}
+        {%- endif -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <div class="gallery__thumbs">
+          {%- for m in product.media -%}
+            {%- liquid
+              assign mi = forloop.index0 | append: ''
+              assign wattr = ''
+              for set in wsets
+                assign wpos = ''
+                assign items = set | split: ','
+                for it in items
+                  assign itv = it | strip
+                  if itv == mi
+                    assign wpos = forloop.index
+                  endif
+                endfor
+                assign wattr = wattr | append: ' data-w' | append: forloop.index | append: '="' | append: wpos | append: '"'
+              endfor
+            -%}
+            <button type="button" data-thumb="{{ m | image_url: width: 1200 }}" data-media-id="{{ m.id }}"{{ wattr }} aria-label="Zdjęcie {{ forloop.index }}">
+              {{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: m.alt }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="pdp__info">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1 class="pdp__title">{{ section.settings.headline | default: product.title }}</h1>
+      <p class="pdp__sub">{{ section.settings.subheadline }}</p>
+
+      <div class="pdp__price">
+        <strong data-price>{{ current.price | money_without_trailing_zeros }}</strong>
+        <span data-save></span>
+      </div>
+
+      <form method="post" action="{{ routes.cart_add_url }}" id="pdp-form" data-form>
+        <input type="hidden" name="id" value="{{ current.id }}" data-variant-input>
+        <input type="hidden" name="quantity" value="1">
+
+        <div class="opt-label">Grubość polaru: <em data-weight-label>{{ current.option3 }}</em></div>
+        <div class="weights">
+          {%- for option in product.options_with_values -%}
+            {%- if option.name == 'Gramatura' -%}
+              {%- for value in option.values -%}
+                <button type="button" class="weight{% if value == current.option3 %} is-active{% endif %}" data-opt="3" data-value="{{ value | escape }}" data-wi="{% if value contains '80' %}1{% elsif value contains '300' %}3{% else %}2{% endif %}">
+                  <b>{{ value }}</b>
+                  <span>{% if value contains '80' %}Cieńsze – na jesień i chłodne dni{% elsif value contains '300' %}Najcieplejsze – na mrozy{% else %}Najpopularniejsze – na zimę{% endif %}</span>
+                  <i>{% if value contains '80' %}❄️{% elsif value contains '300' %}❄️❄️❄️{% else %}❄️❄️{% endif %}</i>
+                </button>
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <p class="size-note">Rozmiar: <b>uniwersalny (L)</b> – pasuje na ok. 40–70 kg · <a href="#porownaj">porównaj grubości ↓</a></p>
+
+        <div class="opt-label">Kolor: <em data-color-label>{{ current.option2 }}</em></div>
+        <div class="swatches">
+          {%- for option in product.options_with_values -%}
+            {%- if option.name == 'Kolor' -%}
+              {%- for value in option.values -%}
+                <button type="button" class="swatch{% if value == current.option2 %} is-active{% endif %}" data-opt="2" data-value="{{ value | escape }}">
+                  <i style="background:{% if value contains 'Czar' %}#232022{% elsif value contains 'Szar' %}linear-gradient(135deg,#B9BBC0,#8C8F96){% else %}linear-gradient(135deg,#E4C1A9,#C99A7E){% endif %}"></i>{{ value }}
+                </button>
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="opt-label">Wybierz zestaw <em>im więcej, tym taniej za parę</em></div>
+        <div class="bundles">
+          {%- for option in product.options_with_values -%}
+            {%- if option.name == 'Zestaw' -%}
+              {%- for value in option.values -%}
+                {%- liquid
+                  assign n = forloop.index
+                  assign bv = nil
+                  assign sv = nil
+                  for v in product.variants
+                    if v.option1 == value and v.option2 == current.option2 and v.option3 == current.option3
+                      assign bv = v
+                    endif
+                    if v.option1 contains '1 ' and v.option2 == current.option2 and v.option3 == current.option3
+                      assign sv = v
+                    endif
+                  endfor
+                  assign per = bv.price | divided_by: n
+                  assign full = sv.price | times: n
+                  assign save = full | minus: bv.price
+                  assign clean_name = value | split: ' (' | first
+                -%}
+                <button type="button" class="bundle{% if value == current.option1 %} is-active{% endif %}" data-opt="1" data-value="{{ value | escape }}" data-n="{{ n }}">
+                  {%- if value contains 'najczęściej' -%}<span class="bundle__tag">Najczęściej wybierany</span>{%- endif -%}
+                  <span class="bundle__radio"></span>
+                  <span>
+                    <span class="bundle__name">{{ clean_name }}</span><br>
+                    <span class="bundle__per"><span data-bper>{{ per | money_without_trailing_zeros }}</span> za parę</span>
+                  </span>
+                  <span class="bundle__price">
+                    <span data-bprice>{{ bv.price | money_without_trailing_zeros }}</span>
+                    <span class="bundle__save" data-bsave>{% if save > 0 %}oszczędzasz {{ save | money_without_trailing_zeros }}{% endif %}</span>
+                  </span>
+                </button>
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- assign trio = all_products['zestaw-trio-rajstopy-z-polarem'] -%}
+        {%- if trio != blank and trio.available -%}
+          <a class="trio-cta" href="{{ trio.url }}">
+            <span class="trio-cta__dots"><i style="background:linear-gradient(135deg,#E4C1A9,#C99A7E)"></i><i style="background:#232022"></i><i style="background:linear-gradient(135deg,#B9BBC0,#8C8F96)"></i></span>
+            <span class="trio-cta__txt"><b>🎨 Zestaw Trio</b> – po jednej parze w każdym kolorze<small>3 pary od {{ trio.price_min | money_without_trailing_zeros }} · cielisty + czarny + szary</small></span>
+            <span class="trio-cta__arrow">→</span>
+          </a>
+        {%- endif -%}
+
+        <div class="pdp__buy">
+          <button type="submit" class="btn btn--primary btn--block" data-atc {% unless current.available %}disabled{% endunless %}>
+            {% if current.available %}Dodaj do koszyka – <span data-atc-price>{{ current.price | money_without_trailing_zeros }}</span>{% else %}Chwilowo wyprzedane – wybierz inny wariant{% endif %}
+          </button>
+          <button type="submit" name="return_to" value="/checkout" class="btn btn--ghost btn--block">Kup teraz</button>
+        </div>
+      </form>
+
+      <div class="pdp__micro">
+        <div><span class="dot"></span><b>Darmowa dostawa</b> – paczka u Ciebie w 7–12 dni roboczych</div>
+        <div>↩️ <b>14 dni na zwrot</b> bez podawania przyczyny</div>
+        <div>🔒 <b>Bezpieczne płatności</b> – szyfrowane połączenie SSL</div>
+      </div>
+
+      <div class="acc">
+        <details open>
+          <summary>Dlaczego pokochasz te rajstopy</summary>
+          <div class="rte">{{ product.description }}</div>
+        </details>
+        <details>
+          <summary>Jaką grubość wybrać?</summary>
+          <div class="rte">
+            <table><tr><th>Grubość</th><th>Kiedy</th></tr>
+            <tr><td><b>80 g</b></td><td>Jesień, chłodne dni, ogrzewane biuro – najcieńszy i najbardziej „przezroczysty” efekt.</td></tr>
+            <tr><td><b>220 g</b></td><td>Typowa polska zima – nasz najpopularniejszy wybór.</td></tr>
+            <tr><td><b>300 g</b></td><td>Mrozy, długie wyjścia na zewnątrz – najcieplejsza wersja.</td></tr></table>
+          </div>
+        </details>
+        <details>
+          <summary>Rozmiar i dopasowanie</summary>
+          <div class="rte">{{ section.settings.size_html }}</div>
+        </details>
+        <details>
+          <summary>Skład i pielęgnacja</summary>
+          <div class="rte">{{ section.settings.care_html }}</div>
+        </details>
+        <details>
+          <summary>Dostawa i zwroty</summary>
+          <div class="rte">
+            <p><b>Darmowa dostawa</b> na terenie całej Polski. Czas dostawy to zwykle <b>7–12 dni roboczych</b>. Numer przesyłki otrzymasz e-mailem.</p>
+            <p><b>14 dni na odstąpienie od umowy</b> bez podawania przyczyny. Szczegóły: <a href="/pages/zwroty-i-reklamacje">Zwroty i reklamacje</a>.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Bezpieczeństwo produktu (GPSR)</summary>
+          <div class="rte">{{ section.settings.gpsr_html }}</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wcmp" id="porownaj">
+  <div class="page">
+    <div class="section__head">
+      <span class="eyebrow">Trzy grubości polaru</span>
+      <h2>Ile ciepła potrzebujesz?</h2>
+      <p class="muted">Z zewnątrz każda wersja wygląda tak samo – jak cienkie rajstopy na gołych nogach. Różnica jest w środku.</p>
+    </div>
+    <div class="wcmp__grid">
+      {%- assign wcmp_n = '80 g|220 g|300 g' | split: '|' -%}
+      {%- assign wcmp_f = 'ciepelle-polar-80g.jpg|ciepelle-polar-220g.jpg|ciepelle-polar-300g.jpg' | split: '|' -%}
+      {%- assign wcmp_t = 'Lekki polar|Puszysty polar|Gruby polar' | split: '|' -%}
+      {%- assign wcmp_s = 'Jesień, chłodne dni, ogrzewane biuro|Typowa polska zima – nasz bestseller|Mróz, długie spacery, przystanek o 7:00' | split: '|' -%}
+      {%- assign wcmp_d = 'Cienka, gładka warstwa od środka. Najbardziej subtelny efekt i swoboda ruchu przez cały dzień.|Miękki, puszysty polar, który wyraźnie trzyma ciepło. Najlepszy wybór na większość zimowych dni.|Gęsty, mięsisty polar jak w kocyku. Dla tych, które marzną najbardziej albo dużo czasu spędzają na zewnątrz.' | split: '|' -%}
+      {%- for w in wcmp_n -%}
+        {%- assign i = forloop.index0 -%}
+        {%- assign wmin = 0 -%}
+        {%- for v in product.variants -%}{%- if v.option3 == w -%}{%- if wmin == 0 or v.price < wmin -%}{%- assign wmin = v.price -%}{%- endif -%}{%- endif -%}{%- endfor -%}
+        <article class="wcmp__card{% if forloop.index == 2 %} is-best{% endif %}">
+          {%- if forloop.index == 2 -%}<span class="wcmp__tag">Najczęściej wybierany</span>{%- endif -%}
+          <div class="wcmp__img">{{ images[wcmp_f[i]] | image_url: width: 700 | image_tag: loading: 'lazy', alt: wcmp_t[i], sizes: '(min-width: 900px) 30vw, 100vw' }}</div>
+          <div class="wcmp__body">
+            <div class="wcmp__top"><b>{{ w }}</b><span class="wcmp__heat" aria-label="Poziom ciepła {{ forloop.index }} z 3">{% for k in (1..3) %}<i{% if k <= forloop.parentloop.index %} class="on"{% endif %}></i>{% endfor %}</span></div>
+            <h3>{{ wcmp_t[i] }}</h3>
+            <p class="wcmp__when">{{ wcmp_s[i] }}</p>
+            <p class="muted">{{ wcmp_d[i] }}</p>
+            <button type="button" class="btn btn--ghost btn--block" data-pick-weight="{{ w }}">Wybieram {{ w }} – od {{ wmin | money_without_trailing_zeros }}</button>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+    <p class="wcmp__note">Zdjęcia poglądowe przedstawiające różnicę w grubości polaru.</p>
+  </div>
+</section>
+
+<div class="sticky-atc" data-sticky>
+  <div class="sticky-atc__txt"><b data-sticky-price>{{ current.price | money_without_trailing_zeros }}</b><span data-sticky-name>{{ current.title | replace: ' (najczęściej wybierane)', '' }}</span></div>
+  <button type="submit" form="pdp-form" class="btn btn--primary">Do koszyka</button>
+</div>
+
+<script type="application/json" data-product-json>
+  {
+    "variants": [{%- for v in product.variants -%}{"id":{{ v.id }},"o1":{{ v.option1 | json }},"o2":{{ v.option2 | json }},"o3":{{ v.option3 | json }},"price":{{ v.price }},"available":{{ v.available }},"media":{% if v.featured_media %}{{ v.featured_media.id }}{% else %}null{% endif %}}{% unless forloop.last %},{% endunless %}{%- endfor -%}],
+    "currency": {{ cart.currency.iso_code | json }}
+  }
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": [{% for m in product.media limit: 5 %}"https:{{ m | image_url: width: 1200 }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+  "description": {{ product.description | strip_html | truncate: 300 | json }},
+  "brand": {"@type": "Brand", "name": "Ciepelle"},
+  "offers": {"@type": "AggregateOffer", "lowPrice": {{ product.price_min | divided_by: 100.0 | json }}, "highPrice": {{ product.price_max | divided_by: 100.0 | json }}, "priceCurrency": {{ cart.currency.iso_code | json }}, "availability": "https://schema.org/InStock"}
+}
+</script>
+
+<style>
+.trio-cta{display:flex;align-items:center;gap:12px;margin:12px 0 4px;padding:12px 14px;border:1.5px dashed var(--berry);border-radius:12px;background:#FFF9F7;color:var(--ink);text-decoration:none}
+.trio-cta:hover{background:#FBEDE8}
+.trio-cta__dots{display:flex;flex:none}
+.trio-cta__dots i{width:22px;height:22px;border-radius:50%;border:2px solid #fff;margin-left:-6px;display:block}
+.trio-cta__dots i:first-child{margin-left:0}
+.trio-cta__txt{flex:1;font-size:.93rem;line-height:1.35}
+.trio-cta__txt small{display:block;color:var(--muted);font-size:.8rem}
+.trio-cta__arrow{font-weight:700;color:var(--berry)}
+</style>
+
+{% schema %}
+{
+  "name": "Strona produktu",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "Hit tej zimy" },
+    { "type": "text", "id": "headline", "label": "Tytuł (puste = nazwa produktu)" },
+    { "type": "textarea", "id": "subheadline", "label": "Podtytuł", "default": "Wyglądają jak cienkie cieliste rajstopy, a grzeją jak polarowe legginsy." },
+    { "type": "html", "id": "size_html", "label": "Rozmiar (HTML)", "default": "<p>Rozmiar uniwersalny.</p>" },
+    { "type": "html", "id": "care_html", "label": "Skład (HTML)", "default": "<p>Skład wg metki.</p>" },
+    { "type": "html", "id": "gpsr_html", "label": "GPSR (HTML)", "default": "<p>Informacje o producencie.</p>" },
+    { "type": "header", "content": "Zdjęcia dla każdej grubości" },
+    { "type": "text", "id": "w80", "label": "Zdjęcia 80 g", "info": "Numery zdjęć od 0, po przecinku", "default": "1,6,0,12,4,9,10,7" },
+    { "type": "text", "id": "w220", "label": "Zdjęcia 220 g", "default": "0,2,1,3,4,9,10,7,8" },
+    { "type": "text", "id": "w300", "label": "Zdjęcia 300 g", "default": "11,5,2,3,0,9,10,8" }
+  ]
+}
+{% endschema %}

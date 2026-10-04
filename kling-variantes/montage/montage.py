@@ -167,13 +167,13 @@ for fi in range(NF):
         sx=int(10*math.exp(-tp/.09)*math.sin(tp*90)); sy=int(8*math.exp(-tp/.09)*math.cos(tp*77))
         bg.alpha_composite(L,((W-L.width)//2+sx,(H-L.height)//2+sy))   # centre exact de l'image
         lh=logo(5.0).height
-        a=min(1,max(0,(tp-.45)/.35)); a2=min(1,max(0,(tp-.85)/.35))
+        q=TL.get('end_speed',1.0); a=min(1,max(0,(tp-.45*q)/(.35*q))); a2=min(1,max(0,(tp-.85*q)/(.35*q)))
         if a>0:
             f=font(SANS,46,500); lay=Image.new('RGBA',(W,H),(0,0,0,0)); d=ImageDraw.Draw(lay)
             txt='RAJSTOPY Z POLAREM'; tr=10; ws=[d.textlength(c,font=f) for c in txt]; x=(W-(sum(ws)+tr*(len(txt)-1)))/2
             for c,wc in zip(txt,ws): d.text((x,H/2+lh/2+70),c,font=f,fill=CREAM+(int(255*a),),anchor='ls'); x+=wc+tr
             if a2>0:
-                ob=caption([('Zestaw 3 par już od 149 zł',1)],size=54,ink=ROSE)   # offre réelle de la boutique (3 paires 80 g)
+                ob=caption([(TL.get('offer','Zestaw 3 par już od 149 zł'),1)],size=54,ink=ROSE)   # offre réelle de la boutique (3 paires 80 g)
                 ob.putalpha(ob.split()[3].point(lambda v:int(v*a2))); lay.alpha_composite(ob,((W-ob.width)//2,int(H/2+lh/2+130)))
             bg=Image.alpha_composite(bg,lay)
         arr=grain(np.asarray(bg.convert('RGB')),3,fi)

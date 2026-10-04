@@ -1,23 +1,25 @@
 {
+ "offer": "2 pary za 149 zł · darmowa dostawa",
+ "end_speed": 0.55,
  "bpm": 120,
- "dur": 10.0,
- "fade_start": 7.99,
- "cut": 8.0,
- "impact": 8.0,
- "outside": 13.0,
+ "dur": 9.8,
+ "fade_start": 8.49,
+ "cut": 8.5,
+ "impact": 8.5,
+ "outside": 13.5,
  "heels": [],
  "snow_steps": [],
  "segments": [
   {
-   "clip": "V1",
-   "src": 0.25,
+   "clip": "H1",
+   "src": 0.2,
    "speed": 1,
    "beats": 4,
    "zoom": 1.0,
    "hand": 0.5,
    "lines": [
-    "Sukienka zimą",
-    "i *nie marzniesz*?"
+    "Wyglądają jak zwykłe",
+    "*przezroczyste rajstopy*, ale…"
    ],
    "pop": false,
    "start": 0,
@@ -27,12 +29,12 @@
    "clip": "VF",
    "src": 0.6,
    "speed": 0.8,
-   "beats": 4,
+   "beats": 3,
    "zoom": 1.45,
    "hand": 0.4,
    "lines": [
-    "Sekret?",
-    "*Polar w środku.*"
+    "…to rajstopy",
+    "*z polarem* na zimę"
    ],
    "pop": true,
    "push": 0.05,
@@ -41,7 +43,7 @@
    "soft": 0.72,
    "y": 0.2,
    "start": 2.0,
-   "end": 4.0
+   "end": 3.5
   },
   {
    "clip": "O1",
@@ -51,12 +53,12 @@
    "zoom": 1.0,
    "hand": 0.5,
    "lines": [
-    "Wyglądają jak",
-    "*cienkie rajstopy*"
+    "Lekkie stylizacje",
+    "*nawet zimą*"
    ],
    "pop": true,
-   "start": 4.0,
-   "end": 5.0
+   "start": 3.5,
+   "end": 4.5
   },
   {
    "clip": "O2",
@@ -66,12 +68,27 @@
    "zoom": 1.0,
    "hand": 0.5,
    "lines": [
-    "Wyglądają jak",
-    "*cienkie rajstopy*"
+    "Lekkie stylizacje",
+    "*nawet zimą*"
    ],
    "pop": false,
-   "start": 5.0,
-   "end": 6.0
+   "start": 4.5,
+   "end": 5.5
+  },
+  {
+   "clip": "O3",
+   "src": 0.8,
+   "speed": 1.15,
+   "beats": 2,
+   "zoom": 1.0,
+   "hand": 0.5,
+   "lines": [
+    "Lekkie stylizacje",
+    "*nawet zimą*"
+   ],
+   "pop": false,
+   "start": 5.5,
+   "end": 6.5
   },
   {
    "clip": "O5",
@@ -81,12 +98,12 @@
    "zoom": 1.0,
    "hand": 0.5,
    "lines": [
-    "Wyglądają jak",
-    "*cienkie rajstopy*"
+    "2 pary za *149 zł*",
+    "darmowa dostawa"
    ],
-   "pop": false,
-   "start": 6.0,
-   "end": 7.0
+   "pop": true,
+   "start": 6.5,
+   "end": 7.5
   },
   {
    "clip": "O4",
@@ -96,12 +113,12 @@
    "zoom": 1.0,
    "hand": 0.5,
    "lines": [
-    "Im więcej par,",
-    "*tym więcej oszczędzasz*"
+    "2 pary za *149 zł*",
+    "darmowa dostawa"
    ],
-   "pop": true,
-   "start": 7.0,
-   "end": 8.0
+   "pop": false,
+   "start": 7.5,
+   "end": 8.5
   }
  ]
 }

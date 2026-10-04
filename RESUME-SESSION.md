@@ -1,5 +1,8 @@
 # Ciepelle : résumé pour la prochaine session (mis à jour le 3 octobre 2026, fin de journée)
 
+> **Lire aussi `BILAN-3-4-OCTOBRE.md`** : bilan détaillé des 3 et 4 octobre (compte pub Meta Ciepelle PL créé, accès Claude en lecture seule via les variables d'environnement, 7 pubs, kit page, vrais coûts).
+
+
 Parle à l'utilisateur en **français**. Affiche toujours les montants en **zł avec l'équivalent en €** (1 € ≈ 4,25 zł). Il est débutant : réponds sans jargon, en peu de mots, avec peu de captures d'écran. **Il n'a plus de budget pour des outils** : l'argent restant est réservé aux pubs Meta.
 
 ## Contexte

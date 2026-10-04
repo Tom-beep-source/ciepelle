@@ -9,9 +9,9 @@
         "size_html": "<table><tr><th>Rozmiar</th><th>Waga</th></tr><tr><td>Uniwersalny (one size)</td><td>ok. 40–70 kg</td></tr></table><p>Rajstopy są bardzo elastyczne i dopasowują się do sylwetki. Masz wątpliwości co do rozmiaru? Napisz do nas – doradzimy.</p>",
         "care_html": "<p><b>Skład:</b> 90% poliester, 10% elastan (dzianina z ociepleniem polarowym od środka).</p><p><b>Gramatura:</b> 80 g, 220 g lub 300 g.</p><ul><li>Prać ręcznie lub w pralce w programie delikatnym do 30°C, najlepiej w woreczku do prania</li><li>Nie wybielać</li><li>Nie suszyć w suszarce bębnowej</li><li>Nie prasować</li></ul>",
         "gpsr_html": "<p><b>Producent:</b> COZOK, prowincja Zhejiang, Chiny (kraj pochodzenia: Chiny).</p><p><b>Podmiot odpowiedzialny w UE:</b> Tom Canal EI, 68 Avenue des Pyrénées, 31600 Muret, Francja, SIRET 10762343100015 – kontakt: support@purrpeak.com.</p><p>Produkt nie zawiera substancji wzbudzających szczególnie duże obawy (SVHC) według deklaracji producenta. Produkt przeznaczony dla osób dorosłych. Przed pierwszym użyciem usuń wszystkie metki i elementy opakowania. Nie stosować w pobliżu otwartego ognia.</p>",
-        "w80": "15,13,1,18,19,6,0,12,4,16,17",
-        "w220": "15,13,2,18,19,20,0,1,3,4,16,17",
-        "w300": "15,13,11,5,2,19,20,3,0,16,17"
+        "w80": "0,14,2,18,19,7,1,13,5,16,17",
+        "w220": "0,14,3,18,19,20,1,2,4,5,16,17",
+        "w300": "0,14,12,6,3,19,20,4,1,16,17"
       }
     }
   },

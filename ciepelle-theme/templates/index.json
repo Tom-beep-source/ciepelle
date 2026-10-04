@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "landing": {
+      "type": "landing",
+      "settings": {
+        "product": "rajstopy-ocieplane-polarem-z-efektem-nagich-nog-220-g",
+        "img_left": 18,
+        "hero_index": 20,
+        "img_right": 2,
+        "problem_index": 11
+      }
+    }
+  },
+  "order": ["landing"]
+}

@@ -63,14 +63,15 @@ Je n'ai accès ni à DSers ni à ton Chrome dans cette session, et AliExpress bl
 | Public | Femmes, 22–55 ans (Meta élargit tout seul si besoin) |
 | Placements | Automatiques |
 | Budget | **80 zł/jour (≈ 19 €)** pour la campagne entière |
-| Pubs | Défilé, essayage et Trio dans la même campagne |
+| Pubs | Défilé, essayage et « 2 pary » dans la même campagne, toutes vers le lot de 2 |
 | Mention IA | **À cocher** sur chaque pub (« Contenu généré par IA ») |
 
 **Règles de décision :**
-- Une pub dépense 120 zł (≈ 28 €) sans aucune vente : on la coupe.
-- Coût par vente sous 45 zł (≈ 10,6 €) pendant 3 jours : +20 % de budget.
-- Coût par vente au-dessus de 60 zł (≈ 14 €) pendant 4 jours : on coupe.
-- 560 zł (≈ 130 €) dépensés sans aucune pub rentable : on arrête tout et on revoit l'offre.
+Mises à jour le 4 octobre avec les vrais coûts : une commande moyenne laisse 49 zł (11,3 €) avant pub, voir `ciepelle-business/rentabilite-par-commande.png`. Taux : 1 € = 4,37 zł.
+- Une pub dépense 100 zł (≈ 23 €) sans aucune vente : on la coupe.
+- Coût par vente sous 40 zł (≈ 9,2 €) pendant 3 jours : +20 % de budget.
+- Coût par vente au-dessus de 50 zł (≈ 11,4 €) pendant 4 jours : on coupe (au-delà, chaque vente fait perdre de l'argent).
+- 560 zł (≈ 128 €) dépensés sans aucune pub rentable : on arrête tout et on revoit l'offre.
 
 ---
 
@@ -84,9 +85,10 @@ Les prix et la livraison gratuite sont vérifiés dans la boutique. Pas d'allég
   > Rajstopy Ciepelle: z zewnątrz cienkie, w środku ciepłe.
   > ✔ 3 kolory: cielisty, czarny, szary
   > ✔ 3 grubości: 80, 220 lub 300 g
+  > 2 pary za 149 zł (220 g)
   > Darmowa dostawa w całej Polsce · 14 dni na zwrot
 - **Titre :** Wyglądają jak gołe nogi. Grzeją jak polar.
-- **Description :** Darmowa dostawa · 14 dni na zwrot
+- **Description :** 2 pary za 149 zł · darmowa dostawa
 - **Bouton :** Kup teraz
 
 ### Pub 2 : Essayage (`kling-essayage/pub-essayage-ciepelle.mp4`)
@@ -100,13 +102,14 @@ Les prix et la livraison gratuite sont vérifiés dans la boutique. Pas d'allég
 - **Description :** 2 pary za 149 zł · darmowa dostawa
 - **Bouton :** Kup teraz
 
-### Pub 3 : Zestaw Trio (vidéo essayage, ou photo « 3 couleurs », lien vers la page Trio)
+### Pub 3 : « 2 pary » (photo « 3 couleurs » ou vidéo essayage, lien vers le produit principal, lot de 2 déjà sélectionné)
+Remplace l'ancienne pub Trio (4 octobre) : le Trio 220/300 g ne laisse que 41/36 zł de marge, trop peu pour payer la pub. Le Trio reste en vente sur le site.
 - **Texte principal :**
-  > Nie możesz się zdecydować? Weź wszystkie trzy 🤍🖤🩶
-  > Zestaw Trio: cielisty, czarny i szary – rajstopy z polarem, które z zewnątrz wyglądają jak cienkie rajstopy.
-  > 3 pary: 149 zł (80 g) · 189 zł (220 g) · 229 zł (300 g)
-  > Darmowa dostawa w całej Polsce.
-- **Titre :** Zestaw Trio – 3 kolory od 149 zł
-- **Description :** Cielisty + czarny + szary
+  > Jedna para na całą zimę? To za mało 😉
+  > Rajstopy Ciepelle z polarem: z zewnątrz wyglądają jak cienkie rajstopy, a w środku grzeją.
+  > 2 pary za 149 zł (220 g) – oszczędzasz 49 zł względem dwóch pojedynczych par.
+  > 3 kolory: cielisty, czarny, szary · darmowa dostawa w całej Polsce
+- **Titre :** 2 pary za 149 zł
+- **Description :** Cielisty, czarny lub szary · darmowa dostawa
 - **Bouton :** Kup teraz
-- **Lien :** https://purrpeak.com/products/zestaw-trio-rajstopy-z-polarem
+- **Lien :** https://purrpeak.com/products/rajstopy-ocieplane-polarem-z-efektem-nagich-nog-220-g

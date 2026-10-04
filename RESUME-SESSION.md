@@ -29,7 +29,8 @@ Parle à l'utilisateur en **français**. Affiche toujours les montants en **zł 
   - Les lots sont divisés par 2 ou 3. Le Trio est à 300.
 - Les anciens produits PurrPeak (arbres à chat) sont archivés.
 
-## DSers (vérifié après rechargement)
+## DSers (revérifié le 4 octobre après rechargement)
+- **4 oct : chair 300 g, gris 80 g et gris 220 g (×1/2/3 paires, 9 déclinaisons) basculés sur COZOK** (Stone's n'avait plus que 2 / 9 / 5 paires ; COZOK ~2 000). Stock Shopify mis à jour. Synchro auto des stocks DSers = payante (19,9 $/mois), non activée. Livraison DSers par défaut : AliExpress Standard (suivi).
 - **Produit principal** : 27 déclinaisons en mapping avancé vers **Stone's Store**, AliExpress 1005006966171723. Variantes « {g}-Coffee/Black Pantyhose1/Grey Pantyhose », quantité 1, 2 ou 3 selon le lot.
 - **Trio** : mapping avancé vers **COZOK Gal Store**, AliExpress 1005007430201854.
   - Chaque grammage commande 3 articles : Coffee + Black + Grey Pantyhose « {g} L(40-70kg) », quantité 1 chacun.

@@ -1,0 +1,233 @@
+﻿{% comment %}
+  Premium collections listing page for Ciepelle.
+{% endcomment %}
+
+<div class="coll-page">
+
+  <div class="coll-page__hero animate-in">
+    <span class="coll-page__label">Our collections</span>
+    <h1 class="coll-page__title">Find the perfect cat tree</h1>
+    <p class="coll-page__sub">Curated selections for every cat — from curious kittens to seasoned climbers.</p>
+  </div>
+
+  <div class="coll-grid">
+    {%- for collection in collections -%}
+      {%- unless collection.handle == 'frontpage' -%}
+        <a href="{{ collection.url }}" class="coll-card animate-in animate-in--d{{ forloop.index | modulo: 4 | plus: 1 }}">
+          <div class="coll-card__img-wrap">
+            {%- if collection.featured_image -%}
+              {{ collection.featured_image | image_url: width: 800, height: 600, crop: 'center' | image_tag: class: 'coll-card__img', loading: 'lazy', alt: collection.title }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'coll-card__img coll-card__img--placeholder' }}
+            {%- endif -%}
+            <div class="coll-card__overlay">
+              <span class="coll-card__cta">Shop now →</span>
+            </div>
+          </div>
+          <div class="coll-card__body">
+            <h2 class="coll-card__title">{{ collection.title }}</h2>
+            {%- if collection.description != blank -%}
+              <p class="coll-card__desc">{{ collection.description | strip_html | truncatewords: 18 }}</p>
+            {%- endif -%}
+            <span class="coll-card__count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</span>
+          </div>
+        </a>
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="coll-page__trust animate-in">
+    <div class="coll-trust-item">
+      <span class="coll-trust-item__icon">🌿</span>
+      <span>Natural sisal & solid wood</span>
+    </div>
+    <div class="coll-trust-item">
+      <span class="coll-trust-item__icon">🚚</span>
+      <span>Free shipping on all orders</span>
+    </div>
+    <div class="coll-trust-item">
+      <span class="coll-trust-item__icon">⭐</span>
+      <span>4.8 / 5 · 580+ reviews</span>
+    </div>
+    <div class="coll-trust-item">
+      <span class="coll-trust-item__icon">🔒</span>
+      <span>30-day return guarantee</span>
+    </div>
+  </div>
+
+</div>
+
+{% stylesheet %}
+  .coll-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+
+  /* HERO */
+  .coll-page__hero {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 60px;
+  }
+  .coll-page__label {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8B5E3C;
+    background: #F5EBD8;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+  .coll-page__title {
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: #2A1408;
+    margin: 0 0 16px;
+    line-height: 1.15;
+  }
+  .coll-page__sub {
+    color: #5C3318;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* GRID */
+  .coll-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 60px;
+  }
+
+  /* CARD */
+  .coll-card {
+    text-decoration: none;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #EDD5B0;
+    background: white;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .coll-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(139, 94, 60, 0.14);
+  }
+  .coll-card__img-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #F5EBD8;
+  }
+  .coll-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .coll-card:hover .coll-card__img {
+    transform: scale(1.06);
+  }
+  .coll-card__img--placeholder {
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+  }
+  .coll-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(42,20,8,0.72) 0%, transparent 55%);
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.28s;
+  }
+  .coll-card:hover .coll-card__overlay {
+    opacity: 1;
+  }
+  .coll-card__cta {
+    color: white;
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+  }
+  .coll-card__body {
+    padding: 20px 22px 22px;
+  }
+  .coll-card__title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #2A1408;
+    margin: 0 0 8px;
+  }
+  .coll-card__desc {
+    font-size: 0.85rem;
+    color: #8B7355;
+    margin: 0 0 12px;
+    line-height: 1.5;
+  }
+  .coll-card__count {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #8B5E3C;
+    background: #F5EBD8;
+    padding: 4px 10px;
+    border-radius: 100px;
+    display: inline-block;
+  }
+
+  /* TRUST BAR */
+  .coll-page__trust {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 28px 32px;
+    background: #FDF7EF;
+    border: 1px solid #EDD5B0;
+    border-radius: 16px;
+  }
+  .coll-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #4A3728;
+  }
+  .coll-trust-item__icon {
+    font-size: 1.2rem;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .coll-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .coll-grid {
+      grid-template-columns: 1fr;
+    }
+    .coll-page__title {
+      font-size: 1.8rem;
+    }
+    .coll-page__trust {
+      gap: 20px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.collections_grid",
+  "settings": [],
+  "presets": [{ "name": "t:general.collections_grid" }]
+}
+{% endschema %}

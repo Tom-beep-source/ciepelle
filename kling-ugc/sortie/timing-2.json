@@ -1,0 +1,44 @@
+[
+ {
+  "plan": "K4",
+  "debut": 0,
+  "fin": 1.6,
+  "texte": "Grube rajstopy zimą? / Wyglądasz jak w legginsach"
+ },
+ {
+  "plan": "K1",
+  "debut": 1.6,
+  "fin": 3.4,
+  "texte": "A te wyglądają / jak gołe nogi…"
+ },
+ {
+  "plan": "K3",
+  "debut": 3.4,
+  "fin": 5.3,
+  "texte": "…ale w środku / mają polar"
+ },
+ {
+  "plan": "C3",
+  "debut": 5.3,
+  "fin": 7.2,
+  "texte": "Wysoki stan, / który trzyma się na miejscu"
+ },
+ {
+  "plan": "C5",
+  "debut": 7.2,
+  "fin": 8.9,
+  "texte": "Spódniczka / nawet zimą"
+ },
+ {
+  "plan": "VS",
+  "debut": 8.9,
+  "fin": 10.3,
+  "texte": null
+ },
+ {
+  "plan": "O1",
+  "debut": 10.3,
+  "fin": 12.9,
+  "texte": null
+ }
+]

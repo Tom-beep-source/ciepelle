@@ -1,0 +1,56 @@
+[
+ {
+  "plan": "C1",
+  "debut": 0,
+  "fin": 2.2,
+  "texte": "Dziewczyny, te rajstopy / wyglądają jak gołe nogi…"
+ },
+ {
+  "plan": "K3",
+  "debut": 2.2,
+  "fin": 4.1,
+  "texte": "…a w środku / mają ciepły polar!"
+ },
+ {
+  "plan": "C2",
+  "debut": 4.1,
+  "fin": 5.9,
+  "texte": "Zakładasz je / jak zwykłe rajstopy"
+ },
+ {
+  "plan": "C3",
+  "debut": 5.9,
+  "fin": 7.9,
+  "texte": "Wysoki stan / nie zjeżdża / i otula brzuch"
+ },
+ {
+  "plan": "C5",
+  "debut": 7.9,
+  "fin": 9.9,
+  "texte": "A z daleka nikt nie zgadnie, / że masz polar"
+ },
+ {
+  "plan": "V1",
+  "debut": 9.9,
+  "fin": 10.5,
+  "texte": "cielisty"
+ },
+ {
+  "plan": "V2",
+  "debut": 10.5,
+  "fin": 11.1,
+  "texte": "czarny"
+ },
+ {
+  "plan": "V3",
+  "debut": 11.1,
+  "fin": 11.7,
+  "texte": "szary"
+ },
+ {
+  "plan": "O4",
+  "debut": 11.7,
+  "fin": 14.3,
+  "texte": null
+ }
+]

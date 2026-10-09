@@ -1,0 +1,56 @@
+[
+ {
+  "plan": "VS",
+  "debut": 0,
+  "fin": 1.9,
+  "texte": "Zimno, a ona / w cienkich rajstopach?"
+ },
+ {
+  "plan": "C1",
+  "debut": 1.9,
+  "fin": 3.8,
+  "texte": "Sekret? / Polar w środku"
+ },
+ {
+  "plan": "K3",
+  "debut": 3.8,
+  "fin": 5.2,
+  "texte": null
+ },
+ {
+  "plan": "C2",
+  "debut": 5.2,
+  "fin": 6.9,
+  "texte": "Zakładasz / jak zwykłe rajstopy"
+ },
+ {
+  "plan": "K1",
+  "debut": 6.9,
+  "fin": 8.6,
+  "texte": "a wyglądają / jak gołe nogi"
+ },
+ {
+  "plan": "V1",
+  "debut": 8.6,
+  "fin": 9.2,
+  "texte": "cielisty"
+ },
+ {
+  "plan": "V2",
+  "debut": 9.2,
+  "fin": 9.8,
+  "texte": "czarny"
+ },
+ {
+  "plan": "V3",
+  "debut": 9.8,
+  "fin": 10.4,
+  "texte": "szary"
+ },
+ {
+  "plan": "C5",
+  "debut": 10.4,
+  "fin": 13.0,
+  "texte": null
+ }
+]

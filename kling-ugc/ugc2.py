@@ -20,11 +20,11 @@ ADS = {
   ('V1', 2.98, 0.6, 1.2, 'cielisty', {'tag': 1}), ('V2', 0.23, 0.6, 1.2, 'czarny', {'tag': 1}), ('V3', 0.27, 0.6, 1.2, 'szary', {'tag': 1}),
   ('O4', 0.8, 2.6, 1.0, None, {'offer': 1})],
  '2': [  # avant / après
-  ('K4B', 0.0, 1.6, 1.0, 'Zwykłe rajstopy zimą? / Zimno i lecą oczka', {'push': .08}),
-  ('K1', 0.2, 1.8, 1.0, 'A te wyglądają / tak samo cienko…', {}),
+  ('K4', 0.0, 1.6, 1.0, 'Grube rajstopy zimą? / Wyglądasz jak w legginsach', {'push': .08}),
+  ('K1', 0.2, 1.8, 1.0, 'A te wyglądają / jak gołe nogi…', {}),
   ('K3', 0.6, 1.9, 1.1, '…ale w środku / mają polar', {}),
   ('C3', 0.0, 1.9, 1.0, 'Wysoki stan, / który trzyma się na miejscu', {'z0': 1.45, 'cy': .32}),
-  ('C5', 0.0, 1.7, 1.0, 'Sukienka / nawet zimą', {}),
+  ('C5', 0.0, 1.7, 1.0, 'Spódniczka / nawet zimą', {}),
   ('VS', 2.6, 1.4, 1.1, None, {}),
   ('O1', 0.5, 2.6, 1.0, None, {'offer': 1})],
  '3': [  # sortie en hiver
@@ -78,25 +78,30 @@ def cover(f):
     f = cv2.resize(f, (round(w * k), round(h * k)), interpolation=cv2.INTER_AREA if k < 1 else cv2.INTER_CUBIC)
     y = (f.shape[0] - H) // 2; x = (f.shape[1] - W) // 2; return f[y:y + H, x:x + W]
 class Src:
-    def __init__(s, name):
-        p = os.path.join(C, name)
+    def __init__(s, name, lo=0, hi=1e9):
+        p = os.path.join(C, name); s.lo = lo
         for ext in ('.png', '.jpg'):
             if os.path.exists(p + ext): s.still = cover(cv2.cvtColor(cv2.imread(p + ext), cv2.COLOR_BGR2RGB)); return
         s.still = None; cap = cv2.VideoCapture(p + '.mp4'); s.fps = cap.get(cv2.CAP_PROP_FPS) or 24; s.frames = []
+        s.i0 = int(lo * s.fps); k = 0
         while True:
             ok, f = cap.read()
-            if not ok: break
-            s.frames.append(f)
+            if not ok or k > hi * s.fps + 2: break
+            if k >= s.i0: s.frames.append(f)   # on ne garde en mémoire que la partie du plan utilisée
+            k += 1
     def at(s, t):
         if s.still is not None: return s.still
-        i = max(0, min(int(t * s.fps), len(s.frames) - 1))
+        i = max(0, min(int(t * s.fps) - s.i0, len(s.frames) - 1))
         return cover(cv2.cvtColor(s.frames[i], cv2.COLOR_BGR2RGB))
 def zoom(arr, z, cx=.5, cy=.5):
     if z <= 1.001: return arr
     cw, ch = W / z, H / z; x0 = min(max(cx * W - cw / 2, 0), W - cw); y0 = min(max(cy * H - ch / 2, 0), H - ch)
     return cv2.resize(arr[int(y0):int(y0 + ch), int(x0):int(x0 + cw)], (W, H), interpolation=cv2.INTER_LINEAR)
 
-srcs = {n: Src(n) for n in {s[0] for s in SEGS}}
+_rng = {}
+for _s in SEGS:
+    lo, hi = _rng.get(_s[0], (1e9, 0)); _rng[_s[0]] = (min(lo, _s[1]), max(hi, _s[1] + _s[2] * _s[3]))
+srcs = {n: Src(n, *_rng[n]) for n in _rng}
 starts = []; t = 0
 for s in SEGS: starts.append(t); t += s[2]
 DUR = t; NF = int(DUR * FPS)
@@ -143,7 +148,7 @@ wf.write(tmp + '.wav', SR, (np.clip(sfx, -1, 1) * 32767).astype(np.int16))
 music = os.path.join(HERE, '..', 'kling-variantes', 'audio', 'bande-son-defile.m4a')
 final = os.path.join(HERE, 'sortie', f'ciepelle-ugc2-{N}.mp4')
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', tmp, '-stream_loop', '-1', '-i', music, '-i', tmp + '.wav',
-                '-filter_complex', f'[1:a]volume=-6dB,atrim=0:{DUR:.2f},afade=t=out:st={DUR - .5:.2f}:d=.5[m];[m][2:a]amix=inputs=2:normalize=0[a]',
+                '-filter_complex', f'[1:a]volume=-6dB,atrim=0:{DUR:.2f},afade=t=out:st={DUR - .5:.2f}:d=0.5[m];[m][2:a]amix=inputs=2:normalize=0[a]',
                 '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-shortest', '-movflags', '+faststart', final], check=True)
 os.remove(tmp); os.remove(tmp + '.wav')
 json.dump([{'plan': s[0], 'debut': round(st, 2), 'fin': round(st + s[2], 2), 'texte': s[4]} for s, st in zip(SEGS, starts)],

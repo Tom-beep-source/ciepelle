@@ -1,0 +1,151 @@
+# Montage dynamique style créatrice UGC (TikTok / Reels) : coupes rapides, zoom d'impact, transition « swipe »,
+# sous-titres mot par mot (même texte que la future voix off polonaise), bruitages, offre finale.
+# Usage : python3 ugc2.py 1|2|3  -> sortie/ciepelle-ugc2-N.mp4
+import sys, os, math, subprocess, numpy as np, cv2, json
+from PIL import Image, ImageDraw, ImageFont
+W, H, FPS = 1080, 1920, 30
+HERE = os.path.dirname(os.path.abspath(__file__)); C = os.path.join(HERE, 'clips')
+SANS = os.path.join(HERE, '..', 'kling-variantes', 'assets', 'Manrope.ttf')
+SERIF = os.path.join(HERE, '..', 'kling-variantes', 'assets', 'DMSerifDisplay-Regular.ttf')
+ROSE = (181, 84, 111); INK = (34, 27, 31); CREAM = (251, 246, 242); YEL = (255, 214, 64)
+N = sys.argv[1]
+# plan, début (s), durée (s), vitesse, texte (morceaux séparés par « / », affichés à la suite), options
+ADS = {
+ '1': [  # créatrice qui présente le produit
+  ('C1', 0.0, 2.2, 1.0, 'Dziewczyny, te rajstopy / wyglądają jak gołe nogi…', {}),
+  ('K3', 0.6, 1.9, 1.1, '…a w środku / mają ciepły polar!', {}),
+  ('C2', 0.0, 1.8, 1.0, 'Zakładasz je / jak zwykłe rajstopy', {}),
+  ('C3', 0.0, 2.0, 1.0, 'Wysoki stan / nie zjeżdża / i otula brzuch', {'z0': 1.45, 'cy': .32}),
+  ('C5', 0.0, 2.0, 1.0, 'A z daleka nikt nie zgadnie, / że masz polar', {}),
+  ('V1', 2.98, 0.6, 1.2, 'cielisty', {'tag': 1}), ('V2', 0.23, 0.6, 1.2, 'czarny', {'tag': 1}), ('V3', 0.27, 0.6, 1.2, 'szary', {'tag': 1}),
+  ('O4', 0.8, 2.6, 1.0, None, {'offer': 1})],
+ '2': [  # avant / après
+  ('K4B', 0.0, 1.6, 1.0, 'Zwykłe rajstopy zimą? / Zimno i lecą oczka', {'push': .08}),
+  ('K1', 0.2, 1.8, 1.0, 'A te wyglądają / tak samo cienko…', {}),
+  ('K3', 0.6, 1.9, 1.1, '…ale w środku / mają polar', {}),
+  ('C3', 0.0, 1.9, 1.0, 'Wysoki stan, / który trzyma się na miejscu', {'z0': 1.45, 'cy': .32}),
+  ('C5', 0.0, 1.7, 1.0, 'Sukienka / nawet zimą', {}),
+  ('VS', 2.6, 1.4, 1.1, None, {}),
+  ('O1', 0.5, 2.6, 1.0, None, {'offer': 1})],
+ '3': [  # sortie en hiver
+  ('VS', 2.4, 1.9, 1.0, 'Zimno, a ona / w cienkich rajstopach?', {}),
+  ('C1', 0.6, 1.9, 1.0, 'Sekret? / Polar w środku', {}),
+  ('K3', 1.2, 1.4, 1.1, None, {}),
+  ('C2', 0.0, 1.7, 1.0, 'Zakładasz / jak zwykłe rajstopy', {}),
+  ('K1', 0.6, 1.7, 1.0, 'a wyglądają / jak gołe nogi', {}),
+  ('V1', 2.98, 0.6, 1.2, 'cielisty', {'tag': 1}), ('V2', 0.23, 0.6, 1.2, 'czarny', {'tag': 1}), ('V3', 0.27, 0.6, 1.2, 'szary', {'tag': 1}),
+  ('C5', 0.3, 2.6, 1.0, None, {'offer': 1})],
+}
+SEGS = ADS[N]
+
+def font(s, w=800):
+    f = ImageFont.truetype(SANS, s)
+    try: f.set_variation_by_axes([w])
+    except Exception: pass
+    return f
+def wrap(text, f, maxw):
+    d0 = ImageDraw.Draw(Image.new('L', (1, 1))); lines, cur = [], ''
+    for w in text.split():
+        t = (cur + ' ' + w).strip()
+        if d0.textlength(t, font=f) > maxw and cur: lines.append(cur); cur = w
+        else: cur = t
+    return lines + [cur]
+def caption(text, size=70):
+    f = font(size); d0 = ImageDraw.Draw(Image.new('L', (1, 1))); lines = wrap(text, f, 900); lh = int(size * 1.2)
+    ws = [d0.textlength(l, font=f) for l in lines]
+    im = Image.new('RGBA', (int(max(ws)) + 40, lh * len(lines) + 30), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    for i, (l, w) in enumerate(zip(lines, ws)):
+        d.text(((im.width - w) / 2, 12 + i * lh), l, font=f, fill=(255, 255, 255), stroke_width=8, stroke_fill=(0, 0, 0))
+    return im
+def pill(text, size, bg, fg, pad=(36, 20)):
+    f = font(size); d0 = ImageDraw.Draw(Image.new('L', (1, 1))); w = d0.textlength(text, font=f)
+    im = Image.new('RGBA', (int(w + 2 * pad[0]), int(size * 1.15 + 2 * pad[1])), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    d.rounded_rectangle([0, 0, im.width - 1, im.height - 1], radius=im.height // 2, fill=bg)
+    d.text((pad[0], pad[1] - size * 0.08), text, font=f, fill=fg); return im
+def badge():
+    f = ImageFont.truetype(SERIF, 42); w = ImageDraw.Draw(Image.new('L', (1, 1))).textlength('Ciepelle', font=f)
+    im = Image.new('RGBA', (int(w + 50), 66), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    d.rounded_rectangle([0, 0, im.width - 1, 65], radius=33, fill=INK + (170,)); d.text((25, 7), 'Ciepelle', font=f, fill=CREAM); return im
+BADGE = badge()
+def pop(im, p):
+    e = 1 - (1 - min(1, max(0, p))) ** 3; s = .85 + .15 * e
+    out = im.resize((max(1, int(im.width * s)), max(1, int(im.height * s))), Image.LANCZOS)
+    if e < 1: out.putalpha(out.split()[3].point(lambda v: int(v * e)))
+    return out
+
+def cover(f):
+    h, w = f.shape[:2]; k = max(W / w, H / h)
+    f = cv2.resize(f, (round(w * k), round(h * k)), interpolation=cv2.INTER_AREA if k < 1 else cv2.INTER_CUBIC)
+    y = (f.shape[0] - H) // 2; x = (f.shape[1] - W) // 2; return f[y:y + H, x:x + W]
+class Src:
+    def __init__(s, name):
+        p = os.path.join(C, name)
+        for ext in ('.png', '.jpg'):
+            if os.path.exists(p + ext): s.still = cover(cv2.cvtColor(cv2.imread(p + ext), cv2.COLOR_BGR2RGB)); return
+        s.still = None; cap = cv2.VideoCapture(p + '.mp4'); s.fps = cap.get(cv2.CAP_PROP_FPS) or 24; s.frames = []
+        while True:
+            ok, f = cap.read()
+            if not ok: break
+            s.frames.append(f)
+    def at(s, t):
+        if s.still is not None: return s.still
+        i = max(0, min(int(t * s.fps), len(s.frames) - 1))
+        return cover(cv2.cvtColor(s.frames[i], cv2.COLOR_BGR2RGB))
+def zoom(arr, z, cx=.5, cy=.5):
+    if z <= 1.001: return arr
+    cw, ch = W / z, H / z; x0 = min(max(cx * W - cw / 2, 0), W - cw); y0 = min(max(cy * H - ch / 2, 0), H - ch)
+    return cv2.resize(arr[int(y0):int(y0 + ch), int(x0):int(x0 + cw)], (W, H), interpolation=cv2.INTER_LINEAR)
+
+srcs = {n: Src(n) for n in {s[0] for s in SEGS}}
+starts = []; t = 0
+for s in SEGS: starts.append(t); t += s[2]
+DUR = t; NF = int(DUR * FPS)
+os.makedirs(os.path.join(HERE, 'sortie'), exist_ok=True)
+tmp = os.path.join(HERE, 'sortie', f'_v{N}.mp4')
+proc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
+                         '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-pix_fmt', 'yuv420p', tmp], stdin=subprocess.PIPE)
+cache = {}; cuts = starts[1:]
+OF1 = pill('2 pary za 149 zł', 82, ROSE + (255,), (255, 255, 255)); OF2 = pill('220 g · darmowa dostawa · 14 dni na zwrot', 38, (255, 255, 255, 240), INK)
+OF0 = caption('Kliknij i zamów', 58)
+for fi in range(NF):
+    t = fi / FPS; k = max(i for i, st in enumerate(starts) if st <= t + 1e-6)
+    name, off, d, sp, txt, op = SEGS[k]; lt = t - starts[k]
+    arr = srcs[name].at(off + lt * sp)
+    z = op.get('z0', 1.04) + op.get('push', .06) * lt / d                       # léger zoom avant continu
+    if k > 0: z *= 1 + .10 * math.exp(-lt / .07)                 # zoom d'impact à chaque coupe
+    arr = zoom(arr, z, cy=op.get('cy', .5))
+    if k > 0 and lt < 3 / FPS:                                   # « swipe » : flou de mouvement sur 3 images
+        kk = int(90 * (1 - lt * FPS / 3)) + 1; arr = cv2.filter2D(arr, -1, np.ones((1, kk), np.float32) / kk)
+    fr = Image.fromarray(arr).convert('RGBA'); fr.alpha_composite(BADGE, (46, int(H * .075)))
+    if txt and op.get('tag'):
+        im = pill(txt.upper(), 54, INK + (220,), CREAM); fr.alpha_composite(pop(im, lt / .1), ((W - im.width) // 2, int(H * .30)))
+    elif txt:
+        parts = [p.strip() for p in txt.split('/')]; n = len(parts); j = min(n - 1, int(lt / d * n))
+        key = (txt, j)
+        if key not in cache: cache[key] = caption(parts[j])
+        im = cache[key]; p = (lt - j * d / n) / .12
+        fr.alpha_composite(pop(im, p), ((W - im.width) // 2, int(H * .27)))
+    if op.get('offer'):
+        a = (lt - .1) / .2; b = (lt - .35) / .2; c = (lt - .7) / .2
+        for im, y, p in ((OF0, .50, c), (OF1, .58, a), (OF2, .665, b)):
+            q = pop(im, p); fr.alpha_composite(q, ((W - q.width) // 2, int(H * y)))
+    out = np.asarray(fr.convert('RGB')).astype(np.int16)
+    out = np.clip(out + np.random.default_rng(fi).normal(0, 2.5, (H, W, 1)).astype(np.int16), 0, 255).astype(np.uint8)
+    proc.stdin.write(out.tobytes())
+proc.stdin.close(); proc.wait()
+# bande son : musique entraînante générée + « whoosh » à chaque coupe
+SR = 48000; n = int(SR * DUR); rng = np.random.default_rng(3); sfx = np.zeros(n)
+for c in cuts:
+    L = int(.22 * SR); noise = rng.standard_normal(L); env = np.sin(np.linspace(0, np.pi, L)) ** 2
+    bp = np.convolve(noise, np.ones(30) / 30, 'same') * env * .25; i = int(max(0, c - .11) * SR); sfx[i:i + L] += bp[:max(0, min(L, n - i))]
+import scipy.io.wavfile as wf
+wf.write(tmp + '.wav', SR, (np.clip(sfx, -1, 1) * 32767).astype(np.int16))
+music = os.path.join(HERE, '..', 'kling-variantes', 'audio', 'bande-son-defile.m4a')
+final = os.path.join(HERE, 'sortie', f'ciepelle-ugc2-{N}.mp4')
+subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', tmp, '-stream_loop', '-1', '-i', music, '-i', tmp + '.wav',
+                '-filter_complex', f'[1:a]volume=-6dB,atrim=0:{DUR:.2f},afade=t=out:st={DUR - .5:.2f}:d=.5[m];[m][2:a]amix=inputs=2:normalize=0[a]',
+                '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-shortest', '-movflags', '+faststart', final], check=True)
+os.remove(tmp); os.remove(tmp + '.wav')
+json.dump([{'plan': s[0], 'debut': round(st, 2), 'fin': round(st + s[2], 2), 'texte': s[4]} for s, st in zip(SEGS, starts)],
+          open(os.path.join(HERE, 'sortie', f'timing-{N}.json'), 'w'), ensure_ascii=False, indent=1)
+print('ok', final, round(DUR, 2), 's')

@@ -19,8 +19,8 @@
         "care_html": "<p><b>Skład:</b> 90% poliester, 10% elastan (dzianina z ociepleniem polarowym od środka).</p><p><b>Gramatura:</b> 80 g, 220 g lub 300 g.</p><ul>\n<li>Prać ręcznie lub w pralce w programie delikatnym do 30°C, najlepiej w woreczku do prania</li>\n<li>Nie wybielać</li>\n<li>Nie suszyć w suszarce bębnowej</li>\n<li>Nie prasować</li>\n</ul>",
         "gpsr_html": "<p><b>Producent:</b> COZOK, prowincja Zhejiang, Chiny (kraj pochodzenia: Chiny).</p><p><b>Podmiot odpowiedzialny w UE:</b> Tom Canal EI, 68 Avenue des Pyrénées, 31600 Muret, Francja, SIRET 10762343100015 – kontakt: support@ciepelle.pl.</p><p>Produkt nie zawiera substancji wzbudzających szczególnie duże obawy (SVHC) według deklaracji producenta. Produkt przeznaczony dla osób dorosłych. Przed pierwszym użyciem usuń wszystkie metki i elementy opakowania. Nie stosować w pobliżu otwartego ognia.</p>",
         "w80": "14,2,19,7,1,13,5,16,17,0",
-        "w220": "14,3,19,20,1,2,21,5,16,17,0",
-        "w300": "14,12,6,3,19,20,21,1,16,17,0"
+        "w220": "14,3,19,20,1,2,22,5,16,17,0",
+        "w300": "14,12,6,3,19,20,22,1,16,17,0"
       }
     }
   },

@@ -13,24 +13,34 @@ ROSE = (181, 84, 111); INK = (34, 27, 31); CREAM = (251, 246, 242)
 
 V = sys.argv[1]
 OFFER = '2 pary za 149 zł'
-OFFER2 = 'darmowa dostawa · 14 dni na zwrot'
+OFFER2 = '220 g · darmowa dostawa · 14 dni na zwrot'
 # (plan, début dans le plan en s, durée en s, vitesse, sous-titre)
 ADS = {
- 'A': [('K2', 0.0, 2.6, 1.0, 'To nie są gołe nogi…|to rajstopy'),
-       ('K3', 0.3, 2.6, 1.0, 'A w środku mają|miękki polar'),
-       ('K1', 0.0, 2.6, 1.0, 'Z zewnątrz wyglądają|jak cienkie rajstopy'),
-       ('K5', 0.2, 2.6, 1.0, 'Sukienka nawet zimą'),
-       ('K1', 2.6, 2.4, 1.0, None)],
- 'B': [('K4', 0.0, 1.3, 1.0, 'Z tego…'),
-       ('K1', 0.0, 2.4, 1.0, '…na to'),
-       ('K3', 0.3, 2.6, 1.0, 'Ciepło jak w legginsach,|bo w środku jest polar'),
-       ('K2', 0.0, 2.5, 1.0, 'A z zewnątrz|cienkie i przezroczyste'),
-       ('K5', 0.2, 2.6, 1.0, None)],
- 'C': [('K5', 0.2, 2.7, 1.0, 'Zimno, a ona|w cienkich rajstopach?'),
-       ('K3', 0.3, 2.6, 1.0, 'Sekret?|Polar w środku'),
-       ('K2', 0.0, 2.5, 1.0, 'Z zewnątrz wyglądają|jak zwykłe rajstopy'),
-       ('K1', 0.0, 2.5, 1.0, '3 kolory · 80, 220 lub 300 g'),
-       ('K1', 2.5, 2.4, 1.0, None)],
+ # A – « Z tego… na to » (structure Woolisi, 188 000 personnes en 2 semaines)
+ 'A': [('K4', 0.0, 1.3, 1.0, 'Z tego…'),
+       ('K1', 0.2, 2.4, 1.0, '…na to'),
+       ('K3', 0.3, 2.8, 1.0, 'A w środku|ciepły polar'),
+       ('P1', 0.0, 1.4, 1.0, 'Z zewnątrz wyglądają|jak cienkie rajstopy'),
+       ('V1', 2.98, 1.2, 1.0, '#Cielisty'),
+       ('V2', 0.23, 1.2, 1.0, '#Czarny'),
+       ('V3', 0.27, 1.2, 1.0, '#Szary'),
+       ('O4', 0.8, 2.6, 1.0, None)],
+ # B – « To nie są gołe nogi » (structure Ufali / Greedass : on croit à des jambes nues, preuve)
+ 'B': [('K1', 1.0, 2.2, 1.0, 'To nie są|gołe nogi…'),
+       ('P1', 0.0, 1.5, 1.0, '…to rajstopy|z polarem'),
+       ('K3', 0.3, 2.8, 1.0, 'Zobacz, co mają|w środku'),
+       ('O1', 0.5, 1.1, 1.15, 'Sukienki i spódnice|nawet zimą'),
+       ('O3', 0.8, 1.1, 1.15, 'Sukienki i spódnice|nawet zimą'),
+       ('O5', 0.67, 1.1, 1.15, 'Sukienki i spódnice|nawet zimą'),
+       ('VS', 2.4, 2.8, 1.0, None)],
+ # C – marché polonais (Dessove / Ricca : « wyglądają jak prześwitujące, a w środku polar »)
+ 'C': [('VS', 2.4, 2.6, 1.0, 'Zimno, a ona|w cienkich rajstopach?'),
+       ('K3', 0.3, 2.8, 1.0, 'Sekret?|Polar w środku'),
+       ('K1', 0.0, 2.2, 1.0, 'Z zewnątrz wyglądają|jak gołe nogi'),
+       ('V1', 2.98, 1.1, 1.0, '#Cielisty'),
+       ('V2', 0.23, 1.1, 1.0, '#Czarny'),
+       ('V3', 0.27, 1.1, 1.0, '#Szary'),
+       ('O1', 0.5, 2.6, 1.0, None)],
 }
 SEGS = ADS[V]
 END = 2.4  # le dernier plan porte l'offre
@@ -110,7 +120,7 @@ for fi in range(int(DUR * FPS)):
     fr = Image.fromarray(arr).convert('RGBA')
     fr.alpha_composite(BADGE, (48, int(H * 0.075)))
     if cap:
-        if cap not in caps: caps[cap] = tiktok_text(cap.split('|'))
+        if cap not in caps: caps[cap] = pill(cap[1:].upper(), 50, INK + (215,), CREAM) if cap.startswith('#') else tiktok_text(cap.split('|'))
         im = caps[cap]; fr.alpha_composite(im, ((W - im.width) // 2, int(H * 0.30)))
     if k == len(SEGS) - 1:                                      # offre sur le dernier plan
         a = min(1, max(0, (lt - 0.15) / 0.25))

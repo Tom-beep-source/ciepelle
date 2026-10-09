@@ -11,16 +11,14 @@ ROSE = (181, 84, 111); INK = (34, 27, 31); CREAM = (251, 246, 242); YEL = (255, 
 # plan, début (s), durée (s), vitesse, texte (morceaux séparés par « / », affichés à la suite), options
 # Version « voix off » : mots-clés à l'écran synchronisés avec la voix, vidéo SANS son (Tom ajoute voix + musique).
 # plan, début (s), durée (s), vitesse, [(instant dans le plan, mot-clé, petite ligne)], options
-SEGS = [
-  ('C1', 0.0, 2.6, 1.0, [(0.0, 'Wyglądają jak cienkie…', None), (1.25, '…a w środku polar!', None)], {}),
-  ('VF', 0.5, 1.8, 1.0, [(0.1, 'Trzyma ciepło', None)], {}),
-  ('K3', 0.6, 1.8, 1.1, [(0.1, 'Chroni przed chłodem', None)], {}),
-  ('C2', 0.0, 2.4, 1.0, [(0.2, 'Bardzo elastyczne', None)], {}),
-  ('H1', 0.5, 2.0, 1.0, [(0.1, 'Ładnie przylegają', 'do nóg')], {}),
-  ('C3', 0.0, 2.4, 1.0, [(0.0, 'Wysoki stan', 'nie zjeżdża'), (1.2, 'Otula brzuch', None)], {'z0': 1.45, 'cy': .32}),
-  ('C5', 0.0, 2.2, 1.0, [(0.1, 'Rozmiar uniwersalny', 'ok. 40–70 kg')], {}),
-  ('V1', 2.98, 0.8, 1.2, 'cielisty', {'tag': 1}), ('V2', 0.23, 0.8, 1.2, 'czarny', {'tag': 1}), ('V3', 0.27, 0.8, 1.2, 'szary', {'tag': 1}),
-  ('O4', 0.8, 3.2, 1.0, None, {'offer': 1})]
+SEGS = [  # EXACTEMENT les mêmes plans / durées / effets que ciepelle-ugc2-1 — seuls les textes changent
+  ('C1', 0.0, 2.2, 1.0, [(0.0, 'Wyglądają jak cienkie…', None), (1.1, '…a w środku polar!', None)], {}),
+  ('K3', 0.6, 1.9, 1.1, [(0.0, 'Trzyma ciepło', None), (0.95, 'Chroni przed chłodem', None)], {}),
+  ('C2', 0.0, 1.8, 1.0, [(0.0, 'Bardzo elastyczne', None), (0.9, 'Ładnie przylegają', 'do nóg')], {}),
+  ('C3', 0.0, 2.0, 1.0, [(0.0, 'Wysoki stan', 'nie zjeżdża'), (1.0, 'Otula brzuch', None)], {'z0': 1.45, 'cy': .32}),
+  ('C5', 0.0, 2.0, 1.0, [(0.0, 'Rozmiar uniwersalny', 'ok. 40–70 kg')], {}),
+  ('V1', 2.98, 0.6, 1.2, 'cielisty', {'tag': 1}), ('V2', 0.23, 0.6, 1.2, 'czarny', {'tag': 1}), ('V3', 0.27, 0.6, 1.2, 'szary', {'tag': 1}),
+  ('O4', 0.8, 2.6, 1.0, None, {'offer': 1})]
 N = 'vo'
 def font(s, w=800):
     f = ImageFont.truetype(SANS, s)

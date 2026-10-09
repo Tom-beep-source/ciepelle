@@ -2,7 +2,7 @@
  {
   "plan": "C1",
   "debut": 0,
-  "fin": 2.6,
+  "fin": 2.2,
   "texte": [
    [
     0.0,
@@ -10,31 +10,24 @@
     null
    ],
    [
-    1.25,
+    1.1,
     "…a w środku polar!",
     null
    ]
   ]
  },
  {
-  "plan": "VF",
-  "debut": 2.6,
-  "fin": 4.4,
+  "plan": "K3",
+  "debut": 2.2,
+  "fin": 4.1,
   "texte": [
    [
-    0.1,
+    0.0,
     "Trzyma ciepło",
     null
-   ]
-  ]
- },
- {
-  "plan": "K3",
-  "debut": 4.4,
-  "fin": 6.2,
-  "texte": [
+   ],
    [
-    0.1,
+    0.95,
     "Chroni przed chłodem",
     null
    ]
@@ -42,23 +35,16 @@
  },
  {
   "plan": "C2",
-  "debut": 6.2,
-  "fin": 8.6,
+  "debut": 4.1,
+  "fin": 5.9,
   "texte": [
    [
-    0.2,
+    0.0,
     "Bardzo elastyczne",
     null
-   ]
-  ]
- },
- {
-  "plan": "H1",
-  "debut": 8.6,
-  "fin": 10.6,
-  "texte": [
+   ],
    [
-    0.1,
+    0.9,
     "Ładnie przylegają",
     "do nóg"
    ]
@@ -66,8 +52,8 @@
  },
  {
   "plan": "C3",
-  "debut": 10.6,
-  "fin": 13.0,
+  "debut": 5.9,
+  "fin": 7.9,
   "texte": [
    [
     0.0,
@@ -75,7 +61,7 @@
     "nie zjeżdża"
    ],
    [
-    1.2,
+    1.0,
     "Otula brzuch",
     null
    ]
@@ -83,11 +69,11 @@
  },
  {
   "plan": "C5",
-  "debut": 13.0,
-  "fin": 15.2,
+  "debut": 7.9,
+  "fin": 9.9,
   "texte": [
    [
-    0.1,
+    0.0,
     "Rozmiar uniwersalny",
     "ok. 40–70 kg"
    ]
@@ -95,26 +81,26 @@
  },
  {
   "plan": "V1",
-  "debut": 15.2,
-  "fin": 16.0,
+  "debut": 9.9,
+  "fin": 10.5,
   "texte": "cielisty"
  },
  {
   "plan": "V2",
-  "debut": 16.0,
-  "fin": 16.8,
+  "debut": 10.5,
+  "fin": 11.1,
   "texte": "czarny"
  },
  {
   "plan": "V3",
-  "debut": 16.8,
-  "fin": 17.6,
+  "debut": 11.1,
+  "fin": 11.7,
   "texte": "szary"
  },
  {
   "plan": "O4",
-  "debut": 17.6,
-  "fin": 20.8,
+  "debut": 11.7,
+  "fin": 14.3,
   "texte": null
  }
 ]

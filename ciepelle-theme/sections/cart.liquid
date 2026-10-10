@@ -24,6 +24,17 @@
         </div>
       {%- endfor -%}
 
+      {%- comment -%} Encadré « froid » + garanties : rassure avant le paiement {%- endcomment -%}
+      <div class="cart-warm" style="border:1px solid #ead8de;background:#fff7f8;border-radius:14px;padding:14px 16px;margin:18px 0">
+        <p style="margin:0 0 6px;font-weight:700">❄️ Chłodne poranki już są</p>
+        <p style="margin:0 0 10px;font-size:.95rem">Wyglądają jak cienkie rajstopy, a w środku mają miękki polar – nosisz spódnicę czy sukienkę i nie marzniesz.</p>
+        <ul style="margin:0;padding:0;list-style:none;font-size:.9rem;line-height:1.7">
+          <li>✓ Darmowa dostawa w całej Polsce (zwykle 5–7 dni roboczych)</li>
+          <li>✓ 14 dni na zwrot bez podawania przyczyny</li>
+          <li>✓ Płatność BLIK, kartą lub PayPal</li>
+        </ul>
+      </div>
+
       <div class="cart__summary">
         {%- if cart.total_discount > 0 -%}<div class="cart__row"><span>Rabat</span><span>−{{ cart.total_discount | money }}</span></div>{%- endif -%}
         <div class="cart__row"><span>Dostawa</span><span style="color:var(--ok);font-weight:700">Gratis</span></div>

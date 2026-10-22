@@ -1,0 +1,111 @@
+[
+ {
+  "plan": "C1",
+  "debut": 0,
+  "fin": 4.01,
+  "texte": [
+   [
+    0.0,
+    "Wyglądają jak cienkie…",
+    null
+   ],
+   [
+    1.74,
+    "…a w środku polar!",
+    null
+   ]
+  ]
+ },
+ {
+  "plan": "K3",
+  "debut": 4.01,
+  "fin": 6.05,
+  "texte": [
+   [
+    0.0,
+    "Trzymają ciepło",
+    null
+   ],
+   [
+    0.87,
+    "Chronią przed chłodem",
+    null
+   ]
+  ]
+ },
+ {
+  "plan": "C2",
+  "debut": 6.05,
+  "fin": 9.0,
+  "texte": [
+   [
+    0.0,
+    "Super elastyczne",
+    null
+   ],
+   [
+    1.29,
+    "Ładnie przylegają",
+    "do nóg"
+   ]
+  ]
+ },
+ {
+  "plan": "C3",
+  "debut": 9.0,
+  "fin": 11.34,
+  "texte": [
+   [
+    0.0,
+    "Wysoki stan",
+    "nie zjeżdża"
+   ],
+   [
+    1.36,
+    "Otula brzuch",
+    null
+   ]
+  ]
+ },
+ {
+  "plan": "C5",
+  "debut": 11.34,
+  "fin": 14.77,
+  "texte": [
+   [
+    0.0,
+    "Jeden rozmiar: S–XL",
+    "ok. 40–90 kg"
+   ],
+   [
+    2.17,
+    "Do wyboru: 3 kolory",
+    null
+   ]
+  ]
+ },
+ {
+  "plan": "V1",
+  "debut": 14.77,
+  "fin": 15.38,
+  "texte": "cielisty"
+ },
+ {
+  "plan": "V2",
+  "debut": 15.38,
+  "fin": 15.91,
+  "texte": "czarny"
+ },
+ {
+  "plan": "V3",
+  "debut": 15.91,
+  "fin": 16.71,
+  "texte": "szary"
+ },
+ {
+  "plan": "O4",
+  "debut": 16.71,
+  "fin": 21.2,
+  "texte": null
+ }
+]

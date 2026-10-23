@@ -1,0 +1,145 @@
+{%- comment -%}
+  Ciepelle – sections « vivantes » (photos portées, avant/après, tailles, suivi, FAQ).
+  Usage : {% render 'ciepelle-zycie', blok: 'looks3' %} — blok = looks3 | lookbook | before | sizes | trio | steps | faq
+  Images : fichiers Shopify (Contenu > Fichiers) nommés EMXN1y8qUAoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo2c3RhcmdhdGUvMTE0LzQ3ZmM4YTM1LThmM2UtNDUzMy1iZDZhLTkzNjhkODE4ZmQzNS5qcGVn.jpg … EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTE0LzlhNzFiZTI2LTU4ZWYtNDcwZi04MzQxLTI1MGU5NjUwYWI2ZS5wbmc.png,
+  EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTIwL2E4Njk3Yzc2LTE3YjctNGQwNS1hNmQxLWY4ODY5NDVmZmQzZC5wbmc.png, EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTE0LzQ2MWZkMGQ2LTdmNTMtNDYzMy1iYmU1LWNkZjk5N2UwOGVhZi5wbmc.png, EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTIwL2U2MzI1ODgwLTFhOTMtNDE3Mi04ZTQwLTU4ODg2MjNkYWE3Mi5wbmc.png
+{%- endcomment -%}
+{%- liquid
+  assign looks = 'EMXN1y8qUAoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo2c3RhcmdhdGUvMTE0LzQ3ZmM4YTM1LThmM2UtNDUzMy1iZDZhLTkzNjhkODE4ZmQzNS5qcGVn.jpg|Cielisty|Stare Miasto, listopad,EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTIwLzE2ZjBhN2RlLTBhZmMtNDNjNi04MWM4LWIxYjdlYzBlOWM4Zi5wbmc.png|Czarny|Do biura,EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTIwLzRjYzcwNWZmLTY4ZDEtNGY1OS1hZjI3LWI1ZmM0YTlhMGIwNS5wbmc.png|Szary|Kawa z przyjaciółką,EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTIwLzM1OGVjZjE3LTdlN2EtNDBiYS1iMDEwLTBmYjk1YjhkZjU5NC5wbmc.png|Cielisty|Jarmark świąteczny,EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTIwL2Q5YTEyOTFmLWEwY2QtNDQyMC05ODI4LTcxMGYxMGQ0MDg3NC5wbmc.png|Czarny|Wieczorne wyjście,EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTE0LzlhNzFiZTI2LTU4ZWYtNDcwZi04MzQxLTI1MGU5NjUwYWI2ZS5wbmc.png|Szary|Przystanek o 7:00' | split: ','
+-%}
+<style>
+  .cz{padding:56px 0}
+  .cz--alt{background:#faf7f4}
+  .cz .page{max-width:1180px;margin:0 auto;padding:0 20px}
+  .cz h2{margin:6px 0 10px}
+  .cz__lead{color:#6b6460;max-width:620px;margin:0 0 26px}
+  .cz__eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:#a0566a;font-weight:700}
+  .cz__grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .cz__card{position:relative;border-radius:16px;overflow:hidden;background:#eee;margin:0}
+  .cz__card img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
+  .cz__card figcaption{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.92);border-radius:999px;padding:6px 12px;font-size:.85rem;color:#2b2523}
+  .cz__card figcaption b{margin-right:6px}
+  .cz__rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,30%);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+  .cz__rail .cz__card{scroll-snap-align:start}
+  .cz__wide{border-radius:16px;overflow:hidden;margin:0}
+  .cz__wide img{display:block;width:100%;height:auto}
+  .cz__labels{display:grid;grid-template-columns:1fr 1fr;text-align:center;margin-top:10px;font-weight:700}
+  .cz__labels span:first-child{color:#8a8380}
+  .cz__labels span:last-child{color:#a0566a}
+  .cz__sizes{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;margin-top:10px;font-size:.9rem}
+  .cz__sizes b{display:block;font-size:1.05rem}
+  .cz__steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:s}
+  .cz__step{background:#fff;border:1px solid #eee3dc;border-radius:14px;padding:18px 16px}
+  .cz__step i{font-style:normal;font-size:1.5rem;display:block;margin-bottom:6px}
+  .cz__step b{display:block;margin-bottom:4px}
+  .cz__step span{color:#6b6460;font-size:.9rem}
+  .cz__faq details{border-bottom:1px solid #eee3dc;padding:14px 0}
+  .cz__faq summary{cursor:pointer;font-weight:700;list-style:none}
+  .cz__faq summary::after{content:'+';float:right;color:#a0566a}
+  .cz__faq details[open] summary::after{content:'–'}
+  .cz__faq details div{color:#5b5450;margin-top:8px}
+  .cz__cta{text-align:center;margin-top:24px}
+  @media (max-width:760px){
+    .cz{padding:40px 0}
+    .cz__grid3{grid-template-columns:1fr 1fr}
+    .cz__grid3 .cz__card:last-child{grid-column:1/-1}
+    .cz__grid3 .cz__card:last-child img{aspect-ratio:4/3}
+    .cz__rail{grid-auto-columns:72%}
+    .cz__steps{grid-template-columns:1fr 1fr}
+  }
+</style>
+
+{%- case blok -%}
+
+{%- when 'looks3' -%}
+<section class="cz">
+  <div class="page">
+    <span class="cz__eyebrow">3 kolory · 3 stylizacje</span>
+    <h2>Jak je nosić? Tak, jak lubisz.</h2>
+    <p class="cz__lead">Do płaszcza i kozaków, do biura albo na kawę – ten sam ciepły polar od środka, a na zewnątrz efekt cienkich rajstop.</p>
+    <div class="cz__grid3">
+      {%- for l in looks limit: 3 -%}{%- assign x = l | split: '|' -%}
+      <figure class="cz__card"><img src="{{ x[0] | file_img_url: '900x' }}" alt="Rajstopy Ciepelle {{ x[1] | downcase }} – {{ x[2] }}" loading="lazy" width="900" height="1125"><figcaption><b>{{ x[1] }}</b>{{ x[2] }}</figcaption></figure>
+      {%- endfor -%}
+    </div>
+    {%- if url != blank -%}<div class="cz__cta"><a href="{{ url }}" class="btn btn--primary">Wybierz swój kolor</a></div>{%- endif -%}
+  </div>
+</section>
+
+{%- when 'lookbook' -%}
+<section class="cz cz--alt">
+  <div class="page">
+    <span class="cz__eyebrow">Inspiracje</span>
+    <h2>Ciepelle na co dzień</h2>
+    <p class="cz__lead">Pomysły na zimowe stylizacje – przesuń, aby zobaczyć więcej →</p>
+    <div class="cz__rail">
+      {%- for l in looks -%}{%- assign x = l | split: '|' -%}
+      <figure class="cz__card"><img src="{{ x[0] | file_img_url: '700x' }}" alt="Rajstopy Ciepelle {{ x[1] | downcase }} – {{ x[2] }}" loading="lazy" width="700" height="875"><figcaption><b>{{ x[1] }}</b>{{ x[2] }}</figcaption></figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- when 'before' -%}
+<section class="cz">
+  <div class="page">
+    <span class="cz__eyebrow">Różnica od pierwszej minuty</span>
+    <h2>Zwykłe rajstopy vs. Ciepelle</h2>
+    <p class="cz__lead">Ta sama stylizacja, ten sam mróz. Z zewnątrz wyglądają tak samo – od środka grzeje miękki polar 220 g.</p>
+    <figure class="cz__wide"><img src="{{ 'EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTIwL2E4Njk3Yzc2LTE3YjctNGQwNS1hNmQxLWY4ODY5NDVmZmQzZC5wbmc.png' | file_img_url: '1400x' }}" alt="Zwykłe cienkie rajstopy i rajstopy Ciepelle z polarem – porównanie zimą" loading="lazy" width="1400" height="933"></figure>
+    <div class="cz__labels"><span>❄️ Zwykłe rajstopy – zimno</span><span>🔥 Ciepelle – ciepło i elegancko</span></div>
+  </div>
+</section>
+
+{%- when 'sizes' -%}
+<section class="cz cz--alt">
+  <div class="page">
+    <span class="cz__eyebrow">Jeden model · rozmiary S–XL</span>
+    <h2>Pasują na różne sylwetki</h2>
+    <p class="cz__lead">Bardzo elastyczny materiał dopasowuje się do ciała – od ok. 40 do ok. 90 kg. Wybierz swój rozmiar przy zamówieniu.</p>
+    <figure class="cz__wide"><img src="{{ 'EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTE0LzQ2MWZkMGQ2LTdmNTMtNDYzMy1iYmU1LWNkZjk5N2UwOGVhZi5wbmc.png' | file_img_url: '1400x' }}" alt="Rajstopy Ciepelle na sylwetkach w rozmiarach S, M, L i XL" loading="lazy" width="1400" height="933"></figure>
+    <div class="cz__sizes"><div><b>S</b>ok. 40–55 kg</div><div><b>M</b>ok. 55–65 kg</div><div><b>L</b>ok. 65–78 kg</div><div><b>XL</b>ok. 78–90 kg</div></div>
+  </div>
+</section>
+
+{%- when 'trio' -%}
+<section class="cz">
+  <div class="page">
+    <span class="cz__eyebrow">Zestaw Trio</span>
+    <h2>Trzy kolory – trzy okazje</h2>
+    <p class="cz__lead">Cielisty do sukienek, czarny do biura i na wieczór, szary do jeansu i swetrów. Jedna paczka – cała zima.</p>
+    <figure class="cz__wide"><img src="{{ 'EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUvMTIwL2U2MzI1ODgwLTFhOTMtNDE3Mi04ZTQwLTU4ODg2MjNkYWE3Mi5wbmc.png' | file_img_url: '1400x' }}" alt="Rajstopy Ciepelle w trzech kolorach: cielisty, czarny i szary" loading="lazy" width="1400" height="933"></figure>
+  </div>
+</section>
+
+{%- when 'steps' -%}
+<section class="cz cz--alt">
+  <div class="page">
+    <span class="cz__eyebrow">Bez ryzyka</span>
+    <h2>Co dzieje się po zamówieniu?</h2>
+    <div class="cz__steps">
+      <div class="cz__step"><i>🛒</i><b>1. Zamówienie</b><span>Płacisz BLIK-iem, kartą lub PayPal. Potwierdzenie od razu na e-mail.</span></div>
+      <div class="cz__step"><i>📦</i><b>2. Wysyłka</b><span>Dostajesz e-mail z numerem śledzenia przesyłki.</span></div>
+      <div class="cz__step"><i>🏠</i><b>3. Dostawa</b><span>Darmowa dostawa – zwykle 5–7 dni roboczych.</span></div>
+      <div class="cz__step"><i>↩️</i><b>4. 14 dni na zwrot</b><span>Nie pasują? Napisz do nas – bez podawania przyczyny.</span></div>
+    </div>
+  </div>
+</section>
+
+{%- when 'faq' -%}
+<section class="cz">
+  <div class="page cz__faq" style="max-width:820px">
+    <span class="cz__eyebrow">Pytania przed zakupem</span>
+    <h2>Masz wątpliwości? Odpowiadamy</h2>
+    <details><summary>Czy z zewnątrz widać, że to grube rajstopy?</summary><div>Z odległości wyglądają jak cienkie rajstopy na gołych nogach. Z bliska widać lekko matowe wykończenie – polar jest tylko od środka.</div></details>
+    <details><summary>Czy naprawdę grzeją w mróz?</summary><div>Polar 220 g to gęsta, miękka warstwa od środka – dużo cieplej niż zwykłe rajstopy. Przy bardzo silnym mrozie polecamy połączyć je z długim płaszczem i ciepłymi butami.</div></details>
+    <details><summary>Jaki rozmiar wybrać, jeśli jestem pomiędzy?</summary><div>Wybierz rozmiar według wagi z tabeli (S ok. 40–55 kg, M ok. 55–65 kg, L ok. 65–78 kg, XL ok. 78–90 kg). Jeśli jesteś na granicy, wybierz większy – materiał jest bardzo elastyczny.</div></details>
+    <details><summary>Czy pasują do kozaków i botków?</summary><div>Tak – są cienkie na tyle, że swobodnie mieszczą się w kozakach, botkach i czółenkach.</div></details>
+    <details><summary>Czy nie zsuwają się w ciągu dnia?</summary><div>Mają wysoki, szeroki pas sięgający talii, który trzyma rajstopy na miejscu i wygładza brzuch.</div></details>
+    <details><summary>Jak prać, żeby długo służyły?</summary><div>Ręcznie lub w pralce w programie delikatnym do 30°C, najlepiej w woreczku do prania. Nie wybielać, nie suszyć w suszarce bębnowej.</div></details>
+    <details><summary>Czy dopłacę coś przy odbiorze?</summary><div>Nie. Ceny zawierają VAT i cła, a dostawa jest darmowa. Płacisz tylko kwotę z koszyka.</div></details>
+    <details><summary>Co, jeśli nie będą pasować?</summary><div>Masz 14 dni od otrzymania paczki na odstąpienie od umowy bez podawania przyczyny. Wystarczy e-mail na <a href="mailto:support@ciepelle.pl">support@ciepelle.pl</a>. Szczegóły: <a href="/pages/zwroty-i-reklamacje">Zwroty i reklamacje</a>.</div></details>
+  </div>
+</section>
+
+{%- endcase -%}

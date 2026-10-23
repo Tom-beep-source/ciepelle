@@ -101,6 +101,11 @@
   </div>
 </section>
 
+{% render 'ciepelle-zycie', blok: 'trio' %}
+{% render 'ciepelle-zycie', blok: 'sizes' %}
+{% render 'ciepelle-zycie', blok: 'steps' %}
+{% render 'ciepelle-zycie', blok: 'faq' %}
+
 <script type="application/json" data-trio-json>
   {
     "currency": {{ cart.currency.iso_code | json }},

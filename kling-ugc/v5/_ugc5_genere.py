@@ -16,9 +16,9 @@ SEGS = [  # v5 : plans de la pub en ligne, voix v2 corrigée
   ('K3', 0.6, 2.35, 1.1, [(0.05, 'Trzyma ciepło', None), (0.95, 'Chroni przed chłodem', None)], {}),
   ('C2', 0.0, 2.35, 1.0, [(0.05, 'Bardzo elastyczne', None), (1.0, 'Ładnie przylegają', 'do nóg')], {}),
   ('C3', 0.0, 3.05, 1.0, [(0.06, 'Wysoki stan', 'nie zjeżdża'), (2.13, 'Otula brzuch', None)], {'z0': 1.45, 'cy': .32}),
-  ('C5', 0.0, 2.950, 1.0, [(0.180, 'Jeden rozmiar: S–XL', 'ok. 40–90 kg'), (2.090, 'Do wyboru: 3 kolory', None)], {}),
-  ('V1', 2.98, 0.75, 1.2, 'cielisty', {'tag': 1}), ('V2', 0.23, 0.6, 1.2, 'czarny', {'tag': 1}), ('V3', 0.27, 0.720, 1.2, 'szary', {'tag': 1}),
-  ('O4', 0.8, 4.130, 1.0, None, {'offer': 1})]
+  ('C5', 0.0, 2.870, 1.0, [(0.180, 'Jeden rozmiar: S–XL', 'ok. 40–90 kg'), (2.160, 'Do wyboru: 3 kolory', None)], {}),
+  ('V1', 2.98, 0.770, 1.2, 'cielisty', {'tag': 1}), ('V2', 0.23, 0.610, 1.2, 'czarny', {'tag': 1}), ('V3', 0.27, 0.970, 1.2, 'szary', {'tag': 1}),
+  ('O4', 0.8, 4.170, 1.0, None, {'offer': 1})]
 N = 'vo'
 def font(s, w=800):
     f = ImageFont.truetype(SANS, s)
@@ -125,8 +125,8 @@ for fi in range(NF):
             if key not in cache: cache[key] = keyword(word, sub)
             im = cache[key]; fr.alpha_composite(pop(im, (lt - t0) / .12), ((W - im.width) // 2, int(H * .60)))
     if op.get('offer'):
-        for im, y, t0 in ((OF1, .52, 0.10), (OF2, .605, 1.100), (OF0, .43, 1.780),
-                          (OF3, .68, 1.980), (OF4, .745, 2.180)):
+        for im, y, t0 in ((OF1, .52, 0.10), (OF2, .605, 1.100), (OF0, .43, 1.740),
+                          (OF3, .68, 1.940), (OF4, .745, 2.140)):
             p = (lt - t0) / .18
             if p <= 0: continue
             q = pop(im, p); fr.alpha_composite(q, ((W - q.width) // 2, int(H * y)))

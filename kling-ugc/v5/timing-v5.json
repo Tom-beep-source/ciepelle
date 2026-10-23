@@ -70,7 +70,7 @@
  {
   "plan": "C5",
   "debut": 12.5,
-  "fin": 15.45,
+  "fin": 15.37,
   "texte": [
    [
     0.18,
@@ -78,7 +78,7 @@
     "ok. 40–90 kg"
    ],
    [
-    2.09,
+    2.16,
     "Do wyboru: 3 kolory",
     null
    ]
@@ -86,26 +86,26 @@
  },
  {
   "plan": "V1",
-  "debut": 15.45,
-  "fin": 16.2,
+  "debut": 15.37,
+  "fin": 16.14,
   "texte": "cielisty"
  },
  {
   "plan": "V2",
-  "debut": 16.2,
-  "fin": 16.8,
+  "debut": 16.14,
+  "fin": 16.75,
   "texte": "czarny"
  },
  {
   "plan": "V3",
-  "debut": 16.8,
-  "fin": 17.52,
+  "debut": 16.75,
+  "fin": 17.72,
   "texte": "szary"
  },
  {
   "plan": "O4",
-  "debut": 17.52,
-  "fin": 21.65,
+  "debut": 17.72,
+  "fin": 21.89,
   "texte": null
  }
 ]

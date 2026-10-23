@@ -1,10 +1,13 @@
 {
- "duree": 21.65,
+ "duree": 21.89,
  "taille_debut": 12.7,
- "taille_fin": 14.44,
- "do_wyboru_debut": 14.59,
- "decalage_apres_taille": 0.3,
- "offre_debut": 17.62,
- "offre_fin": 19.75,
- "trzecia": 1.0
+ "taille_fin": 14.39,
+ "do_wyboru_debut": 14.66,
+ "cielisty": 15.42,
+ "czarny": 16.19,
+ "szary": 16.8,
+ "offre_debut": 17.82,
+ "trzecia": 1.0,
+ "offre_fin": 19.91,
+ "decalage_apres_taille": 0
 }

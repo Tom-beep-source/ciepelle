@@ -15,14 +15,16 @@ def speech_bounds(x, thr_db=-38, win=0.01):
 v2 = load(os.path.join(HERE, 'audio', 'voixoff-zephyr-v2.wav')); t3 = load(sys.argv[1])
 S = lambda a, b, x: x[int(a * SR):int(b * SR)]
 # zones de la prise 3 contenant la phrase (bornes dans des silences), puis recadrage précis sur la parole
-def phrase(a, b, pitch=1.0):
-    x = load(sys.argv[1]) if pitch == 1.0 else np.frombuffer(subprocess.run(['ffmpeg', '-v', 'error', '-i', sys.argv[1], '-af',
+def phrase(a, b, pitch=1.0, f=None):
+    f = f or sys.argv[1]
+    x = load(f) if pitch == 1.0 else np.frombuffer(subprocess.run(['ffmpeg', '-v', 'error', '-i', f, '-af',
         f'rubberband=pitch={pitch:.4f}:pitchq=quality:formant=preserved', '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-'],
         capture_output=True, check=True).stdout, np.float32).astype(np.float64)
     seg = S(a, b, x); s, e = speech_bounds(seg); e = min(len(seg), e + int(0.05 * SR)); y = seg[s:e].copy()
     n1, n2 = int(0.008 * SR), int(0.04 * SR); y[:n1] *= np.linspace(0, 1, n1); y[-n2:] *= np.linspace(1, 0, n2); return y
-TA = [float(x) for x in sys.argv[2].split(',')]; OF = [float(x) for x in sys.argv[3].split(',')]
-taille = phrase(*TA); offre = phrase(*OF)
+def arg(a):
+    f, _, r = a.rpartition(':'); v = [float(x) for x in r.split(',')]; return phrase(*v, f=f or None)
+taille = arg(sys.argv[2]); offre = arg(sys.argv[3])
 # même niveau que les phrases remplacées
 taille *= rms(S(12.70, 14.15, v2)) / rms(taille); offre *= rms(S(17.30, 20.12, v2)) / rms(offre)
 sil = lambda d: np.zeros(int(d * SR))

@@ -4,7 +4,7 @@
 
 <div class="coll-page">
 
-  <div class="coll-page__hero animate-in">
+  <div class="coll-page__hero">
     <span class="coll-page__label">Nasze produkty</span>
     <h1 class="coll-page__title">Ciepłe rajstopy z polarem</h1>
     <p class="coll-page__sub">Polar 220 g od środka, efekt cienkich rajstop na zewnątrz. Trzy kolory: cielisty, czarny i szary.</p>
@@ -12,7 +12,7 @@
 
   <div class="coll-grid">
     {%- for product in collections.all.products -%}
-      <a href="{{ product.url }}" class="coll-card animate-in animate-in--d{{ forloop.index | modulo: 4 | plus: 1 }}">
+      <a href="{{ product.url }}" class="coll-card">
         <div class="coll-card__img-wrap">
           {%- if product.featured_media -%}
             {{ product.featured_media | image_url: width: 800, height: 600, crop: 'center' | image_tag: class: 'coll-card__img', loading: 'lazy', alt: product.title }}
@@ -31,7 +31,7 @@
     {%- endfor -%}
   </div>
 
-  <div class="coll-page__trust animate-in">
+  <div class="coll-page__trust">
     <div class="coll-trust-item">
       <span class="coll-trust-item__icon">❄️</span>
       <span>Polar 220 g od środka</span>

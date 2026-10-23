@@ -2,12 +2,28 @@
   assign current = product.selected_or_first_available_variant
   unless product.selected_variant
     for v in product.variants
-      if v.option1 contains 'najczęściej' and v.option3 == '220 g' and v.option2 == 'Cielisty' and v.available
+      if v.option1 == '1 para' and v.option3 == '220 g' and v.option2 == 'Cielisty' and v.available
         assign current = v
         break
       endif
     endfor
   endunless
+  if current.option3 != '220 g'
+    for v in product.variants
+      if v.option1 == current.option1 and v.option2 == current.option2 and v.option3 == '220 g'
+        assign current = v
+        break
+      endif
+    endfor
+  endif
+  if section.settings.hide_two and current.option1 contains '2 '
+    for v in product.variants
+      if v.option1 == '3 pary' and v.option2 == current.option2 and v.option3 == current.option3 and v.available
+        assign current = v
+        break
+      endif
+    endfor
+  endif
 -%}
 <section class="pdp" data-pdp>
   <div class="page pdp__grid">
@@ -23,31 +39,31 @@
       assign first_idx = cur_set | split: ',' | first | strip | plus: 0
       assign main_media = product.media[first_idx] | default: product.featured_media
     -%}
+    {%- assign gal = all_products['zestaw-trio-rajstopy-z-polarem'] -%}
+    {%- if gal == blank or gal.media.size == 0 -%}{%- assign gal = product -%}{%- endif -%}
     <div class="gallery">
       <div class="gallery__main">
-        {%- if main_media -%}
-          {{ main_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', data-main-img: '', alt: product.title, sizes: '(min-width: 900px) 55vw, 100vw', widths: '600,900,1200' }}
+        {%- assign gm = gal.media.first -%}
+        <span class="gbadge">✨ Efekt wysmuklenia · płaski brzuch</span>
+        {%- if gm -%}
+          {{ gm | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', data-main-img: '', alt: gm.alt, sizes: '(min-width: 900px) 55vw, 100vw', widths: '600,900,1200' }}
         {%- endif -%}
       </div>
-      {%- if product.media.size > 1 -%}
+      {%- if gal.media.size > 1 -%}
         <div class="gallery__thumbs">
-          {%- for m in product.media -%}
+          {%- for m in gal.media limit: 6 -%}
             {%- liquid
-              assign mi = forloop.index0 | append: ''
-              assign wattr = ''
-              for set in wsets
-                assign wpos = ''
-                assign items = set | split: ','
-                for it in items
-                  assign itv = it | strip
-                  if itv == mi
-                    assign wpos = forloop.index
-                  endif
-                endfor
-                assign wattr = wattr | append: ' data-w' | append: forloop.index | append: '="' | append: wpos | append: '"'
-              endfor
+              assign mcol = ''
+              assign malt = m.alt | downcase
+              if malt contains 'kolor cielisty'
+                assign mcol = 'Cielisty'
+              elsif malt contains 'kolor czarny'
+                assign mcol = 'Czarny'
+              elsif malt contains 'kolor szary'
+                assign mcol = 'Szary'
+              endif
             -%}
-            <button type="button" data-thumb="{{ m | image_url: width: 1200 }}" data-media-id="{{ m.id }}"{{ wattr }} aria-label="Zdjęcie {{ forloop.index }}">
+            <button type="button" class="{% if forloop.first %}is-active{% endif %}" data-thumb="{{ m | image_url: width: 1200 }}" data-w1="{{ forloop.index }}" data-w2="{{ forloop.index }}" data-w3="{{ forloop.index }}"{% if mcol != '' %} data-color="{{ mcol }}"{% endif %} aria-label="Zdjęcie {{ forloop.index }}">
               {{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: m.alt }}
             </button>
           {%- endfor -%}
@@ -59,32 +75,61 @@
       <span class="eyebrow">{{ section.settings.eyebrow }}</span>
       <h1 class="pdp__title">{{ section.settings.headline | default: product.title }}</h1>
       <p class="pdp__sub">{{ section.settings.subheadline }}</p>
+      <ul class="pslim">
+        <li>✨ <b>Wysmuklają sylwetkę</b> – nogi wyglądają smuklej i zgrabniej</li>
+        <li>👗 <b>Płaski brzuch</b> – wysoki, modelujący stan wygładza brzuch pod sukienką</li>
+        <li>🤍 <b>Gładko przylegają</b> – bez fałd, nic nie odstaje</li>
+      </ul>
 
+      {%- liquid
+        assign cmp_single = nil
+        for v in product.variants
+          if v.option1 contains '1 ' and v.option2 == current.option2 and v.option3 == current.option3
+            assign cmp_single = v
+          endif
+        endfor
+      -%}
       <div class="pdp__price">
         <strong data-price>{{ current.price | money_without_trailing_zeros }}</strong>
         <span data-save></span>
+        <p class="pcmp" data-pcmp{% unless current.option1 contains '3 ' %} hidden{% endunless %}>
+          <s data-pcmp-old>{% if cmp_single %}{{ cmp_single.price | times: 2 | money_without_trailing_zeros }}{% endif %}</s>
+          <span data-pcmp-note>{% if cmp_single %}2 × {{ cmp_single.price | money_without_trailing_zeros }}{% endif %}</span>
+          <b>3 pary – płacisz tylko za 2</b>
+        </p>
+      </div>
+      <ul class="pgar" aria-label="Gwarancje">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M4.9 6.5l14.2 11M19.1 6.5 4.9 17.5M9 4l3 2 3-2M9 20l3-2 3 2"/></svg><span>Polar 220 g</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><span>Darmowa dostawa</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/></svg><span>14 dni na zwrot</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>BLIK · karta · PayPal</span></li>
+      </ul>
+
+      <div class="pmech">
+        <p class="pmech__t">🧶 Boisz się, że rajstopy szybko się zmechacą?</p>
+        <ul>
+          <li><b>Gęsty polar 220 g</b> – prawie 3 razy więcej polaru niż w cienkich modelach 80 g.</li>
+          <li><b>Dłużej jak nowe</b> – pierz w 30°C ręcznie lub w woreczku do prania, bez suszarki i bez zmiękczacza.</li>
+          <li><b>Zero ryzyka</b> – jeśli nie spełnią Twoich oczekiwań, masz <b>14 dni na zwrot</b> bez podawania przyczyny.</li>
+        </ul>
       </div>
 
       <form method="post" action="{{ routes.cart_add_url }}" id="pdp-form" data-form>
         <input type="hidden" name="id" value="{{ current.id }}" data-variant-input>
         <input type="hidden" name="quantity" value="1">
 
-        <div class="opt-label">Grubość polaru: <em data-weight-label>{{ current.option3 }}</em></div>
-        <div class="weights">
-          {%- for option in product.options_with_values -%}
-            {%- if option.name == 'Gramatura' -%}
-              {%- for value in option.values -%}
-                <button type="button" class="weight{% if value == current.option3 %} is-active{% endif %}" data-opt="3" data-value="{{ value | escape }}" data-wi="{% if value contains '80' %}1{% elsif value contains '300' %}3{% else %}2{% endif %}">
-                  <b>{{ value }}</b>
-                  <span>{% if value contains '80' %}Cieńsze – na jesień i chłodne dni{% elsif value contains '300' %}Najcieplejsze – na mrozy{% else %}Najpopularniejsze – na zimę{% endif %}</span>
-                  <i>{% if value contains '80' %}❄️{% elsif value contains '300' %}❄️❄️❄️{% else %}❄️❄️{% endif %}</i>
-                </button>
-              {%- endfor -%}
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
+        <div class="opt-label">Polar od środka: <em>220 g – puszysty, na całą zimę</em></div>
+        <p class="size-note">Rozmiar: <b>pasuje na S, M, L i XL</b> (ok. 40–90 kg) · <a href="#kolory">zobacz kolory ↓</a></p>
 
-        <p class="size-note">Rozmiar: <b>uniwersalny (L)</b> – pasuje na ok. 40–70 kg · <a href="#porownaj">porównaj grubości ↓</a></p>
+        <div class="opt-label">Twój rozmiar: <em data-size-label>wybierz</em></div>
+        <div class="sizes" data-sizes>
+          <button type="button" class="size" data-size="S">S<small>36 · 40–55 kg</small></button>
+          <button type="button" class="size" data-size="M">M<small>38 · 55–65 kg</small></button>
+          <button type="button" class="size" data-size="L">L<small>40–42 · 65–78 kg</small></button>
+          <button type="button" class="size" data-size="XL">XL<small>44–46 · 78–90 kg</small></button>
+        </div>
+        <input type="hidden" name="properties[Rozmiar]" value="" data-size-input>
+        <p class="size-help" data-size-help>Jeden elastyczny model pasuje na rozmiary od S do XL. Wybierz swój rozmiar – zapiszemy go przy zamówieniu.</p>
 
         <div class="opt-label">Kolor: <em data-color-label>{{ current.option2 }}</em></div>
         <div class="swatches">
@@ -99,13 +144,16 @@
           {%- endfor -%}
         </div>
 
-        <div class="opt-label">Wybierz zestaw <em>im więcej, tym taniej za parę</em></div>
+        <div class="opt-label">Wybierz zestaw <em>2 + 1 gratis – płacisz za 2 pary</em></div>
         <div class="bundles">
           {%- for option in product.options_with_values -%}
             {%- if option.name == 'Zestaw' -%}
               {%- for value in option.values -%}
                 {%- liquid
-                  assign n = forloop.index
+                  assign n = value | split: ' ' | first | plus: 0
+                  if section.settings.hide_two and n == 2
+                    continue
+                  endif
                   assign bv = nil
                   assign sv = nil
                   for v in product.variants
@@ -121,12 +169,12 @@
                   assign save = full | minus: bv.price
                   assign clean_name = value | split: ' (' | first
                 -%}
-                <button type="button" class="bundle{% if value == current.option1 %} is-active{% endif %}" data-opt="1" data-value="{{ value | escape }}" data-n="{{ n }}">
-                  {%- if value contains 'najczęściej' -%}<span class="bundle__tag">Najczęściej wybierany</span>{%- endif -%}
+                <button type="button" class="bundle{% if value == current.option1 %} is-active{% endif %}{% if n == 3 %} bundle--gift{% endif %}" data-opt="1" data-value="{{ value | escape }}" data-n="{{ n }}">
+                  {%- if n == 3 -%}<span class="bundle__tag">🎁 2 + 1 GRATIS</span>{%- elsif value contains 'najczęściej' -%}<span class="bundle__tag">Najczęściej wybierany</span>{%- endif -%}
                   <span class="bundle__radio"></span>
                   <span>
-                    <span class="bundle__name">{{ clean_name }}</span><br>
-                    <span class="bundle__per"><span data-bper>{{ per | money_without_trailing_zeros }}</span> za parę</span>
+                    <span class="bundle__name">{% if n == 3 %}Kup 2, trzecia gratis{% else %}{{ clean_name }}{% endif %}</span><br>
+                    <span class="bundle__per">{% if n == 3 %}3 pary · {% endif %}<span data-bper>{{ per | money_without_trailing_zeros }}</span> za parę</span>
                   </span>
                   <span class="bundle__price">
                     <span data-bprice>{{ bv.price | money_without_trailing_zeros }}</span>
@@ -140,9 +188,10 @@
 
         {%- assign trio = all_products['zestaw-trio-rajstopy-z-polarem'] -%}
         {%- if trio != blank and trio.available -%}
+          {%- assign trio_p = trio.price_min -%}{%- for tv in trio.variants -%}{%- if tv.option1 == '220 g' -%}{%- assign trio_p = tv.price -%}{%- endif -%}{%- endfor -%}
           <a class="trio-cta" href="{{ trio.url }}">
             <span class="trio-cta__dots"><i style="background:linear-gradient(135deg,#E4C1A9,#C99A7E)"></i><i style="background:#232022"></i><i style="background:linear-gradient(135deg,#B9BBC0,#8C8F96)"></i></span>
-            <span class="trio-cta__txt"><b>🎨 Zestaw Trio</b> – po jednej parze w każdym kolorze<small>3 pary od {{ trio.price_min | money_without_trailing_zeros }} · cielisty + czarny + szary</small></span>
+            <span class="trio-cta__txt"><b>🎨 Zestaw Trio – też 2 + 1 gratis</b> – po jednej parze w każdym kolorze<small>3 pary za {{ trio_p | money_without_trailing_zeros }} · cielisty + czarny + szary</small></span>
             <span class="trio-cta__arrow">→</span>
           </a>
         {%- endif -%}
@@ -168,12 +217,20 @@
           <div class="rte">{{ product.description }}</div>
         </details>
         <details>
-          <summary>Jaką grubość wybrać?</summary>
+          <summary>Jak działa 2 + 1 gratis?</summary>
           <div class="rte">
-            <table><tr><th>Grubość</th><th>Kiedy</th></tr>
-            <tr><td><b>80 g</b></td><td>Jesień, chłodne dni, ogrzewane biuro – najcieńszy i najbardziej „przezroczysty” efekt.</td></tr>
-            <tr><td><b>220 g</b></td><td>Typowa polska zima – nasz najpopularniejszy wybór.</td></tr>
-            <tr><td><b>300 g</b></td><td>Mrozy, długie wyjścia na zewnątrz – najcieplejsza wersja.</td></tr></table>
+            <p>Wybierz zestaw <b>„Kup 2, trzecia gratis”</b>: dostajesz <b>3 pary</b> w wybranym kolorze, a płacisz tylko za 2 – trzecia para jest gratis. Rabat jest już w cenie – nie musisz wpisywać żadnego kodu.</p>
+            <p>Chcesz trzy różne kolory? Ta sama zasada działa w <a href="/products/zestaw-trio-rajstopy-z-polarem">Zestawie Trio</a> (cielisty + czarny + szary).</p>
+          </div>
+        </details>
+        <details>
+          <summary>Który kolor wybrać?</summary>
+          <div class="rte">
+            <table><tr><th>Kolor</th><th>Efekt i do czego</th></tr>
+            <tr><td><b>Cielisty</b></td><td>Efekt „gołych nóg” – do sukienek, spódnic i jasnych, eleganckich stylizacji.</td></tr>
+            <tr><td><b>Czarny</b></td><td>Klasyka – jak lekko prześwitujące czarne rajstopy. Do biura, na wieczór, do wszystkiego.</td></tr>
+            <tr><td><b>Szary</b></td><td>Modny, chłodny odcień – świetnie wygląda z czernią, bielą i jeansem.</td></tr></table>
+            <p>Nie możesz się zdecydować? <a href="/products/zestaw-trio-rajstopy-z-polarem">Zestaw Trio</a> to po jednej parze w każdym kolorze.</p>
           </div>
         </details>
         <details>
@@ -200,39 +257,59 @@
   </div>
 </section>
 
-<section class="wcmp" id="porownaj">
-  <div class="page">
-    <div class="section__head">
-      <span class="eyebrow">Trzy grubości polaru</span>
-      <h2>Ile ciepła potrzebujesz?</h2>
-      <p class="muted">Z zewnątrz każda wersja wygląda tak samo – jak cienkie rajstopy na gołych nogach. Różnica jest w środku.</p>
-    </div>
-    <div class="wcmp__grid">
-      {%- assign wcmp_n = '80 g|220 g|300 g' | split: '|' -%}
-      {%- assign wcmp_f = 'ciepelle-polar-80g.jpg|ciepelle-polar-220g.jpg|ciepelle-polar-300g.jpg' | split: '|' -%}
-      {%- assign wcmp_t = 'Lekki polar|Puszysty polar|Gruby polar' | split: '|' -%}
-      {%- assign wcmp_s = 'Jesień, chłodne dni, ogrzewane biuro|Typowa polska zima – nasz bestseller|Mróz, długie spacery, przystanek o 7:00' | split: '|' -%}
-      {%- assign wcmp_d = 'Cienka, gładka warstwa od środka. Najbardziej subtelny efekt i swoboda ruchu przez cały dzień.|Miękki, puszysty polar, który wyraźnie trzyma ciepło. Najlepszy wybór na większość zimowych dni.|Gęsty, mięsisty polar jak w kocyku. Dla tych, które marzną najbardziej albo dużo czasu spędzają na zewnątrz.' | split: '|' -%}
-      {%- for w in wcmp_n -%}
-        {%- assign i = forloop.index0 -%}
-        {%- assign wmin = 0 -%}
-        {%- for v in product.variants -%}{%- if v.option3 == w -%}{%- if wmin == 0 or v.price < wmin -%}{%- assign wmin = v.price -%}{%- endif -%}{%- endif -%}{%- endfor -%}
-        <article class="wcmp__card{% if forloop.index == 2 %} is-best{% endif %}">
-          {%- if forloop.index == 2 -%}<span class="wcmp__tag">Najczęściej wybierany</span>{%- endif -%}
-          <div class="wcmp__img">{{ images[wcmp_f[i]] | image_url: width: 700 | image_tag: loading: 'lazy', alt: wcmp_t[i], sizes: '(min-width: 900px) 30vw, 100vw' }}</div>
-          <div class="wcmp__body">
-            <div class="wcmp__top"><b>{{ w }}</b><span class="wcmp__heat" aria-label="Poziom ciepła {{ forloop.index }} z 3">{% for k in (1..3) %}<i{% if k <= forloop.parentloop.index %} class="on"{% endif %}></i>{% endfor %}</span></div>
-            <h3>{{ wcmp_t[i] }}</h3>
-            <p class="wcmp__when">{{ wcmp_s[i] }}</p>
-            <p class="muted">{{ wcmp_d[i] }}</p>
-            <button type="button" class="btn btn--ghost btn--block" data-pick-weight="{{ w }}">Wybieram {{ w }} – od {{ wmin | money_without_trailing_zeros }}</button>
-          </div>
-        </article>
-      {%- endfor -%}
-    </div>
-    <p class="wcmp__note">Zdjęcia poglądowe przedstawiające różnicę w grubości polaru.</p>
-  </div>
-</section>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var box=document.querySelector('[data-pcmp]'); var dataEl=document.querySelector('[data-product-json]'); var input=document.querySelector('[data-variant-input]'); var priceEl=document.querySelector('[data-pdp] [data-price]');
+  if(!box||!dataEl||!input||!priceEl) return;
+  var data; try{data=JSON.parse(dataEl.textContent);}catch(e){return;}
+  var fmt=function(c){try{return new Intl.NumberFormat('pl-PL',{style:'currency',currency:data.currency||'PLN',minimumFractionDigits:c%100?2:0,maximumFractionDigits:2}).format(c/100);}catch(e){return (c/100).toFixed(2)+' zł';}};
+  function refresh(){
+    var v=data.variants.find(function(x){return String(x.id)===input.value;}); if(!v) return;
+    var one=data.variants.find(function(x){return /^1 /.test(x.o1)&&x.o2===v.o2&&x.o3===v.o3;});
+    if(!/^3 /.test(v.o1)||!one||v.price>=one.price*2){box.hidden=true;return;}
+    box.querySelector('[data-pcmp-old]').textContent=fmt(one.price*2);
+    box.querySelector('[data-pcmp-note]').textContent='2 × '+fmt(one.price);
+    box.hidden=false;
+  }
+  refresh();
+  if('MutationObserver' in window) new MutationObserver(refresh).observe(priceEl,{childList:true,characterData:true,subtree:true});
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('[data-pdp] .swatch').forEach(function(s){
+    s.addEventListener('click',function(){
+      var t=document.querySelector('.gallery__thumbs [data-color="'+s.getAttribute('data-value')+'"]');
+      if(t) setTimeout(function(){ t.click(); },0);
+    });
+  });
+});
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('form').forEach(function(form){
+    var inp=form.querySelector('[data-size-input]'); if(!inp) return;
+    var box=form.querySelector('[data-sizes]'), help=form.querySelector('[data-size-help]'), lab=form.querySelector('[data-size-label]');
+    var helpTxt=help?help.textContent:'';
+    box.querySelectorAll('[data-size]').forEach(function(b){
+      b.addEventListener('click',function(){
+        inp.value=b.getAttribute('data-size');
+        box.querySelectorAll('[data-size]').forEach(function(x){x.classList.toggle('is-active',x===b);});
+        if(lab) lab.textContent=inp.value;
+        if(help){help.classList.remove('is-error');help.textContent=helpTxt;}
+      });
+    });
+    form.addEventListener('submit',function(e){
+      if(inp.value) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      if(help){help.classList.add('is-error');help.textContent='Wybierz swój rozmiar (S, M, L lub XL), aby dodać do koszyka.';}
+      box.scrollIntoView({behavior:'smooth',block:'center'});
+    },true);
+  });
+})();
+</script>
 
 <div class="sticky-atc" data-sticky>
   <div class="sticky-atc__txt"><b data-sticky-price>{{ current.price | money_without_trailing_zeros }}</b><span data-sticky-name>{{ current.title | replace: ' (najczęściej wybierane)', '' }}</span></div>
@@ -259,14 +336,41 @@
 </script>
 
 <style>
+.pdp__price strong{font-size:2.3rem;letter-spacing:-.01em}
+.pdp__price{flex-wrap:wrap;row-gap:2px}
+.pcmp{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:0;font-size:.88rem;color:var(--muted)}
+.pcmp[hidden]{display:none}
+.pdp__price .pcmp span{color:var(--muted);font-weight:500;font-size:.85rem}
+.pcmp s{font-size:1.05rem;color:var(--muted)}
+.pcmp b{color:var(--berry);font-weight:700}
+.pgar{list-style:none;padding:0;margin:0 0 18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pgar li{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:10px 6px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:.78rem;font-weight:700;line-height:1.25;min-width:0}
+.pgar svg{width:24px;height:24px;color:var(--berry);flex:none}
+@media(max-width:560px){.pgar{grid-template-columns:repeat(2,minmax(0,1fr))}.pgar li{flex-direction:row;justify-content:flex-start;text-align:left;padding:9px 10px}.pgar svg{width:20px;height:20px}}
 .trio-cta{display:flex;align-items:center;gap:12px;margin:12px 0 4px;padding:12px 14px;border:1.5px dashed var(--berry);border-radius:12px;background:#FFF9F7;color:var(--ink);text-decoration:none}
 .trio-cta:hover{background:#FBEDE8}
 .trio-cta__dots{display:flex;flex:none}
 .trio-cta__dots i{width:22px;height:22px;border-radius:50%;border:2px solid #fff;margin-left:-6px;display:block}
 .trio-cta__dots i:first-child{margin-left:0}
-.trio-cta__txt{flex:1;font-size:.93rem;line-height:1.35}
+.trio-cta__txt{flex:1;min-width:0;font-size:.93rem;line-height:1.35}
 .trio-cta__txt small{display:block;color:var(--muted);font-size:.8rem}
 .trio-cta__arrow{font-weight:700;color:var(--berry)}
+.bundle--gift .bundle__tag{background:var(--berry);color:#fff}
+.bundle--gift .bundle__name{color:var(--berry)}
+.pslim{list-style:none;margin:6px 0 14px;padding:12px 14px;border-radius:12px;background:#FBEDE8;border:1px solid #F1D3CB;display:grid;gap:6px;font-size:.93rem;line-height:1.4;color:var(--ink)}
+.pslim b{color:var(--berry)}
+.gallery__main{position:relative}
+.sizes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 6px}
+.size{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-weight:800;font-size:1rem;cursor:pointer;color:var(--ink);min-width:0}
+.size small{font-weight:500;font-size:.68rem;color:var(--muted);line-height:1.2;text-align:center}
+.size.is-active{border-color:var(--berry);box-shadow:0 0 0 1px var(--berry);background:#FFF9F7}
+.size-help{font-size:.82rem;color:var(--muted);margin:0 0 14px}
+.size-help.is-error{color:#B3261E;font-weight:700}
+.pmech{margin:0 0 18px;padding:14px 16px;border-radius:12px;background:#F4F7F5;border:1px solid #D5E3DA}
+.pmech__t{margin:0 0 8px;font-weight:800;font-size:1rem;color:var(--ink)}
+.pmech ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.92rem;line-height:1.45;color:var(--ink)}
+.gbadge{position:absolute;top:12px;left:12px;z-index:2;background:rgba(122,30,58,.92);color:#fff;font-weight:700;font-size:.85rem;padding:7px 12px;border-radius:99px;box-shadow:0 4px 12px -4px rgba(0,0,0,.3);pointer-events:none}
+@media(max-width:560px){.gbadge{font-size:.78rem;top:10px;left:10px;padding:6px 10px}.pslim{font-size:.88rem}}
 </style>
 
 {% schema %}
@@ -276,7 +380,8 @@
     { "type": "text", "id": "eyebrow", "label": "Nadtytuł", "default": "Hit tej zimy" },
     { "type": "text", "id": "headline", "label": "Tytuł (puste = nazwa produktu)" },
     { "type": "textarea", "id": "subheadline", "label": "Podtytuł", "default": "Wyglądają jak cienkie cieliste rajstopy, a grzeją jak polarowe legginsy." },
-    { "type": "html", "id": "size_html", "label": "Rozmiar (HTML)", "default": "<p>Rozmiar uniwersalny.</p>" },
+    { "type": "checkbox", "id": "hide_two", "label": "Ukryj zestaw 2 par (oferta 2 + 1 gratis)", "default": true },
+    { "type": "html", "id": "size_html", "label": "Rozmiar (HTML)", "default": "<p>Pasuje na S, M, L i XL.</p>" },
     { "type": "html", "id": "care_html", "label": "Skład (HTML)", "default": "<p>Skład wg metki.</p>" },
     { "type": "html", "id": "gpsr_html", "label": "GPSR (HTML)", "default": "<p>Informacje o producencie.</p>" },
     { "type": "header", "content": "Zdjęcia dla każdej grubości" },

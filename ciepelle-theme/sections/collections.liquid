@@ -1,57 +1,52 @@
-﻿{% comment %}
-  Premium collections listing page for Ciepelle.
+{% comment %}
+  Strona /collections – Ciepelle (lista produktów zamiast starych kolekcji).
 {% endcomment %}
 
 <div class="coll-page">
 
   <div class="coll-page__hero animate-in">
-    <span class="coll-page__label">Our collections</span>
-    <h1 class="coll-page__title">Find the perfect cat tree</h1>
-    <p class="coll-page__sub">Curated selections for every cat — from curious kittens to seasoned climbers.</p>
+    <span class="coll-page__label">Nasze produkty</span>
+    <h1 class="coll-page__title">Ciepłe rajstopy z polarem</h1>
+    <p class="coll-page__sub">Polar 220 g od środka, efekt cienkich rajstop na zewnątrz. Trzy kolory: cielisty, czarny i szary.</p>
   </div>
 
   <div class="coll-grid">
-    {%- for collection in collections -%}
-      {%- unless collection.handle == 'frontpage' -%}
-        <a href="{{ collection.url }}" class="coll-card animate-in animate-in--d{{ forloop.index | modulo: 4 | plus: 1 }}">
-          <div class="coll-card__img-wrap">
-            {%- if collection.featured_image -%}
-              {{ collection.featured_image | image_url: width: 800, height: 600, crop: 'center' | image_tag: class: 'coll-card__img', loading: 'lazy', alt: collection.title }}
-            {%- else -%}
-              {{ 'collection-1' | placeholder_svg_tag: 'coll-card__img coll-card__img--placeholder' }}
-            {%- endif -%}
-            <div class="coll-card__overlay">
-              <span class="coll-card__cta">Shop now →</span>
-            </div>
+    {%- for product in collections.all.products -%}
+      <a href="{{ product.url }}" class="coll-card animate-in animate-in--d{{ forloop.index | modulo: 4 | plus: 1 }}">
+        <div class="coll-card__img-wrap">
+          {%- if product.featured_media -%}
+            {{ product.featured_media | image_url: width: 800, height: 600, crop: 'center' | image_tag: class: 'coll-card__img', loading: 'lazy', alt: product.title }}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'coll-card__img coll-card__img--placeholder' }}
+          {%- endif -%}
+          <div class="coll-card__overlay">
+            <span class="coll-card__cta">Zobacz →</span>
           </div>
-          <div class="coll-card__body">
-            <h2 class="coll-card__title">{{ collection.title }}</h2>
-            {%- if collection.description != blank -%}
-              <p class="coll-card__desc">{{ collection.description | strip_html | truncatewords: 18 }}</p>
-            {%- endif -%}
-            <span class="coll-card__count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</span>
-          </div>
-        </a>
-      {%- endunless -%}
+        </div>
+        <div class="coll-card__body">
+          <h2 class="coll-card__title">{{ product.title }}</h2>
+          <span class="coll-card__count">od {{ product.price_min | money }}</span>
+        </div>
+      </a>
     {%- endfor -%}
   </div>
 
   <div class="coll-page__trust animate-in">
     <div class="coll-trust-item">
-      <span class="coll-trust-item__icon">🌿</span>
-      <span>Natural sisal & solid wood</span>
+      <span class="coll-trust-item__icon">❄️</span>
+      <span>Polar 220 g od środka</span>
     </div>
     <div class="coll-trust-item">
       <span class="coll-trust-item__icon">🚚</span>
-      <span>Free shipping on all orders</span>
+      <span>Darmowa dostawa</span>
     </div>
     <div class="coll-trust-item">
-      <span class="coll-trust-item__icon">⭐</span>
-      <span>4.8 / 5 · 580+ reviews</span>
+      <span class="coll-trust-item__icon">🎁</span>
+      <span>2 + 1 gratis</span>
     </div>
     <div class="coll-trust-item">
-      <span class="coll-trust-item__icon">🔒</span>
-      <span>30-day return guarantee</span>
+      <span class="coll-trust-item__icon">↩️</span>
+      <span>14 dni na zwrot</span>
     </div>
   </div>
 

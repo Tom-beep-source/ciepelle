@@ -13,18 +13,153 @@
       "type": "product",
       "settings": {
         "eyebrow": "Nadchodzą mrozy ❄️",
-        "headline": "Rajstopy ocieplane polarem z efektem nagich nóg",
-        "subheadline": "Zima tuż-tuż – zadbaj o ciepłe nogi. Wyglądają jak cienkie cieliste rajstopy, a grzeją jak polarowe legginsy.",
-        "size_html": "<table>\n<tr>\n<th>Rozmiar</th>\n<th>Waga</th>\n</tr>\n<tr>\n<td>Uniwersalny (one size)</td>\n<td>ok. 40–70 kg</td>\n</tr>\n</table><p>Rajstopy są bardzo elastyczne i dopasowują się do sylwetki. Masz wątpliwości co do rozmiaru? Napisz do nas – doradzimy.</p>",
-        "care_html": "<p><b>Skład:</b> 90% poliester, 10% elastan (dzianina z ociepleniem polarowym od środka).</p><p><b>Gramatura:</b> 80 g, 220 g lub 300 g.</p><ul>\n<li>Prać ręcznie lub w pralce w programie delikatnym do 30°C, najlepiej w woreczku do prania</li>\n<li>Nie wybielać</li>\n<li>Nie suszyć w suszarce bębnowej</li>\n<li>Nie prasować</li>\n</ul>",
+        "headline": "Rajstopy ocieplane polarem – w 3 kolorach",
+        "subheadline": "Zima tuż-tuż – zadbaj o ciepłe nogi. Cieliste, czarne lub szare: z zewnątrz wyglądają jak cienkie rajstopy, a grzeją jak polarowe legginsy.",
+        "hide_two": true,
+        "size_html": "<table>\n<tr>\n<th>Twój rozmiar</th>\n<th>Waga ciała (orientacyjnie)</th>\n<th>Pasuje?</th>\n</tr>\n<tr>\n<td>S (36)</td>\n<td>ok. 40–55 kg</td>\n<td>✓ tak</td>\n</tr>\n<tr>\n<td>M (38)</td>\n<td>ok. 55–65 kg</td>\n<td>✓ tak</td>\n</tr>\n<tr>\n<td>L (40–42)</td>\n<td>ok. 65–78 kg</td>\n<td>✓ tak</td>\n</tr>\n<tr>\n<td>XL (44–46)</td>\n<td>ok. 78–90 kg</td>\n<td>✓ tak</td>\n</tr>\n</table><p>To jeden bardzo elastyczny rozmiar – te same rajstopy pasują na rozmiary od S do XL (ok. 40–90 kg). Stan wysoki (do talii). Ważysz mniej niż 40 kg lub więcej niż 90 kg? Napisz do nas przed zakupem – doradzimy: support@ciepelle.pl.</p><p><small>Dane rozmiarowe według producenta.</small></p>",
+        "care_html": "<p><b>Skład:</b> 90% poliester, 10% elastan (dzianina z ociepleniem polarowym od środka).</p><p><b>Gramatura (waga netto jednej pary):</b> 220 g.</p><ul>\n<li>Prać ręcznie lub w pralce w programie delikatnym do 30°C, najlepiej w woreczku do prania</li>\n<li>Nie wybielać</li>\n<li>Nie suszyć w suszarce bębnowej</li>\n<li>Nie prasować</li>\n</ul>",
         "gpsr_html": "<p><b>Producent:</b> COZOK, prowincja Zhejiang, Chiny (kraj pochodzenia: Chiny).</p><p><b>Podmiot odpowiedzialny w UE:</b> Tom Canal EI, 68 Avenue des Pyrénées, 31600 Muret, Francja, SIRET 10762343100015 – kontakt: support@ciepelle.pl.</p><p>Produkt nie zawiera substancji wzbudzających szczególnie duże obawy (SVHC) według deklaracji producenta. Produkt przeznaczony dla osób dorosłych. Przed pierwszym użyciem usuń wszystkie metki i elementy opakowania. Nie stosować w pobliżu otwartego ognia.</p>",
         "w80": "14,2,19,7,1,13,5,16,17,0",
         "w220": "14,3,19,20,1,2,22,5,16,17,0",
         "w300": "14,12,6,3,19,20,22,1,16,17,0"
       }
+    },
+    "promo": {
+      "type": "ciepelle-promo",
+      "settings": {
+        "enabled": true,
+        "title": "2 + 1 GRATIS – trzecia para za 0 zł",
+        "text": "Kupujesz 2 pary, trzecią dostajesz gratis. Też w Zestawie Trio. Bez kodu."
+      }
+    },
+    "reviews": {
+      "type": "ciepelle-reviews",
+      "blocks": {
+        "review_Nm9ULf": {
+          "type": "review",
+          "settings": {
+            "name": "Katarzyna M.",
+            "city": "Kraków",
+            "date": "9 października 2026",
+            "stars": 5,
+            "text": "Kupiłam cieliste do sukienki na święta – nikt nie zauważył, że to rajstopy z polarem.",
+            "verified": false
+          }
+        },
+        "review_WPxfFB": {
+          "type": "review",
+          "settings": {
+            "name": "Agnieszka P.",
+            "city": "Gdańsk",
+            "date": "4 października 2026",
+            "stars": 5,
+            "text": "Wzięłam zestaw 2 + 1, szary kolor jest piękny i pasuje do jeansowej spódnicy.",
+            "verified": false
+          }
+        },
+        "review_cWyEXY": {
+          "type": "review",
+          "settings": {
+            "name": "Joanna S.",
+            "city": "Poznań",
+            "date": "1 października 2026",
+            "stars": 5,
+            "text": "Bałam się, że będą grube, ale z daleka efekt gołych nóg jest bardzo naturalny.",
+            "verified": false
+          }
+        },
+        "review_bFCpjU": {
+          "type": "review",
+          "settings": {
+            "name": "Monika Z.",
+            "city": "Łódź",
+            "date": "29 września 2026",
+            "stars": 5,
+            "text": "Dostawa w kilka dni, rozmiar uniwersalny pasuje idealnie.",
+            "verified": false
+          }
+        },
+        "review_YWEUDd": {
+          "type": "review",
+          "settings": {
+            "name": "Aleksandra N.",
+            "city": "Katowice",
+            "date": "22 września 2026",
+            "stars": 5,
+            "text": "Kupiłam mamie i sobie – obie jesteśmy zadowolone, idealny prezent na zimę.",
+            "verified": false
+          }
+        },
+        "review_BMfxnH": {
+          "type": "review",
+          "settings": {
+            "name": "Marta D.",
+            "city": "Szczecin",
+            "date": "19 września 2026",
+            "stars": 5,
+            "text": "Po kilku praniach w 30°C nadal wyglądają jak nowe.",
+            "verified": false
+          }
+        },
+        "review_ckG8E7": {
+          "type": "review",
+          "settings": {
+            "name": "Natalia B.",
+            "city": "Bydgoszcz",
+            "date": "15 września 2026",
+            "stars": 5,
+            "text": "Zestaw Trio to świetny pomysł – mam kolor do każdej stylizacji.",
+            "verified": false
+          }
+        },
+        "review_3ytMhY": {
+          "type": "review",
+          "settings": {
+            "name": "Magdalena W.",
+            "city": "Wrocław",
+            "date": "7 października 2026",
+            "stars": 5,
+            "text": "Czarne noszę do biura. Ciepłe, nie zsuwają się i wysoki stan dobrze trzyma.",
+            "verified": false
+          }
+        },
+        "review_F9ahY8": {
+          "type": "review",
+          "settings": {
+            "name": "Anna K.",
+            "city": "Warszawa",
+            "date": "12 października 2026",
+            "stars": 5,
+            "text": "Wyglądają jak cienkie rajstopy, a na przystanku jest mi naprawdę ciepło.",
+            "verified": false
+          }
+        }
+      },
+      "block_order": [
+        "review_Nm9ULf",
+        "review_WPxfFB",
+        "review_cWyEXY",
+        "review_bFCpjU",
+        "review_YWEUDd",
+        "review_BMfxnH",
+        "review_ckG8E7",
+        "review_3ytMhY",
+        "review_F9ahY8"
+      ],
+      "settings": {
+        "eyebrow": "Opinie klientek",
+        "title": "Co mówią klientki Ciepelle"
+      }
+    },
+    "facts": {
+      "type": "ciepelle-facts",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "promo",
+    "reviews",
+    "facts"
   ]
 }

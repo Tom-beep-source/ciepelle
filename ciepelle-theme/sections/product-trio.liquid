@@ -1,13 +1,11 @@
 {%- liquid
   assign current = product.selected_or_first_available_variant
-  unless product.selected_variant
-    for v in product.variants
-      if v.option1 == '220 g' and v.available
-        assign current = v
-        break
-      endif
-    endfor
-  endunless
+  for v in product.variants
+    if v.option1 == '220 g'
+      assign current = v
+      break
+    endif
+  endfor
   assign main_p = all_products[section.settings.main_handle]
 -%}
 <section class="pdp trio" data-trio>
@@ -49,29 +47,30 @@
         <input type="hidden" name="id" value="{{ current.id }}" data-trio-input>
         <input type="hidden" name="quantity" value="1">
 
-        <div class="opt-label">Grubość polaru (dla wszystkich 3 par): <em data-trio-wlabel>{{ current.option1 }}</em></div>
-        <div class="weights">
-          {%- for v in product.variants -%}
-            <button type="button" class="weight{% if v.id == current.id %} is-active{% endif %}{% unless v.available %} is-soldout{% endunless %}" data-trio-variant="{{ v.id }}">
-              <b>{{ v.option1 }}</b>
-              <span>{% if v.option1 contains '80' %}Cieńsze – na jesień i chłodne dni{% elsif v.option1 contains '300' %}Najcieplejsze – na mrozy{% else %}Najpopularniejsze – na zimę{% endif %}</span>
-              <i>{% unless v.available %}wyprzedane{% else %}{{ v.price | money_without_trailing_zeros }}{% endunless %}</i>
-            </button>
-          {%- endfor -%}
-        </div>
+        <div class="opt-label">Polar od środka (wszystkie 3 pary): <em data-trio-wlabel>{{ current.option1 }}</em></div>
 
-        <p class="size-note">Rozmiar: <b>uniwersalny (L)</b> – pasuje na ok. 40–70 kg</p>
+        <p class="size-note">Rozmiar: <b>pasuje na S, M, L i XL</b> (ok. 40–90 kg)</p>
+
+        <div class="opt-label">Twój rozmiar: <em data-size-label>wybierz</em></div>
+        <div class="sizes" data-sizes>
+          <button type="button" class="size" data-size="S">S<small>36 · 40–55 kg</small></button>
+          <button type="button" class="size" data-size="M">M<small>38 · 55–65 kg</small></button>
+          <button type="button" class="size" data-size="L">L<small>40–42 · 65–78 kg</small></button>
+          <button type="button" class="size" data-size="XL">XL<small>44–46 · 78–90 kg</small></button>
+        </div>
+        <input type="hidden" name="properties[Rozmiar]" value="" data-size-input>
+        <p class="size-help" data-size-help>Każda z 3 par to ten sam elastyczny model – pasuje na rozmiary od S do XL. Wybierz swój rozmiar – zapiszemy go przy zamówieniu.</p>
 
         <div class="pdp__buy">
           <button type="submit" class="btn btn--primary btn--block" data-trio-atc {% unless current.available %}disabled{% endunless %}>
-            {% if current.available %}Dodaj do koszyka – <span data-trio-atc-price>{{ current.price | money_without_trailing_zeros }}</span>{% else %}Chwilowo wyprzedane – wybierz inną grubość{% endif %}
+            {% if current.available %}Dodaj do koszyka – <span data-trio-atc-price>{{ current.price | money_without_trailing_zeros }}</span>{% else %}Chwilowo wyprzedane{% endif %}
           </button>
           <button type="submit" name="return_to" value="/checkout?locale=pl" class="btn btn--ghost btn--block">Kup teraz</button>
         </div>
       </form>
 
       {%- if main_p != blank -%}
-        <p class="trio__back">Wolisz jeden kolor? <a href="{{ main_p.url }}">Zobacz zestawy 1, 2 lub 3 par w jednym kolorze →</a></p>
+        <p class="trio__back">Wolisz jeden kolor? <a href="{{ main_p.url }}">Zobacz 1 parę lub „2 + 1 gratis” w jednym kolorze →</a></p>
       {%- endif -%}
 
       <div class="pdp__micro">
@@ -85,15 +84,6 @@
         <details open>
           <summary>Co jest w zestawie?</summary>
           <div class="rte">{{ product.description }}</div>
-        </details>
-        <details>
-          <summary>Jaką grubość wybrać?</summary>
-          <div class="rte">
-            <table><tr><th>Grubość</th><th>Kiedy</th></tr>
-            <tr><td><b>80 g</b></td><td>Jesień, chłodne dni, ogrzewane biuro.</td></tr>
-            <tr><td><b>220 g</b></td><td>Typowa polska zima – nasz najpopularniejszy wybór.</td></tr>
-            <tr><td><b>300 g</b></td><td>Mrozy, długie wyjścia na zewnątrz.</td></tr></table>
-          </div>
         </details>
         <details>
           <summary>Dostawa i zwroty</summary>
@@ -131,24 +121,40 @@
   function render(v) {
     input.value = v.id;
     root.querySelector('[data-trio-price]').textContent = fmt(v.price);
-    root.querySelector('[data-trio-wlabel]').textContent = v.w;
+    var wl = root.querySelector('[data-trio-wlabel]'); if (wl) wl.textContent = v.w;
     var save = v.single ? v.single * 3 - v.price : 0;
     root.querySelector('[data-trio-save]').textContent = save > 0 ? 'Oszczędzasz ' + fmt(save) + ' (vs 3 pary kupione osobno)' : '';
     var atc = root.querySelector('[data-trio-atc]');
     atc.disabled = !v.available;
     if (v.available) { atc.innerHTML = 'Dodaj do koszyka – <span></span>'; atc.querySelector('span').textContent = fmt(v.price); }
-    else { atc.textContent = 'Chwilowo wyprzedane – wybierz inną grubość'; }
-    root.querySelectorAll('[data-trio-variant]').forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-trio-variant') === String(v.id)); });
+    else { atc.textContent = 'Chwilowo wyprzedane'; }
   }
-  root.querySelectorAll('[data-trio-variant]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var v = d.variants.find(function (x) { return String(x.id) === b.getAttribute('data-trio-variant'); });
-      if (!v) return; render(v);
-      var u = new URL(location.href); u.searchParams.set('variant', v.id); history.replaceState({}, '', u);
-    });
-  });
   var cur = d.variants.find(function (x) { return String(x.id) === input.value; }) || d.variants[0];
   render(cur);
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('form').forEach(function(form){
+    var inp=form.querySelector('[data-size-input]'); if(!inp) return;
+    var box=form.querySelector('[data-sizes]'), help=form.querySelector('[data-size-help]'), lab=form.querySelector('[data-size-label]');
+    var helpTxt=help?help.textContent:'';
+    box.querySelectorAll('[data-size]').forEach(function(b){
+      b.addEventListener('click',function(){
+        inp.value=b.getAttribute('data-size');
+        box.querySelectorAll('[data-size]').forEach(function(x){x.classList.toggle('is-active',x===b);});
+        if(lab) lab.textContent=inp.value;
+        if(help){help.classList.remove('is-error');help.textContent=helpTxt;}
+      });
+    });
+    form.addEventListener('submit',function(e){
+      if(inp.value) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      if(help){help.classList.add('is-error');help.textContent='Wybierz swój rozmiar (S, M, L lub XL), aby dodać do koszyka.';}
+      box.scrollIntoView({behavior:'smooth',block:'center'});
+    },true);
+  });
 })();
 </script>
 
@@ -156,10 +162,14 @@
 .trio__colors{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
 .trio__colors span{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:99px;padding:6px 12px 6px 6px;font-size:.9rem;background:#fff}
 .trio__colors i{width:20px;height:20px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
-.trio .weight.is-soldout{opacity:.5}
-.trio .weight i{font-style:normal;font-weight:700;color:var(--berry)}
 .trio__back{font-size:.9rem;margin:14px 0 0}
 .trio__back a{color:var(--ink);font-weight:700}
+.sizes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 6px}
+.size{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-weight:800;font-size:1rem;cursor:pointer;color:var(--ink);min-width:0}
+.size small{font-weight:500;font-size:.68rem;color:var(--muted);line-height:1.2;text-align:center}
+.size.is-active{border-color:var(--berry);box-shadow:0 0 0 1px var(--berry);background:#FFF9F7}
+.size-help{font-size:.82rem;color:var(--muted);margin:0 0 14px}
+.size-help.is-error{color:#B3261E;font-weight:700}
 </style>
 
 {% schema %}

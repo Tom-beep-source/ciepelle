@@ -1,0 +1,110 @@
+<section class="ccol" id="kolory">
+  <div class="page">
+    <div class="section__head">
+      <span class="eyebrow">Jeden model · trzy kolory</span>
+      <h2>Ten sam ciepły polar, trzy style</h2>
+      <p class="muted">Każda para ma od środka ten sam miękki polar 220 g. Wybierasz tylko, jak mają wyglądać z zewnątrz.</p>
+    </div>
+    <div class="ccol__grid">
+      {%- assign ccol_n = 'Cielisty|Czarny|Szary' | split: '|' -%}
+      {%- assign ccol_t = 'Efekt gołych nóg|Ponadczasowa czerń|Modna szarość' | split: '|' -%}
+      {%- assign ccol_d = 'Z daleka wyglądają jak cienkie cieliste rajstopy na gołych nogach. Idealne do sukienek i spódnic.|Elegancki efekt lekko prześwitujących czarnych rajstop. Pasują do biura, na wieczór i do kozaków.|Chłodny, modny odcień, który świetnie łączy się z czernią, bielą i jeansem.' | split: '|' -%}
+      {%- for c in ccol_n -%}
+        {%- assign i = forloop.index0 -%}
+        {%- assign cv = nil -%}
+        {%- for v in product.variants -%}{%- if v.option2 == c and v.option3 == '220 g' and v.option1 contains '1 ' -%}{%- assign cv = v -%}{%- endif -%}{%- endfor -%}
+        <article class="ccol__card">
+          <div class="ccol__img">{%- if cv and cv.featured_media -%}{{ cv.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', alt: ccol_t[i], sizes: '(min-width: 900px) 30vw, 100vw' }}{%- endif -%}</div>
+          <div class="ccol__body">
+            <h3>{{ ccol_t[i] }}</h3>
+            <p class="muted">{{ ccol_d[i] }}</p>
+            <button type="button" class="btn btn--ghost btn--block" data-pick-color="{{ c }}">Wybieram: {{ c | downcase }}</button>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+.ccol{padding:64px 0;background:#fff;border-top:1px solid var(--line)}
+.ccol__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.ccol__card{background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.ccol__img{background:var(--nude)}
+.ccol__img img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.ccol__body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ccol__body h3{margin:0;font-size:1.15rem}
+.ccol__body p{margin:0 0 10px;font-size:.93rem}
+.ccol__body .btn{margin-top:auto}
+@media(max-width:900px){.ccol{padding:44px 0}.ccol__grid{grid-template-columns:minmax(0,1fr);gap:14px}.ccol__card{flex-direction:row}.ccol__img{width:38%;flex:none}.ccol__img img{height:100%;aspect-ratio:auto}.ccol__body{padding:14px}.ccol__body p{font-size:.85rem}}
+</style>
+<script>
+document.querySelectorAll('[data-pick-color]').forEach(function(b){b.addEventListener('click',function(){var c=b.getAttribute('data-pick-color');document.querySelectorAll('[data-pdp] .swatch').forEach(function(x){if(x.getAttribute('data-value')===c)x.click();});var r=document.querySelector('[data-pdp]');if(r)r.scrollIntoView({behavior:'smooth',block:'start'});});});
+</script>
+
+<section class="cfacts" id="dlaczego">
+  <div class="page">
+    <div class="cfacts__head">
+      <span class="eyebrow">Dlaczego Ciepelle</span>
+      <h2>Za co płacisz – konkretnie</h2>
+      <p class="muted">Nasze rajstopy nie są najtańsze. Za to dokładnie wiesz, co kupujesz.</p>
+    </div>
+
+    <div class="cfacts__grid">
+      <div class="cfacts__card">
+        <b>Puszysty polar 220 g</b>
+        <p>Gęsta, miękka warstwa od środka, która naprawdę grzeje – a z zewnątrz nadal efekt cienkich rajstop.</p>
+      </div>
+      <div class="cfacts__card">
+        <b>Wysoki stan</b>
+        <p>Sięgają do talii, więc ciepło obejmuje też brzuch i biodra.</p>
+      </div>
+      <div class="cfacts__card">
+        <b>Darmowa dostawa do domu</b>
+        <p>Bez wychodzenia na mróz do sklepu. Numer śledzenia przesyłki dostajesz e-mailem.</p>
+      </div>
+      <div class="cfacts__card">
+        <b>14 dni na zwrot</b>
+        <p>Nie pasują? Odeślij je bez podawania przyczyny.</p>
+      </div>
+    </div>
+
+    <h3 class="cfacts__sub">Najważniejsze dane w liczbach</h3>
+    <div class="cfacts__tablewrap">
+      <table class="cfacts__table">
+        <tr><td>Polar od środka</td><td>220 g (waga netto pary)</td></tr>
+        <tr><td>Na kiedy</td><td>jesień i zima, chłodne biuro, mroźne poranki</td></tr>
+        <tr><td>Rozmiar</td><td>pasuje na S, M, L i XL</td></tr>
+        <tr><td>Waga ciała</td><td>ok. 40–90 kg</td></tr>
+        <tr><td>Stan</td><td>wysoki (do talii)</td></tr>
+        <tr><td>Skład</td><td>90% poliester, 10% elastan</td></tr>
+        <tr><td>Kolory</td><td>cielisty, czarny, szary</td></tr>
+      </table>
+    </div>
+    <p class="cfacts__note">Gramatura, rozmiar i skład według danych producenta. Ważysz mniej niż 40 kg lub więcej niż 90 kg? Napisz do nas przed zakupem: <a href="mailto:support@ciepelle.pl">support@ciepelle.pl</a> – doradzimy.</p>
+  </div>
+</section>
+
+<style>
+.cfacts{padding:56px 0;background:#fff}
+.cfacts .page{min-width:0}
+.cfacts__head{max-width:640px;margin:0 auto 28px;text-align:center}
+.cfacts__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.cfacts__card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
+.cfacts__card b{display:block;font-size:1rem;margin-bottom:4px;color:var(--berry)}
+.cfacts__card p{margin:0;font-size:.92rem;color:var(--muted);line-height:1.45}
+.cfacts__sub{text-align:center;margin:36px 0 14px;font-size:1.3rem}
+.cfacts__tablewrap{max-width:640px;margin:0 auto;width:100%}
+.cfacts__table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:.9rem;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cfacts__table td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;overflow-wrap:anywhere;word-break:normal}
+.cfacts__table td:first-child{font-weight:700;color:var(--ink);width:38%;background:#FCFAF9}
+.cfacts__table tr:last-child td{border-bottom:0}
+.cfacts__note{max-width:640px;margin:12px auto 0;font-size:.8rem;color:var(--muted);text-align:center}
+.cfacts__note a{color:var(--berry)}
+@media(max-width:900px){.cfacts{padding:40px 0}.cfacts__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cfacts__card{padding:14px}}
+@media(max-width:420px){.cfacts__table{font-size:.82rem}.cfacts__table td{padding:8px 6px}}
+</style>
+
+{% schema %}
+{ "name": "Dlaczego Ciepelle", "settings": [] }
+{% endschema %}

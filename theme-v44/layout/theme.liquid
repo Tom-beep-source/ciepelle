@@ -50,6 +50,7 @@
     <script src="{{ 'ciepelle.js' | asset_url }}" defer></script>
     <script src="{{ 'ciepelle-typo.js' | asset_url }}" defer></script>
     <script src="{{ 'ciepelle-xl.js' | asset_url }}" defer></script>
-    {%- comment -%} v44 : pop-up selfie retiré du panier (il masquait le bouton de paiement). L'offre selfie -10 % est dans l'e-mail d'expédition. {%- endcomment -%}
+    {%- comment -%} v44 : pop-up selfie retiré du panier (il masquait le bouton de paiement) ; panier latéral ajouté. {%- endcomment -%}
+    {%- unless template.name == 'cart' -%}{% render 'ciepelle-cart-drawer' %}{%- endunless -%}
   </body>
 </html>

@@ -1,0 +1,138 @@
+{%- comment -%}
+  v44 : panier latéral (droite sur ordinateur, panneau du bas sur mobile).
+  Intercepte « Dodaj do koszyka » (pas « Kup teraz », qui va directement au paiement).
+  Les scripts existants (taille obligatoire, routage L/XL) s'exécutent avant : ce script écoute en dernier.
+{%- endcomment -%}
+<div class="cdr" id="cdr" aria-hidden="true">
+  <div class="cdr__bg" data-cdr-close></div>
+  <aside class="cdr__panel" role="dialog" aria-modal="true" aria-labelledby="cdr-title">
+    <div class="cdr__grab" aria-hidden="true"></div>
+    <div class="cdr__head">
+      <p class="cdr__title" id="cdr-title">✓ Dodano do koszyka</p>
+      <button type="button" class="cdr__x" data-cdr-close aria-label="Zamknij">×</button>
+    </div>
+    <div class="cdr__body" data-cdr-body></div>
+    <div class="cdr__foot">
+      <div class="cdr__row"><span>Dostawa</span><b class="cdr__ok">Gratis</b></div>
+      <div class="cdr__row cdr__total"><span>Razem</span><b data-cdr-total></b></div>
+      <a href="{{ routes.root_url | append: '/' | replace: '//', '/' }}checkout?locale=pl" class="btn btn--primary btn--block cdr__pay">🔒 Przejdź do płatności</a>
+      <p class="cdr__trust">✓ Darmowa dostawa · ✓ 14 dni na zwrot · ✓ BLIK · karta · PayPal</p>
+      <button type="button" class="cdr__more" data-cdr-close>Kontynuuj zakupy</button>
+    </div>
+  </aside>
+</div>
+
+<style>
+.cdr{position:fixed;inset:0;z-index:1000;visibility:hidden;pointer-events:none}
+.cdr.is-open{visibility:visible;pointer-events:auto}
+.cdr__bg{position:absolute;inset:0;background:rgba(30,20,20,.45);opacity:0;transition:opacity .25s}
+.cdr.is-open .cdr__bg{opacity:1}
+.cdr__panel{position:absolute;top:0;right:0;bottom:0;width:min(420px,100%);background:#fff;display:flex;flex-direction:column;box-shadow:-12px 0 40px -12px rgba(0,0,0,.3);transform:translateX(100%);transition:transform .3s ease}
+.cdr.is-open .cdr__panel{transform:none}
+.cdr__grab{display:none}
+.cdr__head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
+.cdr__title{margin:0;font-weight:800;font-size:1.05rem;color:var(--ok)}
+.cdr__x{border:0;background:transparent;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--muted);padding:0 4px}
+.cdr__body{flex:1;overflow-y:auto;padding:12px 18px;-webkit-overflow-scrolling:touch}
+.cdr__item{display:grid;grid-template-columns:72px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cdr__item img{width:72px;height:72px;object-fit:cover;border-radius:10px;display:block}
+.cdr__name{font-weight:700;font-size:.92rem;line-height:1.3;margin:0 0 3px}
+.cdr__meta{font-size:.8rem;color:var(--muted);line-height:1.4}
+.cdr__qty{display:inline-flex;align-items:center;gap:10px;margin-top:6px;border:1px solid var(--line);border-radius:99px;padding:2px 10px}
+.cdr__qty button{border:0;background:transparent;font-size:1.05rem;cursor:pointer;color:var(--ink);padding:2px 4px}
+.cdr__price{font-weight:800;font-size:.95rem;text-align:right;white-space:nowrap}
+.cdr__rm{display:block;margin-top:6px;border:0;background:transparent;color:var(--muted);font-size:.75rem;text-decoration:underline;cursor:pointer;padding:0}
+.cdr__up{margin:10px 0 2px;padding:12px;border:1.5px dashed var(--berry);border-radius:12px;background:#FFF9F7;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.cdr__up b{display:block;font-size:.88rem;color:var(--berry)}
+.cdr__up span{display:block;font-size:.76rem;color:var(--muted);line-height:1.35}
+.cdr__up button{flex:none;border:1.5px solid var(--berry);background:#fff;color:var(--berry);font-weight:800;border-radius:99px;padding:8px 12px;font-size:.8rem;cursor:pointer;white-space:nowrap}
+.cdr__foot{padding:14px 18px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fff}
+.cdr__row{display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:4px}
+.cdr__ok{color:var(--ok)}
+.cdr__total{font-size:1.1rem;margin:4px 0 12px}
+.cdr__pay{display:block;text-align:center;font-size:1.02rem;padding:15px 18px}
+.cdr__trust{margin:10px 0 4px;text-align:center;font-size:.76rem;color:var(--muted)}
+.cdr__more{display:block;margin:2px auto 0;border:0;background:transparent;color:var(--ink);font-size:.85rem;text-decoration:underline;cursor:pointer;padding:6px}
+.cdr__busy{opacity:.5;pointer-events:none}
+.cdr__empty{padding:30px 0;text-align:center;color:var(--muted)}
+@media(max-width:700px){
+  .cdr__panel{top:auto;left:0;right:0;width:100%;max-height:88vh;border-radius:18px 18px 0 0;transform:translateY(100%);box-shadow:0 -12px 40px -12px rgba(0,0,0,.35)}
+  .cdr__grab{display:block;width:42px;height:5px;border-radius:9px;background:#ddd;margin:8px auto 0}
+  .cdr__head{padding:10px 16px 12px}
+  .cdr__body{padding:8px 16px}
+  .cdr__foot{padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+}
+html.cdr-lock,html.cdr-lock body{overflow:hidden}
+</style>
+
+<script>
+(function(){
+  var root=document.getElementById('cdr'); if(!root) return;
+  var body=root.querySelector('[data-cdr-body]'), totalEl=root.querySelector('[data-cdr-total]');
+  var fmt=function(c,cur){try{return new Intl.NumberFormat('pl-PL',{style:'currency',currency:cur||'PLN',minimumFractionDigits:c%100?2:0,maximumFractionDigits:2}).format(c/100);}catch(e){return (c/100).toFixed(2)+' zł';}};
+  var esc=function(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;};
+  var clean=function(t){return String(t||'').replace(' (najczęściej wybierane)','').replace(/ /g,' ').replace(/ XL$/,'');};
+  var prodCache={};
+  function getProduct(h){ if(!prodCache[h]) prodCache[h]=fetch('/products/'+h+'.js').then(function(r){return r.json();}).catch(function(){return null;}); return prodCache[h]; }
+  function open(){ root.classList.add('is-open'); root.setAttribute('aria-hidden','false'); document.documentElement.classList.add('cdr-lock'); }
+  function close(){ root.classList.remove('is-open'); root.setAttribute('aria-hidden','true'); document.documentElement.classList.remove('cdr-lock'); }
+  root.querySelectorAll('[data-cdr-close]').forEach(function(b){ b.addEventListener('click',close); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  function setCount(n){ document.querySelectorAll('[data-cart-count]').forEach(function(el){ el.textContent=n; }); }
+  function post(url,data){ return fetch(url,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)}).then(function(r){ if(!r.ok) throw r; return r.json(); }); }
+  function render(cart){
+    setCount(cart.item_count);
+    totalEl.textContent=fmt(cart.total_price,cart.currency);
+    if(!cart.items.length){ body.innerHTML='<p class="cdr__empty">Twój koszyk jest pusty.</p>'; return; }
+    body.innerHTML=cart.items.map(function(it,i){
+      var props=it.properties||{}, size=props.Rozmiar?'<br>Rozmiar: <b>'+esc(props.Rozmiar)+'</b>':'';
+      var img=it.image?'<img src="'+esc(it.image)+(it.image.indexOf('?')>-1?'&':'?')+'width=160" alt="" loading="lazy">':'<span></span>';
+      return '<div class="cdr__item" data-line="'+(i+1)+'">'+img+
+        '<div><p class="cdr__name">'+esc(it.product_title)+'</p><div class="cdr__meta">'+esc(clean(it.variant_title))+size+'</div>'+
+        '<div class="cdr__qty"><button type="button" data-q="-1" aria-label="Mniej">−</button><span>'+it.quantity+'</span><button type="button" data-q="1" aria-label="Więcej">+</button></div></div>'+
+        '<div><div class="cdr__price">'+fmt(it.final_line_price,cart.currency)+'</div><button type="button" class="cdr__rm" data-rm>Usuń</button></div></div>'+
+        '<div data-up="'+(i+1)+'"></div>';
+    }).join('');
+    cart.items.forEach(function(it,i){
+      if(!/^1 /.test(String(it.variant_title||''))) return;
+      getProduct(it.handle).then(function(p){
+        if(!p) return; var cur=p.variants.find(function(v){return v.id===it.variant_id;}); if(!cur) return;
+        var three=p.variants.find(function(v){return /^3 /.test(v.option1)&&v.option2===cur.option2&&v.option3===cur.option3&&v.available;}); if(!three) return;
+        var extra=three.price-cur.price*it.quantity; if(extra<=0) return;
+        var slot=body.querySelector('[data-up="'+(i+1)+'"]'); if(!slot) return;
+        slot.innerHTML='<div class="cdr__up"><div><b>🎁 2 + 1 gratis – tylko '+esc(fmt(extra,cart.currency))+' więcej</b><span>3 pary za '+esc(fmt(three.price,cart.currency))+' · ten sam kolor i rozmiar</span></div><button type="button">Biorę 2 + 1</button></div>';
+        slot.querySelector('button').addEventListener('click',function(){
+          body.classList.add('cdr__busy');
+          post('/cart/change.js',{line:i+1,quantity:0})
+            .then(function(){ return post('/cart/add.js',{items:[{id:three.id,quantity:1,properties:it.properties||{}}]}); })
+            .catch(function(){ return post('/cart/add.js',{items:[{id:it.variant_id,quantity:it.quantity,properties:it.properties||{}}]}).catch(function(){}); })
+            .then(refresh);
+        });
+      });
+    });
+    body.querySelectorAll('.cdr__item').forEach(function(row){
+      var line=+row.getAttribute('data-line'), q=cart.items[line-1].quantity;
+      row.querySelectorAll('[data-q]').forEach(function(b){ b.addEventListener('click',function(){ change(line,Math.max(0,q+(+b.getAttribute('data-q')))); }); });
+      row.querySelector('[data-rm]').addEventListener('click',function(){ change(line,0); });
+    });
+  }
+  function refresh(){ body.classList.remove('cdr__busy'); return fetch('/cart.js',{headers:{'Accept':'application/json'}}).then(function(r){return r.json();}).then(render); }
+  function change(line,q){ body.classList.add('cdr__busy'); post('/cart/change.js',{line:line,quantity:q}).then(render).catch(function(){}).then(function(){ body.classList.remove('cdr__busy'); }); }
+  document.addEventListener('submit',function(e){
+    if(e.defaultPrevented) return;
+    var f=e.target; if(!f||!f.getAttribute) return;
+    var act=f.getAttribute('action')||''; if(act.indexOf('/cart/add')<0) return;
+    var sub=e.submitter; if(sub&&sub.getAttribute('name')==='return_to') return;
+    e.preventDefault();
+    var fd=new FormData(f); fd.delete('return_to');
+    var btns=document.querySelectorAll('button[type=submit][form="'+(f.id||'_')+'"], form#'+(f.id||'_')+' button[type=submit]');
+    btns.forEach(function(b){ b.disabled=true; });
+    fetch('/cart/add.js',{method:'POST',headers:{'Accept':'application/json'},body:fd})
+      .then(function(r){ if(!r.ok) throw r; return r.json(); })
+      .then(function(){ return refresh(); })
+      .then(open)
+      .catch(function(){ f.submit(); })
+      .then(function(){ btns.forEach(function(b){ b.disabled=false; }); });
+  });
+})();
+</script>

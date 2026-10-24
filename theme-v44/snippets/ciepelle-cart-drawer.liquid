@@ -125,17 +125,17 @@ html.cdr-lock,html.cdr-lock body{overflow:hidden}
     var sub=e.submitter; if(sub&&sub.getAttribute('name')==='return_to') return;
     e.preventDefault();
     var nativeSubmit=function(){ try{ HTMLFormElement.prototype.submit.call(f); }catch(x){} };
-    var btns=[];
+    var btns=[], added=false;
     try{
       var fd=new FormData(f); fd.delete('return_to');
       var fid=f.getAttribute('id');
       btns=Array.prototype.slice.call(fid?document.querySelectorAll('button[type=submit][form="'+fid+'"], #'+fid+' button[type=submit]'):f.querySelectorAll('button[type=submit]'));
       btns.forEach(function(b){ b.disabled=true; });
       fetch('/cart/add.js',{method:'POST',headers:{'Accept':'application/json'},body:fd})
-        .then(function(r){ if(!r.ok) throw r; return r.json(); })
+        .then(function(r){ if(!r.ok) throw r; added=true; return r.json(); })
         .then(function(){ return refresh(); })
         .then(open)
-        .catch(function(){ nativeSubmit(); })
+        .catch(function(){ if(added){ location.href='/cart'; } else { nativeSubmit(); } })
         .then(function(){ btns.forEach(function(b){ b.disabled=false; }); });
     }catch(err){ nativeSubmit(); }
   });

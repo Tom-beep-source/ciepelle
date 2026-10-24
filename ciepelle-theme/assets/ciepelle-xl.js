@@ -1,6 +1,9 @@
 /* Ciepelle : tailles L et XL -> variante "220 g XL" (commandee chez le fournisseur en XL 60-90 kg).
    S, M -> variante "220 g" (fournisseur L 40-70 kg / taille unique). Invisible pour la cliente : meme prix, meme produit. */
 (function () {
+  /* variante XL = « 220 g XL » (ancien nom) ou « 220 g » + espace invisible U+200B (nouveau nom, invisible au paiement) */
+  function isXL(o) { o = String(o); return / XL$/.test(o) || o.charAt(o.length - 1) === '\u200b'; }
+  function strip(o) { return String(o).replace(/ XL$/, '').replace(/\u200b+$/, ''); }
   function pick(list, test) { for (var i = 0; i < list.length; i++) { if (test(list[i])) return list[i]; } return null; }
   document.addEventListener('submit', function (e) {
     var f = e.target;
@@ -16,17 +19,15 @@
         var d = JSON.parse(pj.textContent);
         var v = pick(d.variants, function (x) { return String(x.id) === vi.value; });
         if (!v) return;
-        var base = String(v.o3).replace(/ XL$/, '');
-        var want = xl ? base + ' XL' : base;
-        var t = pick(d.variants, function (x) { return x.o1 === v.o1 && x.o2 === v.o2 && x.o3 === want && x.available; });
+        var base = strip(v.o3);
+        var t = pick(d.variants, function (x) { return x.o1 === v.o1 && x.o2 === v.o2 && (xl ? isXL(x.o3) : x.o3 === base) && strip(x.o3) === base && x.available; });
         if (t) vi.value = t.id;
       } else if (tj && f.querySelector('[data-trio-input]')) {
         var td = JSON.parse(tj.textContent);
         var tv = pick(td.variants, function (x) { return String(x.id) === vi.value; });
         if (!tv) return;
-        var tbase = String(tv.w).replace(/ XL$/, '');
-        var twant = xl ? tbase + ' XL' : tbase;
-        var tt = pick(td.variants, function (x) { return x.w === twant && x.available; });
+        var tbase = strip(tv.w);
+        var tt = pick(td.variants, function (x) { return (xl ? isXL(x.w) : x.w === tbase) && strip(x.w) === tbase && x.available; });
         if (tt) vi.value = tt.id;
       }
     } catch (err) {}

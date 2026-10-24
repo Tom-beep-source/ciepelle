@@ -124,15 +124,20 @@ html.cdr-lock,html.cdr-lock body{overflow:hidden}
     var act=f.getAttribute('action')||''; if(act.indexOf('/cart/add')<0) return;
     var sub=e.submitter; if(sub&&sub.getAttribute('name')==='return_to') return;
     e.preventDefault();
-    var fd=new FormData(f); fd.delete('return_to');
-    var btns=document.querySelectorAll('button[type=submit][form="'+(f.id||'_')+'"], form#'+(f.id||'_')+' button[type=submit]');
-    btns.forEach(function(b){ b.disabled=true; });
-    fetch('/cart/add.js',{method:'POST',headers:{'Accept':'application/json'},body:fd})
-      .then(function(r){ if(!r.ok) throw r; return r.json(); })
-      .then(function(){ return refresh(); })
-      .then(open)
-      .catch(function(){ f.submit(); })
-      .then(function(){ btns.forEach(function(b){ b.disabled=false; }); });
+    var nativeSubmit=function(){ try{ HTMLFormElement.prototype.submit.call(f); }catch(x){} };
+    var btns=[];
+    try{
+      var fd=new FormData(f); fd.delete('return_to');
+      var fid=f.getAttribute('id');
+      btns=Array.prototype.slice.call(fid?document.querySelectorAll('button[type=submit][form="'+fid+'"], #'+fid+' button[type=submit]'):f.querySelectorAll('button[type=submit]'));
+      btns.forEach(function(b){ b.disabled=true; });
+      fetch('/cart/add.js',{method:'POST',headers:{'Accept':'application/json'},body:fd})
+        .then(function(r){ if(!r.ok) throw r; return r.json(); })
+        .then(function(){ return refresh(); })
+        .then(open)
+        .catch(function(){ nativeSubmit(); })
+        .then(function(){ btns.forEach(function(b){ b.disabled=false; }); });
+    }catch(err){ nativeSubmit(); }
   });
 })();
 </script>

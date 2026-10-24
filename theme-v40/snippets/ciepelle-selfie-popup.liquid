@@ -1,0 +1,44 @@
+{%- comment -%}
+  Pop-up page panier : -10% (code SELFIE10) sur la prochaine commande contre un selfie + un avis.
+  Affiché une fois par session, 1,5 s après l'arrivée sur le panier (si le panier n'est pas vide).
+{%- endcomment -%}
+<dialog class="csp" id="ciepelle-selfie" aria-labelledby="csp-title">
+  <button type="button" class="csp__x" data-csp-close aria-label="Zamknij">×</button>
+  <div class="csp__badge">📸 −10% na kolejne zamówienie</div>
+  <h2 id="csp-title">Pokaż nam swoją stylizację z Ciepelle!</h2>
+  <p class="csp__lead">Gdy paczka dotrze, zrób sobie selfie w nowych rajstopach i napisz kilka słów opinii. W podziękowaniu wyślemy Ci <b>kod −10%</b> na następne zakupy.</p>
+  <ol class="csp__steps">
+    <li><b>Odbierz paczkę</b> i załóż rajstopy do ulubionej stylizacji.</li>
+    <li><b>Zrób selfie</b> – np. w lustrze, tak aby było widać rajstopy.</li>
+    <li><b>Wyślij zdjęcie i krótką opinię</b> na <a href="mailto:support@ciepelle.pl?subject=Moje%20selfie%20z%20Ciepelle&amp;body=Numer%20zam%C3%B3wienia%3A%20%0AKolor%20i%20rozmiar%3A%20%0AMoja%20opinia%3A%20%0A%0A(do%C5%82%C4%85cz%20selfie%20jako%20za%C5%82%C4%85cznik)">support@ciepelle.pl</a> (podaj numer zamówienia).</li>
+    <li><b>Otrzymasz kod −10%</b> e-mailem w ciągu 48 godzin.</li>
+  </ol>
+  <p class="csp__small">Wysyłając zdjęcie, zgadzasz się na jego publikację na naszej stronie i w mediach społecznościowych Ciepelle. Zgodę możesz w każdej chwili wycofać, pisząc do nas – usuniemy zdjęcie. Kod jest jednorazowy, ważny na kolejne zamówienie.</p>
+  <button type="button" class="btn btn--primary btn--block csp__ok" data-csp-close>Super, zapamiętam! 💛</button>
+</dialog>
+<style>
+  .csp{border:0;border-radius:20px;padding:26px 22px 22px;max-width:440px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.25);color:#2b2523;background:#fff}
+  .csp::backdrop{background:rgba(30,20,20,.55)}
+  .csp__x{position:absolute;top:10px;right:12px;border:0;background:transparent;font-size:1.6rem;line-height:1;cursor:pointer;color:#6b6460}
+  .csp__badge{display:inline-block;background:#f6e9ee;color:#7A2944;font-weight:800;font-size:.85rem;border-radius:999px;padding:6px 12px;margin-bottom:10px}
+  .csp h2{font-size:1.35rem;line-height:1.25;margin:0 0 8px}
+  .csp__lead{margin:0 0 12px;color:#4a4340}
+  .csp__steps{margin:0 0 12px;padding-left:20px;color:#4a4340}
+  .csp__steps li{margin-bottom:6px}
+  .csp__steps a{color:#7A2944;font-weight:700}
+  .csp__small{font-size:.75rem;color:#8a8380;margin:0 0 14px;line-height:1.45}
+  .csp__ok{width:100%}
+</style>
+<script>
+(function(){
+  var d=document.getElementById('ciepelle-selfie'); if(!d||!d.showModal) return;
+  var k='ciepelle_selfie_seen', seen=false;
+  try{ seen=sessionStorage.getItem(k)==='1'; }catch(e){}
+  if(seen) return;
+  d.querySelectorAll('[data-csp-close]').forEach(function(b){ b.addEventListener('click',function(){ d.close(); }); });
+  d.addEventListener('click',function(e){ if(e.target===d) d.close(); });
+  setTimeout(function(){
+    try{ d.showModal(); sessionStorage.setItem(k,'1'); }catch(e){}
+  },1500);
+})();
+</script>

@@ -105,14 +105,6 @@
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>BLIK · karta · PayPal</span></li>
       </ul>
 
-      <div class="pmech">
-        <p class="pmech__t">🧶 Boisz się, że rajstopy szybko się zmechacą?</p>
-        <ul>
-          <li><b>Gęsty polar 220 g</b> – prawie 3 razy więcej polaru niż w cienkich modelach 80 g.</li>
-          <li><b>Dłużej jak nowe</b> – pierz w 30°C ręcznie lub w woreczku do prania, bez suszarki i bez zmiękczacza.</li>
-          <li><b>Zero ryzyka</b> – jeśli nie spełnią Twoich oczekiwań, masz <b>14 dni na zwrot</b> bez podawania przyczyny.</li>
-        </ul>
-      </div>
 
       <form method="post" action="{{ routes.cart_add_url }}" id="pdp-form" data-form>
         <input type="hidden" name="id" value="{{ current.id }}" data-variant-input>
@@ -208,6 +200,14 @@
 
       {%- comment -%} v43 : les avis (section « ciepelle-reviews » du modèle) sont déplacés ici, juste sous les selfies. Contenu inchangé. {%- endcomment -%}
       <div class="crev-slot" data-crev-slot></div>
+      <div class="pmech">
+        <p class="pmech__t">🧶 Boisz się, że rajstopy szybko się zmechacą?</p>
+        <ul>
+          <li><b>Gęsty polar 220 g</b> – prawie 3 razy więcej polaru niż w cienkich modelach 80 g.</li>
+          <li><b>Dłużej jak nowe</b> – pierz w 30°C ręcznie lub w woreczku do prania, bez suszarki i bez zmiękczacza.</li>
+          <li><b>Zero ryzyka</b> – jeśli nie spełnią Twoich oczekiwań, masz <b>14 dni na zwrot</b> bez podawania przyczyny.</li>
+        </ul>
+      </div>
       <script>
       (function(){
         function move(){
@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded',function(){
 .size.is-active{border-color:var(--berry);box-shadow:0 0 0 1px var(--berry);background:#FFF9F7}
 .size-help{font-size:.82rem;color:var(--muted);margin:0 0 14px}
 .size-help.is-error{color:#B3261E;font-weight:700}
-.pmech{margin:0 0 18px;padding:14px 16px;border-radius:12px;background:#F4F7F5;border:1px solid #D5E3DA}
+.pmech{margin:14px 0 18px;padding:14px 16px;border-radius:12px;background:#F4F7F5;border:1px solid #D5E3DA}
 .pmech__t{margin:0 0 8px;font-weight:800;font-size:1rem;color:var(--ink)}
 .pmech ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.92rem;line-height:1.45;color:var(--ink)}
 .gbadge{position:absolute;top:12px;left:12px;z-index:2;background:rgba(122,30,58,.92);color:#fff;font-weight:700;font-size:.85rem;padding:7px 12px;border-radius:99px;box-shadow:0 4px 12px -4px rgba(0,0,0,.3);pointer-events:none}

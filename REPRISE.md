@@ -12,10 +12,10 @@ Coller ce fichier au début d'une nouvelle conversation pour repartir sans tout 
 
 ## Boutique
 - Shopify `aquaflow-boutique` (8wxxc1-gx), domaine ciepelle.pl, support@ciepelle.pl.
-- Thème en ligne : **v37** (201609183606). Les thèmes en ligne ne sont pas modifiables : dupliquer → modifier la copie → Tom publie.
+- Thème en ligne : **v42** (201618293110), publié le 24/10 à 3 h 30. Les thèmes en ligne ne sont pas modifiables : dupliquer → modifier la copie → Tom publie.
 - Fichiers du thème dans ce dépôt `ciepelle-theme/` ; envoi par `themeFilesUpsert` avec une URL raw.githubusercontent.com/<commit>.
-- Produits : principal 15907398943094 (1/2/3 pary × cielisty/czarny/szary, option3 « 220 g » ; variantes cachées « 220 g XL »), Trio 15912900788598.
-- Tailles : S, M → fournisseur normal ; L, XL → variante « 220 g XL » → COZOK XL 60–90 kg (script `assets/ciepelle-xl.js`).
+- Produits : principal 15907398943094 (1/2/3 pary × cielisty/czarny/szary, option3 « 220 g » ; variantes XL cachées nommées « 220 g » avec espace INSÉCABLE U+00A0, ex-« 220 g XL », pour que le paiement affiche « 220 g ». Shopify refuse U+200B), Trio 15912900788598.
+- Tailles : S, M → fournisseur normal ; L, XL → variante XL (« 220 g » insécable) → COZOK XL 60–90 kg (script `assets/ciepelle-xl.js`).
 - Prix : 1 para 99 zł, 2 pary 149 zł, 3 pary (2+1 gratis) 198 zł.
 
 ## DSers

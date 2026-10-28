@@ -142,7 +142,7 @@ html.cdr-lock,html.cdr-lock body{overflow:hidden}
     if(singles%2===1&&last>-1){
       var it=cart.items[last];
       var box=document.createElement('div'); box.className='cdr__up';
-      box.innerHTML='<div><b>1 + 1 GRATIS – druga para za 0 zł</b><span>Dodaj drugą parę, zapłacisz tyle samo. Kolor i rozmiar zmienisz w koszyku.</span></div><button type="button">Dodaj gratis</button>';
+      box.innerHTML='<div><b>1 + 1 GRATIS – druga para za 0 zł</b><span>Dodaj drugą parę w tym samym kolorze i rozmiarze – zapłacisz tyle samo.</span></div><button type="button">Dodaj gratis</button>';
       body.appendChild(box);
       box.querySelector('button').addEventListener('click',function(){ body.classList.add('cdr__busy'); post('/cart/add.js',{items:[{id:it.variant_id,quantity:1,properties:it.properties||{}}]}).then(refresh).catch(function(){ body.classList.remove('cdr__busy'); }); });
     }

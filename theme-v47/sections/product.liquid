@@ -1,0 +1,527 @@
+{%- comment -%}
+  v45 – refonte d'après la vidéo du collègue (28/10/2026) :
+  offre unique « 1 + 1 GRATIS » (même prix que 1 paire), couleur + taille pour chaque paire,
+  puces simples, pictos sous le bouton, plus de « Kup teraz », « Znajdź swój rozmiar »,
+  photos explicatives, menus dépliants sous le bouton.
+  La 2e paire gratuite est appliquée par la remise automatique Shopify « 1 + 1 GRATIS »
+  (visible dans le panier ET sur la page de paiement).
+  Les tailles L et XL partent sur la variante XL (« 220 g » écrit avec une espace insécable).
+{%- endcomment -%}
+{%- liquid
+  assign single = nil
+  for v in product.variants
+    if v.option1 == '1 para' and v.option2 == 'Cielisty' and v.option3 == '220 g'
+      assign single = v
+      break
+    endif
+  endfor
+  if single == nil
+    assign single = product.selected_or_first_available_variant
+  endif
+  assign p1 = single.price
+  assign p2 = single.price | times: 2
+-%}
+<section class="pdp pdp45" data-pdp45>
+  <div class="page pdp__grid">
+    <div class="gallery">
+      <div class="gallery__main">
+        {%- assign first_img = nil -%}
+        {%- for m in product.media -%}{%- if m.id == 71484661105014 -%}{%- assign first_img = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
+        {%- if first_img == nil -%}{%- assign first_img = product.featured_media -%}{%- endif -%}
+        {%- if first_img -%}
+          {{ first_img | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', data-main-img: '', alt: first_img.alt, sizes: '(min-width: 900px) 55vw, 100vw', widths: '600,900,1200' }}
+        {%- else -%}
+          <img src="{{ 'ig-1-zewnatrz-srodek.jpg' | asset_img_url: '1200x' }}" alt="Rajstopy Ciepelle" data-main-img width="1200" height="1200">
+        {%- endif -%}
+      </div>
+      <div class="gallery__thumbs g45">
+        {%- if first_img -%}
+          <button type="button" class="is-active" data-thumb="{{ first_img | image_url: width: 1200 }}" aria-label="Zdjęcie 1">{{ first_img | image_url: width: 200 | image_tag: loading: 'lazy', alt: first_img.alt }}</button>
+        {%- endif -%}
+        {%- assign igs = 'ig-1-cieplo.jpg|Wyglądają jak cienkie, grzeją jak polarowe legginsy;ig-2-brzuch.jpg|Płaski brzuch – wysoki, modelujący stan;ig-3-gladkie.jpg|Gładkie nogi i pośladki – cellulit niewidoczny;ig-7-oferta.jpg|Oferta 1 + 1 gratis;ig-5-warstwy.jpg|Dwie warstwy: cienka dzianina i polar 220 g;ig-4-trzymaja.jpg|Trzymają się cały dzień;ig-6-porownanie.jpg|Porównanie: Ciepelle, zwykłe rajstopy, legginsy;ig-8-rozmiary.jpg|Tabela rozmiarów S–XL;ig-9-okazje.jpg|Na każdą okazję zimą' | split: ';' -%}
+        {%- for ig in igs -%}
+          {%- assign igp = ig | split: '|' -%}
+          <button type="button" data-thumb="{{ igp[0] | asset_img_url: '1200x' }}" aria-label="{{ igp[1] }}"><img src="{{ igp[0] | asset_img_url: '200x' }}" alt="{{ igp[1] }}" loading="lazy" width="200" height="200"></button>
+        {%- endfor -%}
+        {%- for m in product.media -%}
+          {%- liquid
+            assign mcol = ''
+            assign malt = m.alt | downcase
+            if malt contains 'ciepelle z polarem – kolor cielisty'
+              assign mcol = 'Cielisty'
+            elsif malt contains 'ciepelle z polarem – kolor czarny'
+              assign mcol = 'Czarny'
+            elsif malt contains 'ciepelle z polarem – kolor szary'
+              assign mcol = 'Szary'
+            endif
+          -%}
+          {%- if mcol != '' -%}
+            <button type="button" data-thumb="{{ m | image_url: width: 1200 }}" data-color="{{ mcol }}" aria-label="Kolor {{ mcol | downcase }}">{{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: m.alt }}</button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="pdp__info">
+      <h1 class="pdp__title">{{ section.settings.headline | default: product.title }}</h1>
+      <p class="pdp__sub">{{ section.settings.subheadline }}</p>
+      <ul class="pchk">
+        <li>Wyglądają jak cienkie rajstopy – efekt gołych nóg</li>
+        <li>Od środka gęsty, miękki polar 220 g – ciepło na całą zimę</li>
+        <li>Wysoki stan – wysmukla sylwetkę i wygładza brzuch</li>
+        <li>Jeden elastyczny model na rozmiary S–XL (ok. 40–90 kg)</li>
+      </ul>
+
+      <div class="p45price">
+        <strong>{{ p1 | money_without_trailing_zeros }}</strong>
+        <span class="p45price__tag">1 + 1 GRATIS</span>
+        <span class="p45price__note">druga para za 0 zł</span>
+      </div>
+
+      <button type="button" class="fsz-btn" data-fsz-open>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2" y="7" width="20" height="10" rx="1.5"/><path d="M6 7v4M10 7v3M14 7v4M18 7v3"/></svg>
+        Znajdź swój rozmiar
+      </button>
+
+      <form method="post" action="{{ routes.cart_add_url }}" id="pdp-form" data-offer-form novalidate>
+        <p class="offer__label">Wybierz ofertę</p>
+        <div class="offer" data-offer>
+          <div class="ocard" data-n="1" role="radio" aria-checked="false" tabindex="0">
+            <div class="ocard__head">
+              <span class="ocard__radio"></span>
+              <span class="ocard__name"><b>1 para</b><small>{{ p1 | money_without_trailing_zeros }} za parę</small></span>
+              <span class="ocard__price"><b>{{ p1 | money_without_trailing_zeros }}</b></span>
+            </div>
+            <div class="ocard__rows" data-rows></div>
+          </div>
+          <div class="ocard is-active ocard--best" data-n="2" role="radio" aria-checked="true" tabindex="0">
+            <span class="ocard__tag">Najczęściej wybierane</span>
+            <div class="ocard__head">
+              <span class="ocard__radio"></span>
+              <span class="ocard__name"><b>1 + 1 GRATIS</b><small>Kupujesz 1 parę, drugą dostajesz za 0 zł</small></span>
+              <span class="ocard__price"><b>{{ p1 | money_without_trailing_zeros }}</b><s>{{ p2 | money_without_trailing_zeros }}</s><em>Oszczędzasz {{ p1 | money_without_trailing_zeros }}</em></span>
+            </div>
+            <div class="ocard__rows" data-rows></div>
+          </div>
+        </div>
+        <p class="offer__err" data-offer-err hidden>Wybierz rozmiar dla każdej pary.</p>
+
+        <button type="submit" class="btn btn--primary btn--block p45atc" data-atc>
+          Dodaj do koszyka – {{ p1 | money_without_trailing_zeros }}
+        </button>
+      </form>
+
+      <ul class="pgar" aria-label="Gwarancje">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20M4.9 6.5l14.2 11M19.1 6.5 4.9 17.5M9 4l3 2 3-2M9 20l3-2 3 2"/></svg><span>Polar 220 g</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><span>Darmowa dostawa</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/></svg><span>14 dni na zwrot</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>BLIK · karta · PayPal</span></li>
+      </ul>
+
+      <div class="acc acc45">
+        <details>
+          <summary>Tabela rozmiarów</summary>
+          <div class="rte">{{ section.settings.size_html }}<p><button type="button" class="linkbtn" data-fsz-open>Znajdź swój rozmiar →</button></p></div>
+        </details>
+        <details>
+          <summary>Jak działa 1 + 1 gratis?</summary>
+          <div class="rte">
+            <p>Wybierz <b>„1 + 1 GRATIS”</b>: płacisz za jedną parę, a drugą dostajesz za 0 zł. Dla każdej pary wybierasz <b>osobno kolor i rozmiar</b> – możesz więc wziąć np. cielistą i czarną.</p>
+            <p>Rabat naliczy się sam w koszyku i na stronie płatności – nie musisz wpisywać żadnego kodu.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Który kolor wybrać?</summary>
+          <div class="rte">
+            <table><tr><th>Kolor</th><th>Efekt i do czego</th></tr>
+            <tr><td><b>Cielisty</b></td><td>Efekt „gołych nóg” – do sukienek, spódnic i jasnych, eleganckich stylizacji.</td></tr>
+            <tr><td><b>Czarny</b></td><td>Klasyka – jak lekko prześwitujące czarne rajstopy. Do biura, na wieczór, do wszystkiego.</td></tr>
+            <tr><td><b>Szary</b></td><td>Modny, chłodny odcień – świetnie wygląda z czernią, bielą i jeansem.</td></tr></table>
+          </div>
+        </details>
+        <details>
+          <summary>Wysyłka i dostawa</summary>
+          <div class="rte">
+            <p><b>Darmowa dostawa</b> na terenie całej Polski. Czas dostawy to zwykle <b>5–7 dni roboczych</b> (maksymalnie 10 dni roboczych). Numer przesyłki otrzymasz e-mailem.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Zwroty</summary>
+          <div class="rte">
+            <p><b>14 dni na odstąpienie od umowy</b> bez podawania przyczyny. Wystarczy e-mail na <a href="mailto:support@ciepelle.pl">support@ciepelle.pl</a>. Szczegóły: <a href="/pages/zwroty-i-reklamacje">Zwroty i reklamacje</a>.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Skład i pielęgnacja</summary>
+          <div class="rte">{{ section.settings.care_html }}</div>
+        </details>
+        <details>
+          <summary>Opis produktu</summary>
+          <div class="rte">{{ product.description }}</div>
+        </details>
+        <details>
+          <summary>Bezpieczeństwo produktu (GPSR)</summary>
+          <div class="rte">{{ section.settings.gpsr_html }}</div>
+        </details>
+      </div>
+
+      {% render 'ciepelle-ugc', blok: 'carousel' %}
+
+      {%- comment -%} Avis (section « ciepelle-reviews » du modèle) déplacés ici, sous les selfies. Contenu inchangé. {%- endcomment -%}
+      <div class="crev-slot" data-crev-slot></div>
+      <div class="pmech">
+        <p class="pmech__t">Boisz się, że rajstopy szybko się zmechacą?</p>
+        <ul>
+          <li><b>Gęsty polar 220 g</b> – prawie 3 razy więcej polaru niż w cienkich modelach 80 g.</li>
+          <li><b>Dłużej jak nowe</b> – pierz w 30°C ręcznie lub w woreczku do prania, bez suszarki i bez zmiękczacza.</li>
+          <li><b>Zero ryzyka</b> – jeśli nie spełnią Twoich oczekiwań, masz <b>14 dni na zwrot</b> bez podawania przyczyny.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Vidéos « en utilisation » (compressées, chargées seulement quand elles deviennent visibles) {%- endcomment -%}
+<section class="vid45">
+  <div class="page">
+    <h2>Zobacz je na co dzień</h2>
+    <p class="muted">Cienkie z zewnątrz, ciepłe w środku – do płaszcza, spódnicy i kozaków.</p>
+    <div class="vid45__row">
+      {%- for i in (1..6) -%}
+        {%- capture vname -%}ciepelle-wideo-{{ i }}.mp4{%- endcapture -%}
+        {%- capture pname -%}ciepelle-wideo-{{ i }}.jpg{%- endcapture -%}
+        <div class="vid45__item">
+          <video muted loop playsinline preload="none" poster="{{ pname | asset_url }}" data-src="{{ vname | asset_url }}" width="432" height="776"></video>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Bloc « pour quelle météo » {%- endcomment -%}
+<section class="wx45">
+  <div class="page">
+    <h2>Zima, w której naprawdę żyjesz</h2>
+    <p class="muted">Jedna para na chłodne poranki, mroźne wieczory i ciepłe biuro.</p>
+    <div class="wx45__grid">
+      <div class="wx45__card">
+        <img src="{{ 'ciepelle-wideo-4.jpg' | asset_url }}" alt="Rajstopy Ciepelle z płaszczem i kozakami" loading="lazy" width="432" height="776">
+        <div><b>od −10 do 0°C</b>
+        <span>Z długim płaszczem i kozakami. Polar od środka trzyma ciepło na przystanku i w drodze do pracy.</span></div>
+      </div>
+      <div class="wx45__card">
+        <img src="{{ 'ciepelle-wideo-5.jpg' | asset_url }}" alt="Rajstopy Ciepelle ze spódnicą i kozakami" loading="lazy" width="432" height="776">
+        <div><b>od 0 do 8°C</b>
+        <span>Idealny moment na sukienkę i spódnicę – efekt gołych nóg, bez marznięcia.</span></div>
+      </div>
+      <div class="wx45__card">
+        <img src="{{ 'ciepelle-wideo-2.jpg' | asset_url }}" alt="Rajstopy Ciepelle do biura" loading="lazy" width="432" height="776">
+        <div><b>od 8°C i w biurze</b>
+        <span>Elegancko do biura i na wieczór – wyglądają jak zwykłe cienkie rajstopy.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% render 'ciepelle-zycie', blok: 'steps' %}
+
+{%- comment -%} Fenêtre « Znajdź swój rozmiar » {%- endcomment -%}
+<div class="fsz" data-fsz hidden>
+  <div class="fsz__bg" data-fsz-close></div>
+  <div class="fsz__box" role="dialog" aria-modal="true" aria-labelledby="fsz-t">
+    <button type="button" class="fsz__x" data-fsz-close aria-label="Zamknij">×</button>
+    <p class="fsz__t" id="fsz-t">Znajdź swój rozmiar</p>
+    <p class="fsz__q">1. Ile ważysz?</p>
+    <div class="fsz__opts" data-fsz-w>
+      <button type="button" data-v="S">do 55 kg</button>
+      <button type="button" data-v="M">55–65 kg</button>
+      <button type="button" data-v="L">65–78 kg</button>
+      <button type="button" data-v="XL">78–90 kg</button>
+      <button type="button" data-v="X">ponad 90 kg</button>
+    </div>
+    <p class="fsz__q">2. Jaki rozmiar ubrań zwykle nosisz? <small>(opcjonalnie)</small></p>
+    <div class="fsz__opts" data-fsz-c>
+      <button type="button" data-v="S">34–36</button>
+      <button type="button" data-v="M">38</button>
+      <button type="button" data-v="L">40–42</button>
+      <button type="button" data-v="XL">44–46</button>
+    </div>
+    <div class="fsz__res" data-fsz-res hidden></div>
+    <button type="button" class="btn btn--primary btn--block" data-fsz-apply disabled>Wybierz ten rozmiar</button>
+  </div>
+</div>
+
+<div class="sticky-atc" data-sticky45>
+  <div class="sticky-atc__txt"><b>{{ p1 | money_without_trailing_zeros }}</b><span>1 + 1 GRATIS · druga para za 0 zł</span></div>
+  <button type="submit" form="pdp-form" class="btn btn--primary">Do koszyka</button>
+</div>
+
+<script type="application/json" data-p45-json>
+  {
+    "variants": [{%- for v in product.variants -%}{"id":{{ v.id }},"o1":{{ v.option1 | json }},"o2":{{ v.option2 | json }},"o3":{{ v.option3 | json }},"price":{{ v.price }},"available":{{ v.available }}}{% unless forloop.last %},{% endunless %}{%- endfor -%}],
+    "price": {{ p1 }},
+    "currency": {{ cart.currency.iso_code | json }}
+  }
+</script>
+
+<script>
+(function(){
+  var form=document.querySelector('[data-offer-form]'); var dataEl=document.querySelector('[data-p45-json]');
+  if(!form||!dataEl) return;
+  var data; try{ data=JSON.parse(dataEl.textContent); }catch(e){ return; }
+  var COLORS=[['Cielisty','linear-gradient(135deg,#E4C1A9,#C99A7E)'],['Czarny','#232022'],['Szary','linear-gradient(135deg,#B9BBC0,#8C8F96)']];
+  var SIZES=[['S','S · 40–55 kg'],['M','M · 55–65 kg'],['L','L · 65–78 kg'],['XL','XL · 78–90 kg']];
+  var pairs=[{color:'Cielisty',size:''},{color:'Czarny',size:''}];
+  var n=2;
+  var err=form.querySelector('[data-offer-err]');
+  function strip(o){ return String(o).replace(/[  ]/g,' ').replace(/​/g,'').replace(/ XL$/,''); }
+  function isXL(o){ return String(o)!==strip(o); }
+  function variantFor(p){
+    var xl=(p.size==='L'||p.size==='XL'), best=null, any=null;
+    data.variants.forEach(function(v){
+      if(v.o1!=='1 para'||v.o2!==p.color||strip(v.o3)!=='220 g'||!v.available) return;
+      if(xl===isXL(v.o3)) best=best||v; else any=any||v;
+    });
+    return best||any;
+  }
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  function rowHtml(i){
+    var p=pairs[i];
+    var sw=COLORS.map(function(c){ return '<button type="button" class="psw'+(c[0]===p.color?' is-active':'')+'" data-i="'+i+'" data-c="'+c[0]+'" aria-label="'+c[0]+'" title="'+c[0]+'"><i style="background:'+c[1]+'"></i></button>'; }).join('');
+    var opts='<option value="">Rozmiar</option>'+SIZES.map(function(s){ return '<option value="'+s[0]+'"'+(s[0]===p.size?' selected':'')+'>'+s[1]+'</option>'; }).join('');
+    return '<div class="prow" data-row="'+i+'"><span class="prow__n">Para '+(i+1)+'</span><span class="prow__col"><span class="prow__cname">'+esc(p.color)+'</span><span class="prow__sw">'+sw+'</span></span><select class="prow__size'+(p.size?'':' is-empty')+'" data-i="'+i+'" aria-label="Rozmiar – para '+(i+1)+'">'+opts+'</select></div>';
+  }
+  function render(){
+    form.querySelectorAll('.ocard').forEach(function(card){
+      var cn=+card.getAttribute('data-n'), on=(cn===n);
+      card.classList.toggle('is-active',on); card.setAttribute('aria-checked',on?'true':'false');
+      var rows=card.querySelector('[data-rows]');
+      if(!on){ rows.innerHTML=''; return; }
+      var h=''; for(var i=0;i<cn;i++) h+=rowHtml(i); rows.innerHTML=h;
+    });
+    form.querySelectorAll('.psw').forEach(function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); var i=+b.getAttribute('data-i'); pairs[i].color=b.getAttribute('data-c'); render(); if(i===0) showColor(pairs[0].color); }); });
+    form.querySelectorAll('.prow__size').forEach(function(s){
+      s.addEventListener('click',function(e){ e.stopPropagation(); });
+      s.addEventListener('change',function(){ var i=+s.getAttribute('data-i'); pairs[i].size=s.value; if(i===0&&!pairs[1].size) pairs[1].size=s.value; err.hidden=true; render(); });
+    });
+  }
+  function showColor(c){ var t=document.querySelector('.gallery__thumbs [data-color="'+c+'"]'); if(t) t.click(); }
+  form.querySelectorAll('.ocard').forEach(function(card){
+    function pick(){ var cn=+card.getAttribute('data-n'); if(cn===n) return; n=cn; render(); }
+    card.addEventListener('click',function(e){ if(e.target.closest('.prow')) return; pick(); });
+    card.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } });
+  });
+  render();
+
+  window.Ciepelle45={
+    setSize:function(sz){ pairs.forEach(function(p){ p.size=sz; }); err.hidden=true; render(); },
+    setColor:function(c){ pairs[0].color=c; render(); showColor(c); }
+  };
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault(); e.stopImmediatePropagation();
+    var list=pairs.slice(0,n);
+    if(list.some(function(p){ return !p.size; })){
+      err.hidden=false; render();
+      var empty=form.querySelector('.prow__size.is-empty'); if(empty){ empty.scrollIntoView({behavior:'smooth',block:'center'}); try{ empty.focus({preventScroll:true}); }catch(x){} }
+      return;
+    }
+    var items=[];
+    list.forEach(function(p){
+      var v=variantFor(p); if(!v) return;
+      var same=items.filter(function(it){ return it.id===v.id && it.properties.Rozmiar===p.size; })[0];
+      if(same) same.quantity++; else items.push({id:v.id,quantity:1,properties:{Rozmiar:p.size}});
+    });
+    if(!items.length){ err.textContent='Ten wariant jest chwilowo niedostępny – wybierz inny kolor.'; err.hidden=false; return; }
+    var btns=document.querySelectorAll('button[form="pdp-form"], #pdp-form button[type=submit]');
+    btns.forEach(function(b){ b.disabled=true; });
+    fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({items:items})})
+      .then(function(r){ if(!r.ok) throw r; return r.json(); })
+      .then(function(){ if(window.CiepelleCart){ return window.CiepelleCart.refresh().then(window.CiepelleCart.open); } location.href='/cart'; })
+      .catch(function(){ location.href='/cart'; })
+      .then(function(){ btns.forEach(function(b){ b.disabled=false; }); });
+  },true);
+
+  /* « Wybieram: kolor » dans la section des couleurs */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('[data-pick-color]'); if(!b) return;
+    e.stopImmediatePropagation();
+    window.Ciepelle45.setColor(b.getAttribute('data-pick-color')); var o=document.querySelector('[data-offer]'); if(o) o.scrollIntoView({behavior:'smooth',block:'center'});
+  },true);
+
+  /* Galerie */
+  var main=document.querySelector('[data-main-img]');
+  document.querySelectorAll('.g45 button').forEach(function(b){
+    b.addEventListener('click',function(){ if(!main) return; main.removeAttribute('srcset'); main.src=b.getAttribute('data-thumb'); document.querySelectorAll('.g45 button').forEach(function(x){ x.classList.toggle('is-active',x===b); }); });
+  });
+
+  /* Barre collante (mobile) */
+  var sticky=document.querySelector('[data-sticky45]'), atc=form.querySelector('[data-atc]');
+  if(sticky&&atc&&'IntersectionObserver' in window){
+    new IntersectionObserver(function(en){ sticky.classList.toggle('is-visible',!en[0].isIntersecting&&en[0].boundingClientRect.top<0); }).observe(atc);
+  }
+
+  /* Vidéos : chargées et lues seulement quand elles sont visibles */
+  var vids=document.querySelectorAll('.vid45 video');
+  if('IntersectionObserver' in window){
+    var vo=new IntersectionObserver(function(en){ en.forEach(function(x){ var v=x.target; if(x.isIntersecting){ if(!v.src){ v.src=v.getAttribute('data-src'); } var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); } else { v.pause(); } }); },{threshold:.35});
+    vids.forEach(function(v){ vo.observe(v); });
+  } else { vids.forEach(function(v){ v.src=v.getAttribute('data-src'); v.controls=true; }); }
+
+  /* Znajdź swój rozmiar */
+  var fz=document.querySelector('[data-fsz]');
+  if(fz){
+    var order=['S','M','L','XL'], w='', c='', res=fz.querySelector('[data-fsz-res]'), apply=fz.querySelector('[data-fsz-apply]'), rec='';
+    function calc(){
+      rec='';
+      if(w==='X'){ res.hidden=false; res.innerHTML='Ważysz ponad 90 kg? Napisz do nas przed zakupem – doradzimy: <a href="mailto:support@ciepelle.pl">support@ciepelle.pl</a>'; apply.disabled=true; return; }
+      if(!w){ res.hidden=true; apply.disabled=true; return; }
+      rec=w; if(c&&order.indexOf(c)>order.indexOf(rec)) rec=c;
+      res.hidden=false; res.innerHTML='Twój rozmiar: <b>'+rec+'</b><small>Jeśli jesteś pomiędzy rozmiarami, wybierz większy – materiał jest bardzo elastyczny.</small>';
+      apply.disabled=false; apply.textContent='Wybierz rozmiar '+rec+(n===2?' dla obu par':'');
+    }
+    function group(sel,setter){ fz.querySelectorAll(sel+' button').forEach(function(b){ b.addEventListener('click',function(){ fz.querySelectorAll(sel+' button').forEach(function(x){ x.classList.toggle('is-active',x===b); }); setter(b.getAttribute('data-v')); calc(); }); }); }
+    group('[data-fsz-w]',function(v){ w=v; }); group('[data-fsz-c]',function(v){ c=v; });
+    function openF(){ fz.hidden=false; document.documentElement.classList.add('cdr-lock'); calc(); }
+    function closeF(){ fz.hidden=true; document.documentElement.classList.remove('cdr-lock'); }
+    document.querySelectorAll('[data-fsz-open]').forEach(function(b){ b.addEventListener('click',openF); });
+    fz.querySelectorAll('[data-fsz-close]').forEach(function(b){ b.addEventListener('click',closeF); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!fz.hidden) closeF(); });
+    apply.addEventListener('click',function(){ if(!rec) return; window.Ciepelle45.setSize(rec); closeF(); var o=document.querySelector('[data-offer]'); if(o) o.scrollIntoView({behavior:'smooth',block:'center'}); });
+  }
+
+  /* Avis déplacés sous les selfies */
+  function move(){ var slot=document.querySelector('[data-crev-slot]'); var sec=document.querySelector('[data-crev]'); if(!slot||!sec||slot.contains(sec)) return; var wrap=sec.closest('.shopify-section')||sec; slot.appendChild(wrap); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',move); else move();
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": [{% for m in product.media limit: 5 %}"https:{{ m | image_url: width: 1200 }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+  "description": {{ product.description | strip_html | truncate: 300 | json }},
+  "brand": {"@type": "Brand", "name": "Ciepelle"},
+  "offers": {"@type": "Offer", "price": {{ p1 | divided_by: 100.0 | json }}, "priceCurrency": {{ cart.currency.iso_code | json }}, "availability": "https://schema.org/InStock"}
+}
+</script>
+
+<style>
+.pdp45 .pdp__title{margin-top:0}
+.pchk{list-style:none;margin:8px 0 14px;padding:0;display:grid;gap:7px;font-size:.95rem;line-height:1.4;color:var(--ink)}
+.pchk li{position:relative;padding-left:28px}
+.pchk li::before{content:'';position:absolute;left:0;top:1px;width:19px;height:19px;border-radius:50%;background:var(--berry) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/12px no-repeat}
+.p45price{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin:4px 0 12px}
+.p45price strong{font-size:2.2rem;letter-spacing:-.01em;line-height:1}
+.p45price__tag{background:var(--berry);color:#fff;font-weight:800;font-size:.8rem;letter-spacing:.03em;padding:5px 10px;border-radius:99px}
+.p45price__note{color:var(--ok);font-weight:700;font-size:.9rem}
+.fsz-btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-weight:700;font-size:.88rem;border-radius:99px;padding:8px 16px;cursor:pointer;margin:0 0 14px}
+.fsz-btn svg{width:18px;height:18px}
+.fsz-btn:hover{background:var(--ink);color:#fff}
+.offer__label{font-weight:800;font-size:.95rem;margin:0 0 8px}
+.offer{display:grid;gap:10px;margin-bottom:6px}
+.ocard{position:relative;border:1.5px solid var(--line);border-radius:14px;background:#fff;padding:14px;cursor:pointer;transition:border-color .15s,background .15s}
+.ocard.is-active{border-color:var(--berry);box-shadow:0 0 0 1px var(--berry);background:#FFF9F7;cursor:default}
+.ocard--best{margin-top:8px}
+.ocard__tag{position:absolute;top:-11px;right:14px;background:var(--berry);color:#fff;font-size:.7rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:99px}
+.ocard__head{display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:center}
+.ocard__radio{width:20px;height:20px;border-radius:50%;border:2px solid #bbb;position:relative;flex:none}
+.ocard.is-active .ocard__radio{border-color:var(--berry)}
+.ocard.is-active .ocard__radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--berry)}
+.ocard__name b{display:block;font-size:1.02rem}
+.ocard--best .ocard__name b{color:var(--berry)}
+.ocard__name small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35}
+.ocard__price{text-align:right;line-height:1.25;white-space:nowrap}
+.ocard__price b{display:block;font-size:1.1rem}
+.ocard__price s{display:block;color:var(--muted);font-size:.85rem}
+.ocard__price em{display:block;font-style:normal;color:var(--ok);font-weight:700;font-size:.75rem}
+.ocard__rows:empty{display:none}
+.ocard__rows{display:grid;gap:8px;margin-top:12px;padding-top:12px;border-top:1px dashed #E7D3CC}
+.prow{display:grid;grid-template-columns:auto 1fr minmax(0,150px);gap:10px;align-items:center}
+.prow__n{font-weight:800;font-size:.8rem;color:var(--muted);white-space:nowrap}
+.prow__col{display:flex;flex-direction:column;gap:3px;min-width:0}
+.prow__cname{font-size:.75rem;color:var(--muted);font-weight:600}
+.prow__sw{display:flex;gap:7px}
+.psw{width:30px;height:30px;border-radius:50%;border:2px solid transparent;padding:2px;background:#fff;cursor:pointer;box-shadow:0 0 0 1px var(--line)}
+.psw i{display:block;width:100%;height:100%;border-radius:50%}
+.psw.is-active{border-color:var(--berry);box-shadow:none}
+.prow__size{width:100%;padding:9px 30px 9px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 8px center/16px no-repeat;-webkit-appearance:none;appearance:none;font:inherit;font-size:.85rem;font-weight:700;color:var(--ink)}
+.prow__size.is-empty{color:var(--muted);font-weight:600}
+.offer__err{color:#B3261E;font-weight:700;font-size:.85rem;margin:6px 0 0}
+.offer__err[hidden]{display:none}
+.p45atc{margin-top:12px;font-size:1.05rem;padding:16px 18px}
+.pdp45 .pgar{margin:14px 0 6px}
+.acc45{margin-top:14px}
+.linkbtn{border:0;background:none;padding:0;color:var(--berry);font-weight:700;text-decoration:underline;cursor:pointer;font:inherit}
+.g45{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.g45::-webkit-scrollbar{display:none}
+.g45 button{flex:0 0 72px}
+.pmech{margin:14px 0 18px;padding:14px 16px;border-radius:12px;background:#F4F7F5;border:1px solid #D5E3DA}
+.pmech__t{margin:0 0 8px;font-weight:800;font-size:1rem;color:var(--ink)}
+.pmech ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.92rem;line-height:1.45;color:var(--ink)}
+.crev-slot .crev{padding:22px 0 6px;border-top:0;background:transparent}
+.crev-slot .crev .page{padding:0;max-width:none;width:auto}
+.crev-slot .crev .section__head{margin-bottom:12px;text-align:left}
+.crev-slot .crev h2{font-size:1.35rem;margin:4px 0 0}
+.crev-slot .crev__track{grid-auto-columns:85%}
+.crev-slot .crev__nav{display:none}
+.pgar{list-style:none;padding:0;margin:0 0 18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pgar li{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:10px 6px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:.78rem;font-weight:700;line-height:1.25;min-width:0}
+.pgar svg{width:24px;height:24px;color:var(--berry);flex:none}
+.vid45,.wx45{padding:56px 0;background:#fff;border-top:1px solid var(--line)}
+.vid45 h2,.wx45 h2{margin:0 0 6px}
+.vid45 .muted,.wx45 .muted{margin:0 0 18px}
+.vid45__row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:none}
+.vid45__row::-webkit-scrollbar{display:none}
+.vid45__item{scroll-snap-align:start;border-radius:14px;overflow:hidden;background:var(--nude);aspect-ratio:432/776}
+.vid45 video{width:100%;height:100%;object-fit:cover;display:block}
+.wx45{background:#FFF9F7}
+.wx45__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.wx45__card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.wx45__card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.wx45__card b{display:block;padding:14px 16px 2px;font-size:1.15rem;color:var(--berry)}
+.wx45__card span{display:block;padding:0 16px 16px;font-size:.9rem;line-height:1.45;color:var(--ink)}
+.fsz{position:fixed;inset:0;z-index:1100;display:flex;align-items:center;justify-content:center;padding:16px}
+.fsz[hidden]{display:none}
+.fsz__bg{position:absolute;inset:0;background:rgba(30,20,20,.5)}
+.fsz__box{position:relative;background:#fff;border-radius:18px;width:min(460px,100%);max-height:92vh;overflow-y:auto;padding:22px 20px 20px;box-shadow:0 20px 50px -20px rgba(0,0,0,.4)}
+.fsz__x{position:absolute;top:8px;right:12px;border:0;background:none;font-size:1.8rem;line-height:1;cursor:pointer;color:var(--muted)}
+.fsz__t{font-family:'DM Serif Display',serif;font-size:1.5rem;margin:0 0 14px}
+.fsz__q{font-weight:800;font-size:.92rem;margin:12px 0 8px}
+.fsz__q small{font-weight:500;color:var(--muted)}
+.fsz__opts{display:flex;flex-wrap:wrap;gap:8px}
+.fsz__opts button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-weight:700;font-size:.85rem;cursor:pointer;color:var(--ink)}
+.fsz__opts button.is-active{border-color:var(--berry);background:#FFF4F2;color:var(--berry)}
+.fsz__res{margin:16px 0 12px;padding:12px 14px;border-radius:12px;background:#F4F7F5;font-size:.95rem}
+.fsz__res b{font-size:1.3rem;color:var(--berry)}
+.fsz__res small{display:block;color:var(--muted);margin-top:4px;font-size:.8rem}
+.fsz [data-fsz-apply]{margin-top:12px}
+@media(max-width:900px){.wx45__grid{grid-template-columns:minmax(0,1fr)}.wx45__card{flex-direction:row}.wx45__card img{width:38%;aspect-ratio:auto;height:auto;object-fit:cover}.wx45__card div{flex:1}.vid45,.wx45{padding:40px 0}}
+@media(max-width:560px){
+  .pgar{grid-template-columns:repeat(2,minmax(0,1fr))}.pgar li{flex-direction:row;justify-content:flex-start;text-align:left;padding:9px 10px}.pgar svg{width:20px;height:20px}
+  .prow{grid-template-columns:1fr minmax(0,140px);row-gap:6px}.prow__n{grid-column:1/-1}
+  .p45price strong{font-size:2rem}
+  .vid45__row{grid-auto-columns:42%}
+}
+</style>
+
+{% schema %}
+{
+  "name": "Strona produktu",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Nadtytuł (nieużywany)", "default": "Hit tej zimy" },
+    { "type": "text", "id": "headline", "label": "Tytuł (puste = nazwa produktu)" },
+    { "type": "textarea", "id": "subheadline", "label": "Podtytuł", "default": "Wyglądają jak cienkie cieliste rajstopy, a grzeją jak polarowe legginsy." },
+    { "type": "checkbox", "id": "hide_two", "label": "Ukryj zestaw 2 par (nieużywane)", "default": true },
+    { "type": "html", "id": "size_html", "label": "Rozmiar (HTML)", "default": "<p>Pasuje na S, M, L i XL.</p>" },
+    { "type": "html", "id": "care_html", "label": "Skład (HTML)", "default": "<p>Skład wg metki.</p>" },
+    { "type": "html", "id": "gpsr_html", "label": "GPSR (HTML)", "default": "<p>Informacje o producencie.</p>" },
+    { "type": "header", "content": "Zdjęcia dla każdej grubości (nieużywane)" },
+    { "type": "text", "id": "w80", "label": "Zdjęcia 80 g", "default": "1,6,0,12,4,9,10,7" },
+    { "type": "text", "id": "w220", "label": "Zdjęcia 220 g", "default": "0,2,1,3,4,9,10,7,8" },
+    { "type": "text", "id": "w300", "label": "Zdjęcia 300 g", "default": "11,5,2,3,0,9,10,8" }
+  ]
+}
+{% endschema %}

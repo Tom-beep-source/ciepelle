@@ -1,0 +1,125 @@
+<div class="page cart">
+  <h1>Twój koszyk</h1>
+  {%- if cart.item_count == 0 -%}
+    <p class="muted">Twój koszyk jest pusty.</p>
+    <a class="btn btn--primary" href="{{ routes.root_url }}">Wróć do sklepu</a>
+  {%- else -%}
+    {%- liquid
+      assign checkout_url = routes.root_url | append: '/' | replace: '//', '/' | append: 'checkout?locale=pl'
+      assign now_s = 'now' | date: '%s' | plus: 0
+      assign d1 = now_s | plus: 518400 | date: '%d.%m'
+      assign d2 = now_s | plus: 864000 | date: '%d.%m'
+      assign singles = 0
+      assign last_single = nil
+      for item in cart.items
+        if item.product.handle == 'rajstopy-ocieplane-polarem-z-efektem-nagich-nog-220-g' and item.variant.option1 == '1 para'
+          assign singles = singles | plus: item.quantity
+          assign last_single = item
+        endif
+      endfor
+      assign odd = singles | modulo: 2
+      assign saved = cart.original_total_price | minus: cart.total_price
+    -%}
+    <div>
+      {%- for item in cart.items -%}
+        <div class="cart-item">
+          <a href="{{ item.url }}">{{ item.image | image_url: width: 200 | image_tag: alt: item.title, loading: 'lazy' }}</a>
+          <div style="min-width:0">
+            <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+            {%- unless item.product.has_only_default_variant -%}<div class="cart-item__meta">{{ item.variant.title | replace: ' (najczęściej wybierane)', '' }}</div>{%- endunless -%}
+            {%- for prop in item.properties -%}{%- unless prop.last == blank or prop.first contains '_' -%}<div class="cart-item__meta">{{ prop.first }}: <b>{{ prop.last }}</b></div>{%- endunless -%}{%- endfor -%}
+            {%- if item.final_line_price < item.original_line_price -%}<div class="cart-item__meta" style="color:var(--ok);font-weight:700">1 + 1 GRATIS</div>{%- endif -%}
+            <div class="qty">
+              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" aria-label="Mniej">−</a>
+              <span>{{ item.quantity }}</span>
+              <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" aria-label="Więcej">+</a>
+            </div>
+          </div>
+          <div style="text-align:right">
+            {%- if item.final_line_price < item.original_line_price -%}<s class="muted" style="font-size:.85rem">{{ item.original_line_price | money }}</s><br>{%- endif -%}
+            <b{% if item.final_line_price == 0 %} style="color:var(--ok)"{% endif %}>{% if item.final_line_price == 0 %}GRATIS{% else %}{{ item.final_line_price | money }}{% endif %}</b><br>
+            <a href="{{ item.url_to_remove }}" class="muted" style="font-size:.85rem">Usuń</a>
+          </div>
+        </div>
+      {%- endfor -%}
+
+      {%- if odd == 1 and last_single -%}
+        <div class="cart-up">
+          <div style="min-width:0">
+            <b>1 + 1 GRATIS – druga para za 0 zł</b>
+            <span>Dodaj drugą parę – zapłacisz tyle samo.</span>
+          </div>
+          <button type="button" class="btn btn--ghost" data-add-free="{{ last_single.variant.id }}" data-props="{{ last_single.properties | json | escape }}">Dodaj gratis</button>
+        </div>
+      {%- endif -%}
+
+      <div class="cart__summary" id="cart-summary">
+        {%- if saved > 0 -%}<div class="cart__row" style="color:var(--ok);font-weight:700"><span>Oszczędzasz (1 + 1 GRATIS)</span><span>−{{ saved | money }}</span></div>{%- endif -%}
+        <div class="cart__row"><span>Dostawa do domu</span><span style="color:var(--ok);font-weight:700">Gratis</span></div>
+        <div class="cart__row"><span>Przewidywana dostawa</span><span style="font-weight:700">ok. {{ d1 }}–{{ d2 }}</span></div>
+        <div class="cart__row cart__total"><span>Razem</span><span>{% if saved > 0 %}<s class="muted" style="font-size:.9rem;font-weight:500;margin-right:8px">{{ cart.original_total_price | money }}</s>{% endif %}{{ cart.total_price | money_with_currency }}</span></div>
+        <p class="muted" style="font-size:.85rem;margin:0 0 14px">Cena zawiera podatek VAT. Bez dodatkowych opłat.</p>
+        <a href="{{ checkout_url }}" class="btn btn--primary btn--block" data-cart-checkout>Przejdź do bezpiecznej płatności</a>
+        <div class="cart-pays">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'cart-payicon' }}{%- endfor -%}{%- unless shop.enabled_payment_types contains 'blik' -%}<span class="cart-blik">BLIK</span>{%- endunless -%}</div>
+        <ul class="cart-trust">
+          <li>✓ Darmowa dostawa w całej Polsce, numer śledzenia e-mailem</li>
+          <li>✓ 14 dni na zwrot bez podawania przyczyny</li>
+          <li>✓ Pytania? <a href="mailto:support@ciepelle.pl">support@ciepelle.pl</a></li>
+        </ul>
+      </div>
+
+      <div class="cart-warm" style="border:1px solid #ead8de;background:#fff7f8;border-radius:14px;padding:14px 16px;margin:18px 0">
+        <p style="margin:0 0 6px;font-weight:700">Chłodne poranki już są</p>
+        <p style="margin:0;font-size:.95rem">Wyglądają jak cienkie rajstopy, a w środku mają miękki polar – nosisz spódnicę czy sukienkę i nie marzniesz.</p>
+      </div>
+    </div>
+
+    <div class="cart-sticky" data-cart-sticky>
+      <div style="min-width:0"><b>{{ cart.total_price | money }}</b><span>{% if saved > 0 %}Oszczędzasz {{ saved | money }}{% else %}Dostawa gratis{% endif %}</span></div>
+      <a href="{{ checkout_url }}" class="btn btn--primary">Do płatności</a>
+    </div>
+
+    <style>
+      .cart-item>div{min-width:0}
+      .cart-up{display:flex;gap:12px;align-items:center;justify-content:space-between;border:1.5px dashed var(--berry);background:#FFF9F7;border-radius:12px;padding:12px 14px;margin:10px 0 4px}
+      .cart-up b{display:block;font-size:.95rem;color:var(--berry)}
+      .cart-up span{display:block;font-size:.82rem;color:var(--muted);line-height:1.35}
+      .cart-up .btn{padding:10px 14px;font-size:.85rem;flex:none;white-space:nowrap}
+      .cart-pays{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;margin:12px 0 0}
+      .cart-payicon{height:22px;width:auto}
+      .cart-blik{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;background:#000;color:#fff;font-weight:900;font-size:.72rem}
+      .cart-trust{list-style:none;padding:0;margin:14px 0 0;font-size:.85rem;line-height:1.7;color:var(--muted)}
+      .cart-trust a{color:var(--berry)}
+      .cart-sticky{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 16px;display:none;gap:12px;align-items:center;z-index:50;box-shadow:0 -8px 24px -16px rgba(0,0,0,.3)}
+      .cart-sticky.is-visible{display:flex}
+      .cart-sticky>div{flex:1;font-size:.85rem;line-height:1.3}
+      .cart-sticky b{display:block;font-size:1rem}
+      .cart-sticky span{color:var(--ok);font-weight:700}
+      .cart-sticky .btn{padding:12px 18px;font-size:.92rem}
+      @media(min-width:901px){.cart-sticky{display:none!important}}
+      @media(max-width:420px){.cart-up{flex-direction:column;align-items:stretch}.cart-up .btn{width:100%}}
+    </style>
+    <script>
+      (function(){
+        document.querySelectorAll('[data-add-free]').forEach(function(b){
+          b.addEventListener('click', function(){
+            b.disabled = true; b.textContent = 'Chwileczkę…';
+            var props = {};
+            try { props = JSON.parse(b.getAttribute('data-props') || '{}') || {}; } catch (e) {}
+            if (Array.isArray(props)) { var o = {}; props.forEach(function(p){ if (p && p.length === 2) o[p[0]] = p[1]; }); props = o; }
+            fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:+b.getAttribute('data-add-free'),quantity:1,properties:props}]})})
+              .then(function(){ location.reload(); }, function(){ location.reload(); });
+          });
+        });
+        var main = document.querySelector('[data-cart-checkout]'), bar = document.querySelector('[data-cart-sticky]');
+        if (main && bar && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function(e){ bar.classList.toggle('is-visible', !e[0].isIntersecting); }).observe(main);
+        }
+      })();
+    </script>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{ "name": "Koszyk", "settings": [] }
+{% endschema %}

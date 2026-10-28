@@ -1,0 +1,189 @@
+{%- comment -%}
+  v45 : panier latéral (droite sur ordinateur, panneau du bas sur mobile).
+  - minuteur « panier réservé 10 minutes » (demandé par Tom le 28/10/2026)
+  - économie affichée (prix barrés + « Oszczędzasz ») au lieu de la ligne livraison
+  - logos des moyens de paiement sous le bouton
+  - rappel « 1 + 1 GRATIS » quand il manque la paire gratuite
+  Expose window.CiepelleCart = { refresh, open } pour la fiche produit.
+{%- endcomment -%}
+<div class="cdr" id="cdr" aria-hidden="true">
+  <div class="cdr__bg" data-cdr-close></div>
+  <aside class="cdr__panel" role="dialog" aria-modal="true" aria-labelledby="cdr-title">
+    <div class="cdr__grab" aria-hidden="true"></div>
+    <div class="cdr__head">
+      <p class="cdr__title" id="cdr-title">Twój koszyk</p>
+      <button type="button" class="cdr__x" data-cdr-close aria-label="Zamknij">×</button>
+    </div>
+    <div class="cdr__timer" data-cdr-timer hidden>Twój koszyk jest zarezerwowany jeszcze <b data-cdr-time>10:00</b></div>
+    <div class="cdr__body" data-cdr-body></div>
+    <div class="cdr__foot">
+      <div class="cdr__row cdr__save" data-cdr-saverow hidden><span>Oszczędzasz</span><b data-cdr-save></b></div>
+      <div class="cdr__row cdr__total"><span>Razem</span><span><s data-cdr-old></s><b data-cdr-total></b></span></div>
+      <a href="{{ routes.root_url | append: '/' | replace: '//', '/' }}checkout?locale=pl" class="btn btn--primary btn--block cdr__pay">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        Przejdź do płatności
+      </a>
+      <div class="cdr__pays" aria-label="Metody płatności">
+        {%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'cdr__payicon' }}{%- endfor -%}
+        {%- unless shop.enabled_payment_types contains 'blik' -%}<span class="cdr__blik">BLIK</span>{%- endunless -%}
+      </div>
+      <button type="button" class="cdr__more" data-cdr-close>Kontynuuj zakupy</button>
+    </div>
+  </aside>
+</div>
+
+<style>
+.cdr{position:fixed;inset:0;z-index:1000;visibility:hidden;pointer-events:none}
+.cdr.is-open{visibility:visible;pointer-events:auto}
+.cdr__bg{position:absolute;inset:0;background:rgba(30,20,20,.45);opacity:0;transition:opacity .25s}
+.cdr.is-open .cdr__bg{opacity:1}
+.cdr__panel{position:absolute;top:0;right:0;bottom:0;width:min(420px,100%);background:#fff;display:flex;flex-direction:column;box-shadow:-12px 0 40px -12px rgba(0,0,0,.3);transform:translateX(100%);transition:transform .3s ease}
+.cdr.is-open .cdr__panel{transform:none}
+.cdr__grab{display:none}
+.cdr__head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
+.cdr__title{margin:0;font-weight:800;font-size:1.1rem;color:var(--ink)}
+.cdr__x{border:0;background:transparent;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--muted);padding:0 4px}
+.cdr__timer{background:var(--berry);color:#fff;text-align:center;font-size:.85rem;padding:8px 12px}
+.cdr__timer[hidden]{display:none}
+.cdr__timer b{font-variant-numeric:tabular-nums}
+.cdr__body{flex:1;overflow-y:auto;padding:12px 18px;-webkit-overflow-scrolling:touch}
+.cdr__item{display:grid;grid-template-columns:72px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cdr__item img{width:72px;height:72px;object-fit:cover;border-radius:10px;display:block}
+.cdr__name{font-weight:700;font-size:.92rem;line-height:1.3;margin:0 0 3px}
+.cdr__meta{font-size:.8rem;color:var(--muted);line-height:1.4}
+.cdr__gift{display:inline-block;margin-top:4px;background:#E8F5EE;color:var(--ok);font-weight:800;font-size:.72rem;padding:2px 8px;border-radius:99px}
+.cdr__qty{display:inline-flex;align-items:center;gap:10px;margin-top:6px;border:1px solid var(--line);border-radius:99px;padding:2px 10px}
+.cdr__qty button{border:0;background:transparent;font-size:1.05rem;cursor:pointer;color:var(--ink);padding:2px 4px}
+.cdr__price{font-weight:800;font-size:.95rem;text-align:right;white-space:nowrap}
+.cdr__price s{display:block;font-weight:500;color:var(--muted);font-size:.8rem}
+.cdr__price .is-free{color:var(--ok)}
+.cdr__rm{display:block;margin:6px 0 0 auto;border:0;background:transparent;color:var(--muted);font-size:.75rem;text-decoration:underline;cursor:pointer;padding:0}
+.cdr__up{margin:12px 0 2px;padding:12px;border:1.5px dashed var(--berry);border-radius:12px;background:#FFF9F7;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.cdr__up b{display:block;font-size:.9rem;color:var(--berry)}
+.cdr__up span{display:block;font-size:.76rem;color:var(--muted);line-height:1.35}
+.cdr__up button{flex:none;border:1.5px solid var(--berry);background:var(--berry);color:#fff;font-weight:800;border-radius:99px;padding:9px 14px;font-size:.8rem;cursor:pointer;white-space:nowrap}
+.cdr__foot{padding:14px 18px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fff}
+.cdr__row{display:flex;justify-content:space-between;align-items:baseline;font-size:.92rem;margin-bottom:4px}
+.cdr__row[hidden]{display:none}
+.cdr__save{color:var(--ok);font-weight:700}
+.cdr__total{font-size:1.12rem;margin:4px 0 12px}
+.cdr__total s{color:var(--muted);font-weight:500;font-size:.9rem;margin-right:8px}
+.cdr__pay{display:flex;align-items:center;justify-content:center;gap:8px;font-size:1.02rem;padding:15px 18px}
+.cdr__pays{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;margin:10px 0 2px}
+.cdr__payicon{height:22px;width:auto}
+.cdr__blik{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:4px;background:#000;color:#fff;font-weight:900;font-size:.72rem;letter-spacing:.02em}
+.cdr__more{display:block;margin:4px auto 0;border:0;background:transparent;color:var(--ink);font-size:.85rem;text-decoration:underline;cursor:pointer;padding:6px}
+.cdr__busy{opacity:.5;pointer-events:none}
+.cdr__empty{padding:30px 0;text-align:center;color:var(--muted)}
+@media(max-width:700px){
+  .cdr__panel{top:auto;left:0;right:0;width:100%;max-height:90vh;border-radius:18px 18px 0 0;transform:translateY(100%);box-shadow:0 -12px 40px -12px rgba(0,0,0,.35)}
+  .cdr__grab{display:block;width:42px;height:5px;border-radius:9px;background:#ddd;margin:8px auto 0}
+  .cdr__head{padding:10px 16px 12px}
+  .cdr__body{padding:8px 16px}
+  .cdr__foot{padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+}
+html.cdr-lock,html.cdr-lock body{overflow:hidden}
+</style>
+
+<script>
+(function(){
+  var root=document.getElementById('cdr'); if(!root) return;
+  var body=root.querySelector('[data-cdr-body]'), totalEl=root.querySelector('[data-cdr-total]'), oldEl=root.querySelector('[data-cdr-old]');
+  var saveRow=root.querySelector('[data-cdr-saverow]'), saveEl=root.querySelector('[data-cdr-save]');
+  var timerBox=root.querySelector('[data-cdr-timer]'), timeEl=root.querySelector('[data-cdr-time]');
+  var fmt=function(c,cur){try{return new Intl.NumberFormat('pl-PL',{style:'currency',currency:cur||'PLN',minimumFractionDigits:c%100?2:0,maximumFractionDigits:2}).format(c/100);}catch(e){return (c/100).toFixed(2)+' zł';}};
+  var esc=function(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;};
+  var clean=function(t){return String(t||'').replace(' (najczęściej wybierane)','').replace(/[  ]/g,' ').replace(/ XL$/,'');};
+  var MAIN='rajstopy-ocieplane-polarem-z-efektem-nagich-nog-220-g';
+  function open(){ root.classList.add('is-open'); root.setAttribute('aria-hidden','false'); document.documentElement.classList.add('cdr-lock'); startTimer(); }
+  function close(){ root.classList.remove('is-open'); root.setAttribute('aria-hidden','true'); document.documentElement.classList.remove('cdr-lock'); }
+  root.querySelectorAll('[data-cdr-close]').forEach(function(b){ b.addEventListener('click',close); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  function setCount(n){ document.querySelectorAll('[data-cart-count]').forEach(function(el){ el.textContent=n; }); }
+  function post(url,data){ return fetch(url,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)}).then(function(r){ if(!r.ok) throw r; return r.json(); }); }
+
+  /* Minuteur 10 minutes */
+  var tick=null, hasItems=false;
+  function startTimer(){
+    if(!hasItems){ timerBox.hidden=true; return; }
+    var t0=0; try{ t0=+sessionStorage.getItem('c45_t0')||0; }catch(e){}
+    if(!t0){ t0=Date.now(); try{ sessionStorage.setItem('c45_t0',String(t0)); }catch(e){} }
+    function draw(){
+      var left=Math.max(0,600-Math.floor((Date.now()-t0)/1000));
+      if(left<=0){ timerBox.hidden=true; clearInterval(tick); tick=null; return; }
+      timeEl.textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0');
+      timerBox.hidden=false;
+    }
+    draw(); if(!tick) tick=setInterval(draw,1000);
+  }
+
+  function render(cart){
+    setCount(cart.item_count);
+    hasItems=cart.items.length>0;
+    totalEl.textContent=fmt(cart.total_price,cart.currency);
+    var saved=cart.original_total_price-cart.total_price;
+    if(saved>0){ saveRow.hidden=false; saveEl.textContent=fmt(saved,cart.currency); oldEl.textContent=fmt(cart.original_total_price,cart.currency); }
+    else { saveRow.hidden=true; oldEl.textContent=''; }
+    if(!cart.items.length){ body.innerHTML='<p class="cdr__empty">Twój koszyk jest pusty.</p>'; timerBox.hidden=true; return; }
+    body.innerHTML=cart.items.map(function(it,i){
+      var props=it.properties||{}, size=props.Rozmiar?' · Rozmiar: <b>'+esc(props.Rozmiar)+'</b>':'';
+      var img=it.image?'<img src="'+esc(it.image)+(it.image.indexOf('?')>-1?'&':'?')+'width=160" alt="" loading="lazy">':'<span></span>';
+      var free=it.final_line_price===0, disc=it.final_line_price<it.original_line_price;
+      var price=(disc?'<s>'+fmt(it.original_line_price,cart.currency)+'</s>':'')+(free?'<span class="is-free">GRATIS</span>':fmt(it.final_line_price,cart.currency));
+      var gift=disc?'<span class="cdr__gift">1 + 1 GRATIS</span>':'';
+      return '<div class="cdr__item" data-line="'+(i+1)+'">'+img+
+        '<div><p class="cdr__name">'+esc(it.product_title)+'</p><div class="cdr__meta">'+esc(clean(it.variant_title))+size+'</div>'+gift+
+        '<div class="cdr__qty"><button type="button" data-q="-1" aria-label="Mniej">−</button><span>'+it.quantity+'</span><button type="button" data-q="1" aria-label="Więcej">+</button></div></div>'+
+        '<div><div class="cdr__price">'+price+'</div><button type="button" class="cdr__rm" data-rm>Usuń</button></div></div>';
+    }).join('');
+    /* Paire gratuite manquante : nombre impair de paires simples */
+    var singles=0, last=-1;
+    cart.items.forEach(function(it,i){ if(it.handle===MAIN&&/^1 /.test(String(it.variant_title||''))){ singles+=it.quantity; last=i; } });
+    if(singles%2===1&&last>-1){
+      var it=cart.items[last];
+      var box=document.createElement('div'); box.className='cdr__up';
+      box.innerHTML='<div><b>1 + 1 GRATIS – druga para za 0 zł</b><span>Dodaj drugą parę, zapłacisz tyle samo. Kolor i rozmiar zmienisz w koszyku.</span></div><button type="button">Dodaj gratis</button>';
+      body.appendChild(box);
+      box.querySelector('button').addEventListener('click',function(){ body.classList.add('cdr__busy'); post('/cart/add.js',{items:[{id:it.variant_id,quantity:1,properties:it.properties||{}}]}).then(refresh).catch(function(){ body.classList.remove('cdr__busy'); }); });
+    }
+    body.querySelectorAll('.cdr__item').forEach(function(row){
+      var line=+row.getAttribute('data-line'), q=cart.items[line-1].quantity;
+      row.querySelectorAll('[data-q]').forEach(function(b){ b.addEventListener('click',function(){ change(line,Math.max(0,q+(+b.getAttribute('data-q')))); }); });
+      row.querySelector('[data-rm]').addEventListener('click',function(){ change(line,0); });
+    });
+    if(root.classList.contains('is-open')) startTimer();
+  }
+  function refresh(){ body.classList.remove('cdr__busy'); return fetch('/cart.js',{headers:{'Accept':'application/json'}}).then(function(r){return r.json();}).then(render); }
+  function change(line,q){ body.classList.add('cdr__busy'); post('/cart/change.js',{line:line,quantity:q}).then(render).catch(function(){}).then(function(){ body.classList.remove('cdr__busy'); }); }
+  window.CiepelleCart={refresh:refresh,open:open,close:close};
+
+  /* Icône panier de l'en-tête : ouvre le panier latéral */
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a.cart-link'); if(!a) return;
+    e.preventDefault(); refresh().then(open).catch(function(){ location.href=a.getAttribute('href'); });
+  });
+
+  /* Autres formulaires « Dodaj do koszyka » (page Trio, etc.) */
+  document.addEventListener('submit',function(e){
+    if(e.defaultPrevented) return;
+    var f=e.target; if(!f||!f.getAttribute) return;
+    var act=f.getAttribute('action')||''; if(act.indexOf('/cart/add')<0) return;
+    var sub=e.submitter; if(sub&&sub.getAttribute('name')==='return_to') return;
+    e.preventDefault();
+    var nativeSubmit=function(){ try{ HTMLFormElement.prototype.submit.call(f); }catch(x){} };
+    var btns=[], added=false;
+    try{
+      var fd=new FormData(f); fd.delete('return_to');
+      var fid=f.getAttribute('id');
+      btns=Array.prototype.slice.call(fid?document.querySelectorAll('button[type=submit][form="'+fid+'"], #'+fid+' button[type=submit]'):f.querySelectorAll('button[type=submit]'));
+      btns.forEach(function(b){ b.disabled=true; });
+      fetch('/cart/add.js',{method:'POST',headers:{'Accept':'application/json'},body:fd})
+        .then(function(r){ if(!r.ok) throw r; added=true; return r.json(); })
+        .then(function(){ return refresh(); })
+        .then(open)
+        .catch(function(){ if(added){ location.href='/cart'; } else { nativeSubmit(); } })
+        .then(function(){ btns.forEach(function(b){ b.disabled=false; }); });
+    }catch(err){ nativeSubmit(); }
+  });
+})();
+</script>

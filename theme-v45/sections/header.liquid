@@ -1,0 +1,29 @@
+{%- if section.settings.announcement != blank -%}
+<div class="announce">
+  {{ section.settings.announcement }}
+</div>
+{%- endif -%}
+<header class="site-header">
+  <div class="page site-header__inner">
+    <a href="{{ routes.root_url }}" class="logo">{% render 'logo' %}</a>
+    <nav class="nav" aria-label="Menu główne">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+    <a href="{{ routes.cart_url }}" class="cart-link" aria-label="Koszyk">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      <span class="cart-count" data-cart-count>{{ cart.item_count }}</span>
+    </a>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Nagłówek",
+  "settings": [
+    { "type": "text", "id": "announcement", "label": "Pasek ogłoszeń (puste = ukryty)", "default": "" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

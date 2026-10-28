@@ -1,0 +1,80 @@
+<section class="ccol" id="kolory">
+  <div class="page">
+    <div class="section__head">
+      <span class="eyebrow">Jeden model · trzy kolory</span>
+      <h2>Ten sam ciepły polar, trzy style</h2>
+      <p class="muted">Każda para ma od środka ten sam miękki polar 220 g. Wybierasz tylko, jak mają wyglądać z zewnątrz.</p>
+    </div>
+    <div class="ccol__grid">
+      {%- assign ccol_n = 'Cielisty|Czarny|Szary' | split: '|' -%}
+      {%- assign ccol_t = 'Efekt gołych nóg|Ponadczasowa czerń|Modna szarość' | split: '|' -%}
+      {%- assign ccol_d = 'Z daleka wyglądają jak cienkie cieliste rajstopy na gołych nogach. Idealne do sukienek i spódnic.|Elegancki efekt lekko prześwitujących czarnych rajstop. Pasują do biura, na wieczór i do kozaków.|Chłodny, modny odcień, który świetnie łączy się z czernią, bielą i jeansem.' | split: '|' -%}
+      {%- for c in ccol_n -%}
+        {%- assign i = forloop.index0 -%}
+        {%- assign cv = nil -%}
+        {%- for v in product.variants -%}{%- if v.option2 == c and v.option3 == '220 g' and v.option1 contains '1 ' -%}{%- assign cv = v -%}{%- endif -%}{%- endfor -%}
+        <article class="ccol__card">
+          <div class="ccol__img">{%- if cv and cv.featured_media -%}{{ cv.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', alt: ccol_t[i], sizes: '(min-width: 900px) 30vw, 100vw' }}{%- endif -%}</div>
+          <div class="ccol__body">
+            <h3>{{ ccol_t[i] }}</h3>
+            <p class="muted">{{ ccol_d[i] }}</p>
+            <button type="button" class="btn btn--ghost btn--block" data-pick-color="{{ c }}">Wybieram: {{ c | downcase }}</button>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+.ccol{padding:64px 0;background:#fff;border-top:1px solid var(--line)}
+.ccol__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.ccol__card{background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.ccol__img{background:var(--nude)}
+.ccol__img img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.ccol__body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ccol__body h3{margin:0;font-size:1.15rem}
+.ccol__body p{margin:0 0 10px;font-size:.93rem}
+.ccol__body .btn{margin-top:auto}
+@media(max-width:900px){.ccol{padding:44px 0}.ccol__grid{grid-template-columns:minmax(0,1fr);gap:14px}.ccol__card{flex-direction:row}.ccol__img{width:38%;flex:none}.ccol__img img{height:100%;aspect-ratio:auto}.ccol__body{padding:14px}.ccol__body p{font-size:.85rem}}
+</style>
+
+{%- comment -%} v45 : le bloc « Za co płacisz / dane w liczbach » est remplacé par une FAQ (questions que se posent les clientes). {%- endcomment -%}
+<section class="faq45" id="pytania">
+  <div class="page" style="max-width:820px">
+    <h2>Najczęstsze pytania</h2>
+    <div class="faq45__list">
+      <details><summary>Czy prześwitują, kiedy się schylam?</summary><div>Nie. Polar od środka jest nieprzezroczysty, więc przy schylaniu i siadaniu skóry nie widać. Z zewnątrz wyglądają jak cienkie rajstopy – to tylko efekt wizualny.</div></details>
+      <details><summary>Czy wystarczą na mróz?</summary><div>Polar 220 g to gęsta, miękka warstwa od środka – dużo cieplej niż w zwykłych rajstopach. Przy silnym mrozie połącz je z długim płaszczem i ciepłymi butami.</div></details>
+      <details><summary>Czy łatwo się drą i lecą w nich oczka?</summary><div>Są z grubszej, elastycznej dzianiny niż zwykłe cienkie rajstopy, więc są dużo odporniejsze. Przy zakładaniu uważaj tylko na długie paznokcie i pierścionki.</div></details>
+      <details><summary>Czy mechacą się po praniu?</summary><div>Gęsty polar 220 g długo wygląda jak nowy, jeśli pierzesz w 30°C ręcznie lub w woreczku do prania, bez suszarki bębnowej i bez zmiękczacza.</div></details>
+      <details><summary>Jaki rozmiar wybrać?</summary><div>Według wagi: S ok. 40–55 kg, M ok. 55–65 kg, L ok. 65–78 kg, XL ok. 78–90 kg. Jeśli jesteś pomiędzy, wybierz większy – materiał jest bardzo elastyczny. Możesz też skorzystać z przycisku „Znajdź swój rozmiar” przy produkcie.</div></details>
+      <details><summary>Czy będą dobre, jeśli jestem wysoka?</summary><div>Tak, dzianina mocno się rozciąga. Jeśli masz ponad ok. 175 cm wzrostu, wybierz rozmiar większy – będą lepiej leżeć w kroku.</div></details>
+      <details><summary>Czy pogrubiają nogi?</summary><div>Nie. Polar jest tylko od środka, a z zewnątrz rajstopy są gładkie i matowe, więc nogi wyglądają naturalnie. Wysoki stan dodatkowo wysmukla sylwetkę.</div></details>
+      <details><summary>Czy marszczą się na kostkach albo zsuwają?</summary><div>Przy dobrze dobranym rozmiarze gładko przylegają. Wysoki, szeroki pas sięga talii i trzyma rajstopy na miejscu przez cały dzień.</div></details>
+      <details><summary>Czy drapią?</summary><div>Nie – od środka mają miękki, puszysty polar, przyjemny dla skóry.</div></details>
+      <details><summary>Czy pasują do kozaków i szpilek?</summary><div>Tak – swobodnie mieszczą się w kozakach, botkach, czółenkach i sneakersach.</div></details>
+      <details><summary>Jak działa 1 + 1 gratis?</summary><div>Płacisz za jedną parę, a drugą dostajesz za 0 zł. Dla każdej pary wybierasz osobno kolor i rozmiar. Rabat nalicza się sam w koszyku i na stronie płatności – bez kodu.</div></details>
+      <details><summary>Czy dopłacę coś przy odbiorze?</summary><div>Nie. Ceny zawierają VAT, a dostawa jest darmowa. Płacisz tylko kwotę z koszyka.</div></details>
+      <details><summary>Ile trwa dostawa?</summary><div>Zwykle 5–7 dni roboczych (maksymalnie 10 dni roboczych). Numer śledzenia przesyłki dostaniesz e-mailem.</div></details>
+      <details><summary>Co, jeśli nie będą pasować?</summary><div>Masz 14 dni od otrzymania paczki na odstąpienie od umowy bez podawania przyczyny. Wystarczy e-mail na <a href="mailto:support@ciepelle.pl">support@ciepelle.pl</a>. Szczegóły: <a href="/pages/zwroty-i-reklamacje">Zwroty i reklamacje</a>.</div></details>
+    </div>
+  </div>
+</section>
+
+<style>
+.faq45{padding:56px 0;background:#fff;border-top:1px solid var(--line)}
+.faq45 h2{margin:0 0 18px;text-align:center}
+.faq45__list{border-top:1px solid var(--line)}
+.faq45 details{border-bottom:1px solid var(--line);padding:16px 2px}
+.faq45 summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq45 summary::-webkit-details-marker{display:none}
+.faq45 summary::after{content:'+';color:var(--berry);font-size:1.3rem;line-height:1;flex:none}
+.faq45 details[open] summary::after{content:'–'}
+.faq45 details div{color:var(--muted);margin-top:8px;line-height:1.55}
+@media(max-width:900px){.faq45{padding:40px 0}}
+</style>
+
+{% schema %}
+{ "name": "Dlaczego Ciepelle", "settings": [] }
+{% endschema %}

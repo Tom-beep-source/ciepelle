@@ -20,13 +20,14 @@
   endif
   assign p1 = single.price
   assign p2 = single.price | times: 2
-  assign trio = all_products['zestaw-trio-rajstopy-z-polarem']
 -%}
 <section class="pdp pdp45" data-pdp45>
   <div class="page pdp__grid">
     <div class="gallery">
       <div class="gallery__main">
-        {%- assign first_img = trio.media.first -%}
+        {%- assign first_img = nil -%}
+        {%- for m in product.media -%}{%- if m.id == 71484661105014 -%}{%- assign first_img = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
+        {%- if first_img == nil -%}{%- assign first_img = product.featured_media -%}{%- endif -%}
         {%- if first_img -%}
           {{ first_img | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', data-main-img: '', alt: first_img.alt, sizes: '(min-width: 900px) 55vw, 100vw', widths: '600,900,1200' }}
         {%- else -%}

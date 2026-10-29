@@ -1,0 +1,22 @@
+<div class="page" style="padding-top:40px">
+  <h1>{{ collection.title }}</h1>
+  {%- paginate collection.products by 24 -%}
+    <div class="pgrid">
+      {%- for product in collection.products -%}
+        {%- comment -%} v48 : prix réel de la paire 220 g + offre, au lieu de « od 79 zł » (anciennes déclinaisons 80 g) {%- endcomment -%}
+        {%- assign cp = product.price_min -%}{%- assign cpf = false -%}
+        {%- for v in product.variants -%}{%- if v.option1 == '1 para' and v.option3 == '220 g' -%}{%- assign cp = v.price -%}{%- assign cpf = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+        <a class="pcard" href="{{ product.url }}">
+          {{ product.featured_media | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+          <div><b>{{ product.title }}</b><span class="muted">{% if cpf %}{{ cp | money }} · 1 + 1 gratis{% else %}od {{ cp | money }}{% endif %}</span></div>
+        </a>
+      {%- else -%}
+        <p class="muted">Brak produktów.</p>
+      {%- endfor -%}
+    </div>
+    {{ paginate | default_pagination }}
+  {%- endpaginate -%}
+</div>
+{% schema %}
+{ "name": "Kolekcja", "settings": [] }
+{% endschema %}

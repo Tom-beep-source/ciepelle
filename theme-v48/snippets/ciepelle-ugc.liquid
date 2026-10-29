@@ -1,0 +1,120 @@
+{%- comment -%}
+  Ciepelle – selfies miroir (stylizacje).
+  {% render 'ciepelle-ugc', blok: 'carousel' %}  → carrousel (page produit, page Trio)
+  {% render 'ciepelle-ugc', blok: 'home', url: p.url %} → 4 arguments de vente avec photo (accueil)
+{%- endcomment -%}
+{%- liquid
+  assign base = 'https://cdn.shopify.com/s/files/1/0996/2228/9782/files/EMXN1y8qTwoGdXBsb2FkEg55bGFiLXN0dW50LXNncBo1c3RhcmdhdGUv'
+  assign list = 'MTA1Lzc0YzA2NmJjLWI0NTctNDA2My1iMWM0LWFlNDEwMTdlY2NmZS5wbmc|Cielisty|z sukienką kopertową;MTEyL2E3ODdhN2NmLTc1NjItNDYyMC1hYTVjLTg4NGJjZmJiNTU4ZC5wbmc|Szary|ze spódnicą w kratę;MTEyLzQyMTk3MDljLTA3NWMtNGQyOS1hZTZhLTVkYWI2NTZiMGE5MC5wbmc|Szary|z marynarką;MTEyLzY1MzEzNzYxLWFlOGQtNDY0MC05NDFlLWU0YmQxZDk0YzcyMi5wbmc|Cielisty|elegancko z marynarką;MTEyL2Y1NDNhNjIzLWNiM2QtNDgwNy1iMDMzLTcwMTNiNDY2NzQwYy5wbmc|Czarny|na luzie z bluzą;MTIwLzdkYTcxYzdkLWViN2UtNDY1Yi05ODU2LTVhNGZiYWVlZWIzYy5wbmc|Cielisty|na wieczór;MTEyL2RhMTQ5NTdmLWFlZGQtNGM4Ny1hNTVhLTlmNDVlMWU1M2I4Mi5wbmc|Czarny|do biura;MTIwL2UxZmZiNGQ0LTIzYzUtNGZhYS05YzZhLWY2NWVjMDcyNTcwMC5wbmc|Szary|w stylu boho;MTEyLzM0MDYwNjRiLTFhNmEtNGZlMC05NmY1LTY0ZmIyM2U4MjY4Zi5wbmc|Cielisty|sportowo;MTIwL2Y1MWNlMTIyLWI5MDktNGE2Ni05ODc1LTM0Y2VkNWFiZWJkNi5wbmc|Szary|klasycznie;MTIwLzgzMWYxMTU5LTgyYWEtNGVjYi04MDkxLWQ1ZDIwY2M2MTU1OC5wbmc|Czarny|w stylu gotyckim;MTEyLzYzZDFkOWJiLTg2MDctNDAyZi05NzE3LTA0NWY3YWJkYWRmOS5wbmc|Czarny|dziewczęco;MTEyLzEyM2VkZTIwLTNkNDQtNGY1MC04ZDAxLTBlYjZhNzdjZGFkMC5wbmc|Szary|rockowo;MTEyL2Q4OWFmZjlkLTJhOTktNGY3Yy04ZWNkLTcyMzk5N2U0ZTdjOC5wbmc|Cielisty|romantycznie;MTIwLzJlZDkyYmE4LTIxZDItNGM3ZC05Mzk0LTg4ZGVmNTcyNjU2ZC5wbmc|Czarny|w stylu preppy;MTIwLzRjNzQ2NzBiLTQyZjktNGUxMy05YjRlLTEyZmE5NWZlNzNjMi5wbmc|Cielisty|w stylu Y2K;MTEyL2ViNDg5ZDBlLWY0MjEtNGI0Mi1iNmVhLWE1ZjUxYmIyZDk2Mi5wbmc|Czarny|na randkę' | split: ';'
+-%}
+<style>
+  .cu{margin:28px 0}
+  .cu__head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .cu__eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:#a0566a;font-weight:700}
+  .cu__title{font-size:1.25rem;margin:2px 0 0;line-height:1.25}
+  .cu__nav{display:flex;gap:6px}
+  .cu__nav button{width:38px;height:38px;border-radius:50%;border:1px solid #e3d8d1;background:#fff;cursor:pointer;font-size:1.1rem;line-height:1;color:#2b2523}
+  .cu__rail{display:grid;grid-auto-flow:column;grid-auto-columns:46%;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+  .cu__rail::-webkit-scrollbar{display:none}
+  .cu__item{position:relative;margin:0;border-radius:14px;overflow:hidden;background:#eee;scroll-snap-align:start;cursor:zoom-in;border:0;padding:0;text-align:left}
+  .cu__item img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+  .cu__cap{position:absolute;left:8px;bottom:8px;right:8px;background:rgba(255,255,255,.92);border-radius:999px;padding:5px 10px;font-size:.78rem;color:#2b2523;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cu__dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+  .cu__dot--cielisty{background:linear-gradient(135deg,#d9ab88,#a97a5b)}
+  .cu__dot--czarny{background:#232022}
+  .cu__dot--szary{background:linear-gradient(135deg,#b9bbc0,#7d8088)}
+  .cu__box{border:0;padding:0;background:transparent;max-width:min(92vw,560px);max-height:92vh}
+  .cu__box::backdrop{background:rgba(0,0,0,.82)}
+  .cu__box img{display:block;max-width:100%;max-height:86vh;border-radius:12px}
+  .cu__close{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;border:0;background:#fff;font-size:1.2rem;cursor:pointer}
+  @media (min-width:990px){.cu__rail{grid-auto-columns:31%}}
+  .cuh{padding:56px 0}
+  .cuh .page{max-width:1180px;margin:0 auto;padding:0 20px}
+  .cuh__row{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-top:36px}
+  .cuh__row:nth-child(even) .cuh__img{order:2}
+  .cuh__img{border-radius:18px;overflow:hidden;margin:0;max-width:460px;justify-self:center;width:100%}
+  .cuh__img img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+  .cuh__txt h3{font-size:1.45rem;margin:6px 0 10px}
+  .cuh__txt p{color:#5b5450;margin:0 0 14px}
+  .cuh__txt ul{margin:0 0 18px;padding-left:18px;color:#5b5450}
+  @media (max-width:760px){.cuh{padding:40px 0}.cuh__row{grid-template-columns:1fr;gap:16px;margin-top:28px}.cuh__row:nth-child(even) .cuh__img{order:0}}
+</style>
+
+{%- case blok -%}
+
+{%- when 'carousel' -%}
+<div class="cu" data-cu>
+  <div class="cu__head">
+    <div>
+      <span class="cu__eyebrow">Stylizacje z Ciepelle</span>
+      <h3 class="cu__title">Pasują do każdego stylu i sylwetki</h3>
+    </div>
+    <div class="cu__nav"><button type="button" data-cu-prev aria-label="Poprzednie">‹</button><button type="button" data-cu-next aria-label="Następne">›</button></div>
+  </div>
+  <div class="cu__rail" data-cu-rail>
+    {%- for l in list -%}{%- assign x = l | split: '|' -%}
+    <button type="button" class="cu__item" data-cu-src="{{ base }}{{ x[0] }}.png?width=1200">
+      <img src="{{ base }}{{ x[0] }}.png?width=500" alt="Rajstopy Ciepelle {{ x[1] | downcase }} – stylizacja {{ x[2] }}" loading="lazy" width="500" height="667">
+      <span class="cu__cap"><span class="cu__dot cu__dot--{{ x[1] | downcase }}"></span><b>{{ x[1] }}</b> · {{ x[2] }}</span>
+    </button>
+    {%- endfor -%}
+  </div>
+  <dialog class="cu__box" data-cu-box><button type="button" class="cu__close" data-cu-close aria-label="Zamknij">×</button><img alt="Stylizacja Ciepelle" data-cu-big></dialog>
+</div>
+<script>
+(function(){
+  var root=document.currentScript.previousElementSibling; if(!root||!root.hasAttribute('data-cu')) return;
+  var rail=root.querySelector('[data-cu-rail]'), box=root.querySelector('[data-cu-box]'), big=root.querySelector('[data-cu-big]');
+  function step(d){ var it=rail.querySelector('.cu__item'); rail.scrollBy({left:d*(it?it.offsetWidth+10:200),behavior:'smooth'}); }
+  root.querySelector('[data-cu-prev]').addEventListener('click',function(){step(-1)});
+  root.querySelector('[data-cu-next]').addEventListener('click',function(){step(1)});
+  rail.addEventListener('click',function(e){ var b=e.target.closest('[data-cu-src]'); if(!b||!box.showModal) return; big.src=b.getAttribute('data-cu-src'); box.showModal(); });
+  root.querySelector('[data-cu-close]').addEventListener('click',function(){box.close()});
+  box.addEventListener('click',function(e){ if(e.target===box) box.close(); });
+})();
+</script>
+
+{%- when 'home' -%}
+<section class="cuh">
+  <div class="page">
+    <span class="cu__eyebrow">Stylizacje z Ciepelle</span>
+    <h2 style="margin:6px 0 0">Jedne rajstopy – setki stylizacji</h2>
+    <div class="cuh__row">
+      <figure class="cuh__img"><img src="{{ base }}MTEyLzY1MzEzNzYxLWFlOGQtNDY0MC05NDFlLWU0YmQxZDk0YzcyMi5wbmc.png?width=900" alt="Rajstopy Ciepelle cieliste – efekt nagich nóg" loading="lazy" width="900" height="1200"></figure>
+      <div class="cuh__txt">
+        <span class="cu__eyebrow">Efekt nagich nóg</span>
+        <h3>Wyglądają jak cienkie rajstopy. Grzeją jak legginsy.</h3>
+        <p>Z zewnątrz cienka, matowa warstwa w kolorze skóry – od środka miękki polar 220 g. Nikt nie zgadnie, że masz na sobie ciepłe rajstopy.</p>
+        <a href="{{ url }}" class="btn btn--primary">Zobacz kolory</a>
+      </div>
+    </div>
+    <div class="cuh__row">
+      <figure class="cuh__img"><img src="{{ base }}MTEyL2RhMTQ5NTdmLWFlZGQtNGM4Ny1hNTVhLTlmNDVlMWU1M2I4Mi5wbmc.png?width=900" alt="Rajstopy Ciepelle czarne do biura" loading="lazy" width="900" height="1200"></figure>
+      <div class="cuh__txt">
+        <span class="cu__eyebrow">Od rana do wieczora</span>
+        <h3>Do biura, na randkę, na świąteczną kolację</h3>
+        <ul><li>Wysoki stan – nie zsuwa się w ciągu dnia</li><li>Pasują do szpilek, botków, kozaków i sneakersów</li><li>Elegancko pod sukienką i spódnicą</li></ul>
+        <a href="{{ url }}" class="btn btn--primary">Wybierz swój kolor</a>
+      </div>
+    </div>
+    <div class="cuh__row">
+      <figure class="cuh__img"><img src="{{ base }}MTIwLzgzMWYxMTU5LTgyYWEtNGVjYi04MDkxLWQ1ZDIwY2M2MTU1OC5wbmc.png?width=900" alt="Rajstopy Ciepelle czarne – stylizacja gotycka" loading="lazy" width="900" height="1200"></figure>
+      <div class="cuh__txt">
+        <span class="cu__eyebrow">3 kolory · każdy styl</span>
+        <h3>Klasycznie, rockowo, romantycznie – jak lubisz</h3>
+        <p>Cielisty do jasnych i eleganckich stylizacji, czarny do wszystkiego, szary do jeansu, swetrów i kraty. Ten sam ciepły polar w każdym kolorze.</p>
+        <a href="{{ url }}" class="btn btn--primary">1 + 1 gratis – mieszaj kolory</a>
+      </div>
+    </div>
+    <div class="cuh__row">
+      <figure class="cuh__img"><img src="{{ base }}MTA1Lzc0YzA2NmJjLWI0NTctNDA2My1iMWM0LWFlNDEwMTdlY2NmZS5wbmc.png?width=900" alt="Rajstopy Ciepelle cieliste w rozmiarze XL" loading="lazy" width="900" height="1200"></figure>
+      <div class="cuh__txt">
+        <span class="cu__eyebrow">Rozmiary S–XL</span>
+        <h3>Pasują na każdą sylwetkę – od ok. 40 do ok. 90 kg</h3>
+        <p>Bardzo elastyczny materiał dopasowuje się do ciała, nie roluje się i nie uciska. Wybierz swój rozmiar przy zamówieniu.</p>
+        <a href="{{ url }}" class="btn btn--primary">Zamawiam – 1 + 1 gratis</a>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endcase -%}
